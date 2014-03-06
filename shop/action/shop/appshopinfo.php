@@ -48,7 +48,7 @@ if($dbo->getRow($shopsql)){
 				if ($key == 'shop_categories'){ 
 					 $result[$key] = $value;
 					//父分类
-					if (isset($value)){
+					if ($value){
 						$shop_categories_info = get_categories_info_catid($dbo,$t_shop_categories,$value);
 						$result['shop_categoriesname'] = $shop_categories_info['cat_name'];
 						$result['shop_maincategories'] = $shop_categories_info['parent_id'];

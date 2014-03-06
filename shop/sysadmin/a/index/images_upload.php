@@ -44,7 +44,7 @@ if($file) {
 			$v['dir'] = str_replace('../','./',$v['dir']);
 			$insert_array[$k]['images_url'] = $v['dir'].$v['name'];
 			if($img_link[$k]==''){
-				//$img_link[$k]='http://';
+				$img_link[$k]='http://';
 			}
 			$insert_array[$k]['images_link'] = $img_link[$k];
 

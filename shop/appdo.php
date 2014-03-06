@@ -1,8 +1,5 @@
 <?php
-
-//header("content-type:text/html;charset=utf-8");
-//echo header("Access-Control-Allow-Origin:*");
-//echo header("Access-Control-Allow-Headers: *");
+session_start();
 $IWEB_SHOP_IN = true;
 
 //require('foundation/asession.php');

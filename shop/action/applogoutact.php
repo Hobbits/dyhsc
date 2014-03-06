@@ -4,7 +4,7 @@ $userid=get_sess_user_id();
 session_destroy();
 $callback = isset( $_GET[ 'callback' ] ) ? $_GET[ 'callback' ] : 'callback';
 $r = new returnobj('ok','登出成功');
-print_r($callback . '(' . json_encode( $r ) . ')');
+echo $callback . '(' . json_encode( $r ) . ')';
 exit;
 //unset_cookie('iweb_login');
 

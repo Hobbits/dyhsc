@@ -19,7 +19,7 @@ if($images_info) {
 	foreach ($images_info as $image){
 		foreach ($name as $a) {
 			if($a == 'images_url'){
-				$return[$image['id']][$a] = str_replace('./',' ',$image[$a]);
+				$return[$image['id']][$a] = str_replace('./','',$image[$a]);
 			}else{
 				$return[$image['id']][$a] = $image[$a];
 			}
