@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>附近商铺</title>
+</head>
+<body>
+<div ng-controller="nearshopCtrl" id="pagenearshop" data-role="page" ngm-pageshow="preget()">
+
+    <!--字体样式-->
+    <link rel="stylesheet" href="css/font/css/fontello.css"/>
+
+
+    <header data-role="header" data-position="fixed">
+        <a data-rel="back" class="ui-btn-left" data-direction="reverse" data-icon="arrow-l" data-role="button">后退</a>
+        <h1>附近商铺</h1>
+        <a data-ngm-vclick="preget()" class="ui-btn-right" data-theme="b" data-icon="refresh" data-role="button">刷新</a>
+    </header>
+
+    <section data-role="content">
+        <div ng-class="userpos.textboxClass">
+            您的位置: <i class="icon-quote-left"></i>{{userpos.text}}<i class="icon-quote-right"></i>
+        </div>
+        <div data-role="fieldcontain">
+            <label for="searchRange">搜索半径(km):</label>
+            <input data-ng-model="searchRange" type="range" name="searchRange"
+                   id="searchRange" value="5" data-highlight="true"
+                   min="0.5" max="50" />
+         </div>
+
+        <ul style="margin-top: 2em"
+            ng-show="nearList" data-role="listview" data-divider-theme="d" data-split-theme="e" data-split-icon="grid">
+            <li data-role="list-divider">店铺搜索结果</li>
+            <li data-mini="true" data-ng-repeat="r in nearList">
+                <a class="shopItem" ng-href="#!/shopGuest/{{r.shop_id}}/info">
+                    <img class="shopThum" ng-src="{{logobaseURL+r.logo_thumb}}">
+                    <h4>{{r.shop_name}}</h4>
+                    <p>{{r.shop_management}}</p>
+                </a>
+            </li>
+        </ul>
+
+        <div data-ng-show="noResult" class="textbox-warning">
+            没有结果
+        </div>
+
+    </section>
+</div>
+</body>
+</html>

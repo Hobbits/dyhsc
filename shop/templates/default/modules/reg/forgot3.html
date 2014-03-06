@@ -1,0 +1,40 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="keywords" content="{echo: $header['keywords'];/}" />
+<meta name="description" content="{echo: $header['description'];/}" />
+<title>{echo: lp{m_getback_pw};/}</title>
+<link href="skin/{echo: $SYSINFO['templates'];/}/css/index.css" rel="stylesheet" type="text/css" />
+<link href="skin/{echo: $SYSINFO['templates'];/}/css/import.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="skin/{echo: $SYSINFO['templates'];/}/js/changeStyle.js"></script>
+<script type="text/javascript" src="skin/{echo: $SYSINFO['templates'];/}/js/area.js"></script>
+<style>
+.pro_class div {margin-top:10px; text-align:center;}
+</style>
+</head>
+<body>
+<div id="wrapper">
+{inc: include("shop/index_header.php");/}
+<div id="contents" class="clearfix"  >
+	<h3 class="ttlm_login">{echo: lp{m_getback_pw};/}</h3>
+	<div class="pro_class">{echo: lp{m_caution_app};/}
+		<div class="find_pwd">
+			<input class="btn_02" type="button" value="{echo: lp{m_accomplish};/}" onclick="jump()" />
+		</div>
+	</div>
+	<div class="top5 clear"></div>
+</div>
+<script language="JavaScript">
+<!--
+function jump() {
+	location.href='index.php'
+}
+//-->
+</script>
+<!-- main end -->
+<!--main right end-->
+{inc: require("shop/index_footer.php");/}
+<!--footer end-->
+</body>
+</html>

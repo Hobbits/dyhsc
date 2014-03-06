@@ -1,0 +1,63 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>云库商务</title>
+    <link rel="apple-touch-icon-precomposed" href="favicon.jpg">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="application-name" content="Yunkoo" />
+    <link rel="next" href="main.html">
+    <link rel="dns-prefetch" href="http://api.map.baidu.com/">
+
+    <meta name="viewport"
+          content="target-densitydpi=device-dpi, width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1, maximum-scale=1">
+    <style>
+        body, html {
+            width: 100%;
+            height: 100%;
+
+            background: url("images/intro.jpg") 50% 50% no-repeat #000000;
+            background-size: auto 100%;
+        }
+        .wrap{
+            text-align: center;
+        }
+        .wrap button{
+            color: white;
+            font-size: 2em;
+            background: none;
+            width: 20%;
+            border: none;
+        }
+    </style>
+    <!--<script src="libs/cordova_android.js"></script>-->
+    <!--<script src="libs/cordova_ios.js"></script>-->
+
+    <script>
+        var jump=function(o){
+            o.innerHTML="正在进入...";
+            try{
+                if(localStorage){localStorage.removeItem("app.userInfo");}
+            }catch(e){}
+
+            window.location.replace('main.html');
+        }
+    </script>
+</head>
+
+<body>
+
+
+<div class="wrap">
+
+    <button id="jump" onClick="jump(this)">
+
+        进入
+
+    </button>
+
+</div>
+
+
+</body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>填写订单信息</title>
+</head>
+<body>
+<div ng-controller="orderCtrl" id="pageorder" data-role="page" ngm-pageshow="prefill()">
+
+        <header
+                data-role="header" data-position="fixed">
+            <a data-rel="back" class="ui-btn-left" data-direction="reverse" data-icon="arrow-l" data-role="button">后退</a>
+            <h1>填写订单</h1>
+            <a class="ui-btn-right fakeSubmit" data-theme="b" data-iconpos="right" data-icon="arrow-r" data-role="button">下一步</a>
+        </header>
+
+        <div data-role="content">
+            <form data-ajax="false" src="" data-ng-submit="goNextstep()">
+                <input type="submit" data-role="none" class="noShow trueSubmit"/>
+
+                <div data-role="fieldcontain">
+                    <label for="goods_name">商品名称:</label>
+                    <input type="text" ng-model="unChange.goods_name" id="goods_name" value="人口贩卖" disabled />
+                </div>
+
+                 <div data-role="fieldcontain">
+                    <label for="order_num">购买数量:</label>
+                    <input type="number" ng-model="orderInfo.order_num" id="order_num" value="1" required pattern="^([1-9]\d{0,}|0)$" />
+                </div>
+
+                <div data-role="fieldcontain" data-ng-init="unChange.goods_price">
+                    <label for="goods_price">单价:</label>
+                    <input type="text" ng-model="unChange.goods_price" id="goods_price" value="100" disabled />
+                </div>
+
+                <div data-role="fieldcontain">
+                    <label for="fee">运费:</label>
+                    <input type="text" ng-model="unChange.fee" id="fee" value="10" disabled />
+                </div>
+
+                <div data-role="fieldcontain">
+                    <label for="consignee">*收货人:</label>
+                    <input type="text" ng-model="orderInfo.consignee" id="consignee" required />
+                </div>
+
+                <div data-role="fieldcontain">
+                    <label for="mobile">*联系电话:</label>
+                    <input type="tel" ng-model="orderInfo.mobile" id="mobile" required />
+                </div>
+
+                <div data-role="fieldcontain">
+                    <label for="address">*收货地址:</label>
+                    <textarea id="address" ng-model="orderInfo.address" required></textarea>
+                </div>
+
+                <div data-role="fieldcontain">
+                    <label for="usernote">备注:</label>
+                    <textarea ng-model="orderInfo.usernote" id="usernote" ></textarea>
+                </div>
+
+            </form>
+        </div>
+
+
+
+
+</div>
+</body>
+</html>

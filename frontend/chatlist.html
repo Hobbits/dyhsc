@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>聊天历史</title>
+</head>
+<body>
+
+
+<!--TODO 聊天-->
+<div ng-controller="chatlistCtrl" id="pagechat" data-role="page" ngm-pageshow="getTalkedFriends()">
+    <!--<div data-role="panel" class="myPanel" data-position="left"  data-display="overlay">-->
+        <!--<h1><img src="images/logo.png"/></h1>-->
+        <!--<ul class="panelul" data-role="listview" data-inset="false" data-split-theme="h">-->
+            <!--<li>-->
+                <!--<a href="#!/">首页</a>-->
+            <!--</li>-->
+            <!--<li>-->
+                <!--<a href="#!/account">管理中心</a>-->
+            <!--</li>-->
+
+            <!--<li class="activate">-->
+                <!--<a>新消息</a>-->
+            <!--</li>-->
+        <!--</ul>-->
+
+    <!--</div>-->
+
+
+    <header data-role="header" data-position="fixed">
+        <a data-rel="back" class="ui-btn-left" data-direction="reverse" data-icon="arrow-l" data-role="button">后退</a>
+        <h1>最近联系</h1>
+<!--
+        <a id="backToRecords" href="#emptyRecords" data-rel="popup" class="ui-btn-right" data-icon="edit" data-role="button" data-position-to="window" data-transition="slideup">清空记录</a>
+-->
+
+    </header>
+
+    <section data-role="content">
+        <ul data-role="listview" data-inset="true" data-filter="true" data-filter-placeholder="查找本页好友..." data-split-icon="delete" data-split-theme="e">
+            <li data-ng-repeat="friend in friendList | orderBy:'last_timestamp':true"  >
+                <a href="#!/dialogue/{{friend.userid_chat}}">
+                    <img data-ng-src="{{logoURL + friend.icon}}"/>
+                    <h2>{{friend.name_chat}}</h1>
+                    <p>{{friend.last_dialogue}}</p>
+                    <span class="ui-li-count" data-ngm-if="hasNewMessage(friend.records_num)">{{friend.records_num}}</span>
+                </a>
+                <a data-ngm-vclick="deleteChatRecord(friend.userid_chat)">删除</a>
+            </li>
+        </ul>
+    </section>
+
+</div>
+<!--聊天结束-->
+
+
+</body>
+</html>

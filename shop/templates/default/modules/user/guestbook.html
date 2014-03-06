@@ -1,0 +1,134 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>{echo: lp{m_u_center};/}</title>
+<link rel="stylesheet" type="text/css" href="skin/{echo: $SYSINFO['templates'];/}/css/modules.css">
+<link rel="stylesheet" type="text/css" href="skin/{echo: $SYSINFO['templates'];/}/css/layout.css">
+<link rel="stylesheet" type="text/css" href="skin/{echo: $SYSINFO['templates'];/}/css/style.css">
+<script type="text/javascript" src="skin/{echo: $SYSINFO['templates'];/}/js/changeStyle.js"></script>
+<script type="text/javascript" src="skin/{echo: $SYSINFO['templates'];/}/js/userchangeStyle.js"></script>
+
+<style type="text/css">
+th{background:#EFEFEF}
+.edit span{background:#efefef;}
+.search {margin:5px;}
+.search input {color:#444;}
+td.img img{cursor:pointer}
+</style>
+<script language="JavaScript">
+<!--
+var inputs = document.getElementsByTagName("input");
+function submitform() {
+	var checked = false;
+	for(var i=0; i<inputs.length; i++) {
+		if (inputs[i].checked == true) 
+        {
+            checked = true;
+            if(confirm('{echo:lp{m_manage_sure_del};/}')){
+            	break; 
+                }else{
+                	return false;
+                	break; 
+                    }
+        }
+	}
+	if (!checked){ 
+		alert("{echo:lp{m_selceted_one};/}");
+		return false;
+	}
+	return true;
+}
+function checkall(obj) {
+	if(obj.checked) {
+		for(var i=0; i<inputs.length; i++) {
+			if(inputs[i].type=='checkbox') {
+				inputs[i].checked = true;
+			}
+		}
+	} else {
+		for(var i=0; i<inputs.length; i++) {
+			if(inputs[i].type=='checkbox') {
+				inputs[i].checked = false;
+			}
+		}
+	}
+}
+
+function select_all() {
+	for(var i=0; i<inputs.length; i++) {
+		if(inputs[i].type=='checkbox') {
+			inputs[i].checked = true;
+		}
+	}
+}
+
+function select_last() {
+	for(var i=0; i<inputs.length; i++) {
+		if(inputs[i].type=='checkbox') {
+			if (inputs[i].checked == true){
+				inputs[i].checked = false;
+			}else if (inputs[i].checked == false){
+				inputs[i].checked = true;
+			}
+		}
+	}
+}
+
+//-->
+</script>
+</head>
+<body onload="menu_style_change('user_guestbook');changeMenu();">
+	{inc: require("shop/index_header.php");/}
+	<div class="site_map">
+	  {echo:lp{m_current_position};/}<A href="index.php">{echo:$SYSINFO['sys_name'];/}</A>/<a href="modules.php">{echo:lp{m_u_center};/}</a>/&nbsp;&nbsp;{echo: lp{m_my_guestbook};/}
+	</div>
+    <div class="clear"></div>
+    {inc: require("modules/left_menu.php");/}
+        <div class="main_right">
+        	<div class="right_top"></div>
+            <div class="cont">
+            <div class="cont_title">{echo: lp{m_guestbook_list};/}</div>
+                <hr />
+<form action="do.php?act=user_guestbook_del" name="form" method="post" onsubmit="return submitform();">
+				<table width="100%" border="0" cellspacing="0">
+					<tr class="center" >
+						<th width="40"><input type="checkbox" onclick="checkall(this);" /></th>
+						<th width="120">{echo: lp{m_company_name};/}</th>
+						<th width="200">{echo: lp{m_guestbook_content};/}</th>
+						<th width="180">{echo: lp{m_look_back};/}</th>
+						<th width="100">{echo: lp{m_add_time};/}</th>
+						<th width="30">{echo: lp{m_manage};/}</th>
+					</tr>
+					{sta:if(!empty($result['result'])) {
+						foreach($result['result'] as $v)[loop]}
+					<tr class="trcolor">
+						<td><input type="checkbox" name="gid[]" value="{echo: $v['gid'];/}" /></td>
+						<td class="name"><a href="{echo: shop_url($v['shop_id']);/}" target="_blank">{echo: $v['shop_name'];/}</a></td>
+						<td class="name">{echo: $v['content'];/}</td>
+						<td class="name">{echo: $v['reply'];/}</td>
+						<td class="name">{echo: substr($v['add_time'],0,16);/}</td>
+						<td class="name"><a href="do.php?act=user_guestbook_del&id={echo: $v['gid'];/}" onclick="return confirm('{echo: lp{m_suredel_guestbook};/}');">{echo: lp{m_del};/}</a></td>
+					</tr>
+					{end:foreach/}
+ 					<tr><td colspan="6" style="border-bottom:0"><div class="page">{inc: require("modules/page.php");/}</div></td></tr>
+ 					<tr><th width="40"><input type="checkbox" onclick="checkall(this);" /></th><th align="left" colspan="6">
+                    <input type="button" onclick="select_all()" class="submit" value="{echo:lp{m_all_select};/}">
+                     <input type="button" class="submit" onclick="select_last()" value="{echo:lp{m_reverse};/}">
+                     <INPUT class="submit" type="submit" value="{echo:lp{m_pl_del};/}" name="deletesubmit"></th></tr>
+					{sta:} else [exc]}
+					<tr><td colspan="6" class="center">{echo: lp{m_nolist_record};/}</td></tr>
+					{end:if/}
+                   
+				</table>
+</form>				
+        	</div>
+        <div class="clear"></div>
+        <div class="right_bottom"></div>
+        <div class="back_top"><a href="#"></a></div>
+    </div>
+
+{inc: require("shop/index_footer.php");/}
+
+</body>
+</html>

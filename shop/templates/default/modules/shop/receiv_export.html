@@ -1,0 +1,65 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/vnd.ms-excel; charset=utf-8">
+<title>{echo: lp{m_u_center};/}</title>
+<link rel="stylesheet" type="text/css" href="skin/{echo: $SYSINFO['templates'];/}/css/style.css">
+<script type="text/javascript" src="skin/{echo: $SYSINFO['templates'];/}/js/changeStyle.js"></script>
+<script type="text/javascript" src="skin/{echo: $SYSINFO['templates'];/}/js/userchangeStyle.js"></script>
+</head>
+<body onload="menu_style_change('shop_receiv_list');changeMenu();">
+	{inc: require("shop/index_header.php");/}
+	<div class="site_map">
+	  {echo:lp{m_current_position};/}<A href="index.php">{echo:$SYSINFO['sys_name'];/}</A>/<a href="modules.php">{echo:lp{m_u_center};/}</a>/&nbsp;&nbsp;收款单导出
+	</div>
+    <div class="clear"></div>
+    <div class="apart">
+    	{inc: require("modules/left_menu.php");/}
+        <div class="main_right">
+        	<div class="right_top"></div>
+            <div class="cont">
+                <div class="cont_title">收款单导出</div>
+                <hr />
+			<form action="do.php?act=shop_receiv_export" method="post" id="cvsform" name='cvsform' onsubmit="return checkform(this)">
+				<input type="hidden" name="shop_id" value="{echo:$shop_id;/}" />
+					<table width="100%" style="border:0" cellspacing="0">
+						<tr>
+							<td width="120" align="right">{echo:lp{m_csv_name};/}:</td><td width="180"><input type="text" name="filename" value="" /></td><td>{echo:lp{m_no_csv_name};/}</td>
+						</tr>
+						<tr>
+							<td align="right">{echo:lp{m_export_code};/}:</td>
+							<td align="left" colspan="2">
+									<select name="chast" id="chast" onchange="check();">
+									<option value="gbk" selected>GBK</option>
+									<option value="gb2312">GB2312</option>
+									<option value="utf-8">UTF-8</option>
+								</select>
+							</td>
+						</tr>
+						<tr><td></td>
+							<td colspan="2">
+								<input class="submit" type="submit" name="submit" value="收款单导出" />
+							</td>
+						</tr>
+					</table>
+			</form>
+			</div>
+		</div>
+    <div class="clear"></div>
+    {inc: require("shop/index_footer.php");/}
+</body>
+</html>
+<script language="JavaScript" type="text/javascript">
+	function checkform(obj){
+		if(obj.filename.value.length<1){
+			alert("{echo:lp{m_no_csv_name};/}");
+			return false;
+		}
+	}
+	function check(){
+		var asd=document.getElementById('chast').value;
+		if(asd=="utf-8"){
+			alert("选择该编码，打开文件会出现乱码，建议选择GBK编码");
+			}
+		}
+</script>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>店铺信息</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="target-densitydpi=medium-dpi, width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1, maximum-scale=1">
+<link rel="stylesheet" href="templates/default/css/reset.css" type="text/css">
+<link rel="stylesheet" href="templates/default/css/layout.css" type="text/css">
+</head>
+<body>
+<div id="wrap">
+    <div id="header">
+        <h1><?php echo $shop_info[0]['shop_name'] ;?></h1>
+    </div>
+
+    <div id="content">
+        <div id="leftColumn">
+            <h2><img src="<?php echo $img ;?>" /></h2>
+            <p>地区：<?php echo $pname['area_name'].$cname['area_name']; ?></p>
+            <p>所属行业：<?php echo $categoryname['cat_name'] ;?></p>
+            <p>简介：<?php echo $shop_info['shop_intro'] ;?></p>
+            <p>经营范围：<?php echo $shop_info['shop_management'] ;?></p>
+            <p>公司地址：<?php echo $shop_info['shop_address'] ;?></p>
+            <p>联系人：<?php echo $shop_info['shop_contact'] ;?></p>
+            <p>电子邮箱：<?php echo $shop_info['shop_email'] ;?></p>
+            <p>联系电话：<?php echo $shop_info['telphone'] ;?></p>
+
+        </div>
+        <div id="rightColumn">
+            <h2>最新产品</h2>
+            <?php 
+				if($return){ 
+				foreach($return as $good){
+			?>
+            <dl>    
+                <dt><a href="<?php echo $baseUrl.'shop.php?app=product&shopid='.$shop_id.'&productid='.$good['goods_id']; ?>"><img src="<?php echo $baseUrl.$good['goods_thumb']; ?>" /></a></dt>
+                <dd><a href="<?php echo $baseUrl.'shop.php?app=product&shopid='.$shop_id.'&productid='.$good['goods_id']; ?>"><span><?php echo $good['goods_name'] ;?></span></a></dd>
+            </dl>
+            <?php 
+            	}
+			}
+			?>
+            
+			<?php if($totalPage > 1) { ?>
+            <div id="pageList">
+                <ul>
+                	<li class="pageinfo"><a href='<?php echo $baseUrl.'shop.php?shopid='.$shop_id.'&page=1';?>'>首页</a></li>
+                	<?php if($page > 1){ ?>
+                    <li><a href="<?php echo $baseUrl.'shop.php?shopid='.$shop_id.'&page='.$pre; ?>">上一页</a></li>
+                    <?php } ?>
+                    <!--  <li class="current">1</li>
+                    <li>2</li> -->
+                    <?php if($page < $totalPage){ ?>
+                    <li><a href="<?php echo $baseUrl.'shop.php?shopid='.$shop_id.'&page='.$next; ?>">下一页</a></li>
+                    <?php } ?>
+                    <li class="pageinfo"><a href='<?php echo $baseUrl.'shop.php?shopid='.$shop_id.'&page='.$totalPage;?>'>尾页</a></li>
+                    <li class="pageinfo">共<?php echo $totalPage; ?>页</li>
+                </ul>
+            </div>
+         <?php } ?>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
+

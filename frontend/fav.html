@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>收藏</title>
+</head>
+<body>
+<div ng-controller="favCtrl" id="pagefav"
+     data-role="page" ngm-pagebeforeshow="preGet()">
+
+
+    <header data-role="header" data-position="fixed" data-id="favHeader">
+        <a data-rel="back" class="ui-btn-left" data-direction="reverse" data-icon="arrow-l" data-role="button">后退</a>
+        <h1>我的收藏</h1>
+        <div data-role="navbar">
+            <ul ngm-if="isShop()">
+                <li><a class="ui-btn-active">收藏的店铺</a></li>
+                <li><a templarlink="#!/fav/good" >收藏的商品</a></li>
+            </ul>
+            <ul ngm-if="!isShop()">
+                <li><a templarlink="#!/fav/shop">收藏的店铺</a></li>
+                <li><a class="ui-btn-active">收藏的商品</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <section data-role="content" >
+
+        <ul ngm-if="isShop()"
+                data-role="listview"
+                data-split-icon="delete"
+                data-split-theme="e" data-inset="true">
+            <li data-ng-repeat="f in favList">
+                <a ng-href="#!/shopGuest/{{f.shop_id}}/info">
+                <img ng-src="{{logobaseURL+f.logo_thumb}}">
+                <h2>{{f.shop_name}}</h2>
+                <p>{{f.shop_management}}</p></a>
+                <a data-ngm-vclick="delFav(f.favorite_id)">删除</a>
+            </li>
+        </ul>
+
+        <ul ngm-if="!isShop()" data-role="listview"
+             data-split-icon="delete"
+             data-split-theme="e" data-inset="true">
+            <li data-ng-repeat="f in favList">
+                <a ng-href="#!/gooddetail/{{f.goods_id}}/detail">
+                    <img ng-src="{{logobaseURL+f.img_thumb}}">
+                    <h2>{{f.goods_name}}</h2>
+                    <p>{{f.goods_intro | htmlToPlaintext}}</p></a>
+                <a data-ngm-vclick="delFav(f.favorite_id)">删除</a>
+            </li>
+        </ul>
+    </section>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,173 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>{echo: $header['title'];/}</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+<meta name="keywords" content="{echo: $header['keywords'];/}" />
+<meta name="description" content="{echo: $header['description'];/}" />
+<base href="{echo: $baseUrl;/}" />
+<link href="skin/{echo: $SYSINFO['templates'];/}/css/import.css" type="text/css" rel="stylesheet" />
+<link href="skin/{echo: $SYSINFO['templates'];/}/css/shop.css" rel="stylesheet" type="text/css" />
+<link href="skin/{echo: $SYSINFO['templates'];/}/css/shop_{echo: $SHOP['shop_template'];/}.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="skin/{echo: $SYSINFO['templates'];/}/js/changeStyle.js"></script>
+</head>
+<body>
+<!-- wrapper -->
+<div id="wrapper"> {inc: require("shop/index_header.php");/}
+  <!-- contents -->
+  <div id="contents" class="clearfix" >
+    <div id="pkz">
+<!--    	{echo:lp{s_this_location};/}<a href="index.php">{echo: $SYSINFO['sys_name'];/}</a> &gt; <a href="shop_list.php">{echo:lp{s_shop_category};/}</a> &gt;-->
+<!--    	{sta:foreach($shop_rank_arr as $k=>$value)[loop]}-->
+<!--    		{sta: if($num == $k)[exc]}-->
+<!--    			<a href="" >{echo:$value['cat_name'];/}</a>-->
+<!--    		{sta: } else[exc]}-->
+<!--    			<a href="" >{echo:$value['cat_name'];/}</a> &gt;-->
+<!--    		{end:if/}-->
+<!--    	{end:foreach/}-->
+    </div>
+
+    <div id="shopHeader" class=" mg12b clearfix">
+    <!-- 店铺顶部图片-->
+      <p><img src="{echo: $SHOP['shop_template_img'];/}" alt="" width="960" height="150" onerror="this.src='skin/default/images/nopic.gif'"/></p>
+    <!-- /店铺顶部图片-->
+      <p class="shopName">{echo: $SHOP['shop_name'];/}</p>
+      <div class="shop_nav"> {inc: require("shop/menu.php");/} </div>
+    </div>
+    {inc: require("shop/left.php");/}
+    <div id="rightCloumn">
+      <div class="recom bg_gradual mg12b">
+      	<h3 class="ttlm_recom">{echo:lp{s_shop_notices};/}</h3>
+      	<!-- <img src="{echo: $SHOP['shop_notice'];/}" alt=""  width="710" height="226" /> -->
+      	<br />
+      	{sta: if($SHOP['shop_notice'])[exc]}
+      		{echo: $SHOP['shop_notice'];/}
+      	{sta: } else[exc]}
+			&nbsp;&nbsp;&nbsp;{echo:lp{s_no_notice};/}
+      	{end:if/}
+
+      </div>
+      <div class="recom bg_gradual mg12b">
+        <h3 class="ttlm_recom">{echo:lp{s_goods_commend};/}</h3>
+        <div id="winItems">
+          <ul style="margin-left:-5px;padding-top:4px" class="clearfix">
+            {sta:if($best_goods) {
+            foreach($best_goods as $value)[loop]}
+            <li>
+              <div class="photo"><a target="_blank" href="{echo: goods_url($value['goods_id']);/}">
+              <img src="{echo: $value['is_set_image'] ? str_replace('thumb_','',$value['goods_thumb']) : 'skin/default/images/nopic.gif';/}" alt="" width="190" height="190" onerror="this.src='skin/default/images/nopic.gif'"/></a></div>
+              <div>
+                <h4><a href="{echo: goods_url($value['goods_id']);/}">{echo: sub_str($value['goods_name'],50,false);/}</a></h4>
+              </div>
+              <div class="price"> <span>{echo:lp{s_money_sign};/}{echo: $value['goods_price'];/}{echo:lp{s_yuan};/}</span> <span class="ship">{echo:lp{s_freight};/}：{echo: $value['transport_template_price'];/}</span> </div>
+            </li>
+            {end:foreach/}
+            {end:if/}
+          </ul>
+        </div>
+      </div>
+      <div class="newgoods bg_gradual mg12b">
+        <h3 class="ttlm_newgoods">{echo:lp{s_new_goods};/}</h3>
+        <ul class="list_125 clearfix">
+          {sta:if($new_goods) {
+          foreach($new_goods as $value)[loop]}
+          <li>
+            <p class="photo"><a href="{echo: goods_url($value['goods_id']);/}">
+            <img src="{echo: $value['is_set_image'] ? $value['goods_thumb'] : 'skin/default/images/nopic.gif';/}" width="112" height="112" alt="{echo: $value['goods_name'];/}"  onerror="this.src='skin/default/images/nopic.gif'"/></a></p>
+            <h4 ><a href="{echo: goods_url($value['goods_id']);/}">{echo: sub_str($value['goods_name'],30,false);/}</a></h4>
+            <p class="price">{echo:lp{s_money_sign};/}{echo: $value['goods_price'];/}</p>
+          </li>
+          {end:foreach/}
+          {end:if/}
+        </ul>
+      </div>
+      <div class="guestbook  bg_gradual" id="message">
+        <h3 class="ttl_guestbook">{echo:lp{s_buyer_comm};/}</h3>
+        <ul>
+          {sta:foreach($guestbook_list as $key =>$value)[loop]}
+          <li {sta:if($key%2==0)[loop]} class='double' {end:if/}>
+            <div class="guester">
+
+             <p><a>{echo: $value['name'];/}</a>:</p>
+             <p class="g_txt">{echo: $value['content'];/}
+             <span>[{echo: $value['add_time'];/}]</span></p>
+
+            </div>
+            <div class="shoper"> {sta:if($value['reply']) [loop]}
+             <p><a>{echo:lp{s_seller_reply};/}:</a></p>
+             <p class="g_txt">{echo: $value['reply'];/} </p>
+              {end:if/} </div>
+          </li>
+          {end:foreach/}
+        </ul>
+        <div class="guestInput">
+          <form action="do.php?act=shop_guestbook" name="guestForm" method="post" id="guestForm" onSubmit="return checkForm();">
+            <input maxlength="20" name="name" type="hidden" value="{echo:$USER['user_name'];/}" />
+            <input maxlength="50" name="email" type="hidden" value="{echo:$USER['user_email'];/}" />
+            <input maxlength="50" name="contact" type="hidden" />
+            <input type="hidden" name="shop_id" value="{echo: $shop_id;/}" />
+            <input type="hidden" name="shop_name" value="{echo: $SHOP['shop_name'];/}" />
+            <p class="line"></p>
+            <table id="sendbox" cellpadding="0" cellspacing="0" border="0" >
+              <tr>
+                <td align="right" valign="top">{echo:lp{s_buyer_comm};/}：</td>
+                <td><textarea class="border_c" cols="80" rows="8"  name="content" id="textareac" onkeyup="this.value=this.value.slice(0,300);"></textarea></td>
+              </tr>
+			   {sta:if($verifycode['3']==1)[exc]}
+              <tr>
+                <td></td>
+                <td><input type="text" class="border_c" name="veriCode" id="veriCode" style="width:100px" maxlength="4" /> 
+          	<img border="0" src="servtools/veriCodes.php" align="absmiddle"  id="verCodePic"><a href="javascript:;" onclick="return getVerCode();">{echo:lp{i_change_img};/}</a></td>
+              </tr>
+			  {end:if/}
+              <tr>
+                <td></td>
+                <td><input class="btnSetmess" type="submit" value="{echo:lp{s_wantto_comm};/}" /></td>
+              </tr>
+            </table>
+          </form>
+          <!--<p class="mg12b">
+            <input style="margin-left:60px;" class="btnSetmess" type="button" value="{echo:lp{s_wantto_comm};/}" onclick="this.style.display='none';document.getElementById('sendbox').style.display='block'" />
+          </p>-->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{inc:  require("shop/index_footer.php");/}
+</div>
+<script>
+function checkForm() {
+
+	var name = document.getElementsByName("name")[0];
+	var textareac = document.getElementById("textareac");
+	var veriCode = document.getElementById("veriCode").value;
+	if(!name.value) {
+		alert("{echo:lp{s_login_pls};/}");
+		return false;
+	}
+	if(!textareac.value) {
+		alert("{echo:lp{s_type_comm_pls};/}");
+		return false;
+	}
+	if(textareac.value.length>300){
+		alert("{echo:lp{s_work_count_error};/}");
+		textareac.focus();
+		return false;
+	}
+	 {sta:if($verifycode['3']==1)[exc]}
+		if(!veriCode){
+			alert('{echo:lp{i_verifycode_notnone};/}');
+			return false;
+		}
+	 {end:if/}
+	return true;
+}
+function getVerCode() {
+	document.getElementById("verCodePic").src="servtools/veriCodes.php?vc="+Math.random();
+	return false;
+}
+</script>
+</body>
+</html>

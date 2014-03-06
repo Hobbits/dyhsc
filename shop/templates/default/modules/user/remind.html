@@ -1,0 +1,73 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>{echo: lp{m_u_center};/}</title>
+<link rel="stylesheet" type="text/css" href="skin/{echo: $SYSINFO['templates'];/}/css/modules.css">
+<link rel="stylesheet" type="text/css" href="skin/{echo: $SYSINFO['templates'];/}/css/layout.css">
+<link rel="stylesheet" type="text/css" href="skin/{echo: $SYSINFO['templates'];/}/css/style.css">
+<script type="text/javascript" src="skin/{echo: $SYSINFO['templates'];/}/js/changeStyle.js"></script>
+<script type="text/javascript" src="skin/{echo: $SYSINFO['templates'];/}/js/userchangeStyle.js"></script>
+
+<style type="text/css">
+
+</style>
+</head>
+<body onload="menu_style_change('user_remind');changeMenu();">
+	{inc: require("shop/index_header.php");/}
+	<div class="site_map">
+	  {echo:lp{m_current_position};/}<A href="index.php">{echo:$SYSINFO['sys_name'];/}</A>/<a href="modules.php">{echo:lp{m_u_center};/}</a>/&nbsp;&nbsp;{echo: lp{m_remind_setting};/}
+	</div>
+
+    <div class="clear"></div>
+    {inc: require("modules/left_menu.php");/}
+        <div class="main_right">
+        	<div class="right_top"></div>
+            <div class="cont">
+                <div class="cont_title">{echo: lp{m_remind_setting};/}</div>
+                <hr />
+				<form action="do.php?act=user_remind_upd" method="post" name="form_profile">
+				<table width="100%" border="0" cellspacing="0">
+					<tr class="center">
+						<th width="80">{echo:lp{m_rem_type};/}</th>
+						<th>{echo:lp{m_rem_name};/}</th>
+						<th width="60">{echo:lp{m_site_rem};/}</th>
+						<th width="60">{echo:lp{m_email_reminder};/}</th>
+						<!-- <th>iwebIM</th>
+						<th>手机</th> -->
+					</tr>
+				{sta:foreach($remind_rs as $val)[loop]}
+					{sta:if($val['remind_type']==2)[exc]}
+					<tr class="center">
+						<td>{echo:$type[$val['remind_type']];/}</td>
+						<td class="left">{echo:$val['remind_name'];/}</td>
+						<td><input type="checkbox" name="{echo: $val['remind_id'];/}[site]" value="1" {sta:if(isset($remind_user_arr[$val['remind_id']]['site']) && $remind_user_arr[$val['remind_id']]['site']=='1'){ echo "checked";if/} /></td>
+						<td><input type="checkbox" name="{echo: $val['remind_id'];/}[mail]" value="1" {sta:if(isset($remind_user_arr[$val['remind_id']]['mail']) && $remind_user_arr[$val['remind_id']]['mail']=='1'){ echo "checked";if/} {sta:if(!$SYSINFO['sys_smtpusermail'] or !$SYSINFO['sys_smtpuser']){ echo "disabled";if/} /></td>
+						<!-- <td><input type="checkbox" name="{echo: $val['remind_id'];/}[im]" value="1" {sta:if(isset($remind_user_arr[$val['remind_id']]['im']) && $remind_user_arr[$val['remind_id']]['im']=='1'){ echo "checked";if/} {sta:if($SYSINFO['im_enable']=='false'){ echo "disabled";if/} /></td>
+						<td><input type="checkbox" name="{echo: $val['remind_id'];/}[mobile]" value="1" {sta:if(isset($remind_user_arr[$val['remind_id']]['mobile']) && $remind_user_arr[$val['remind_id']]['mobile']=='1'){ echo "checked";if/} disabled /></td> -->
+					</tr>
+					{end:if/}
+				{end:foreach/}
+				{sta:foreach($remind_rs as $val)[loop]}
+					{sta:if($val['remind_type']==1)[exc]}
+					<tr class="center">
+						<td>{echo:$type[$val['remind_type']];/}</td>
+						<td class="left">{echo:$val['remind_name'];/}</td>
+						<td><input type="checkbox" name="{echo: $val['remind_id'];/}[site]" value="1" {sta:if(isset($remind_user_arr[$val['remind_id']]['site']) && $remind_user_arr[$val['remind_id']]['site']=='1'){ echo "checked";if/} /></td>
+						<td><input type="checkbox" name="{echo: $val['remind_id'];/}[mail]" value="1" {sta:if(isset($remind_user_arr[$val['remind_id']]['mail']) && $remind_user_arr[$val['remind_id']]['mail']=='1'){ echo "checked";if/} {sta:if(!$SYSINFO['sys_smtpusermail'] or !$SYSINFO['sys_smtpuser']){ echo "disabled";if/} /></td>
+						<!-- <td><input type="checkbox" name="{echo: $val['remind_id'];/}[im]" value="1" {sta:if(isset($remind_user_arr[$val['remind_id']]['im']) && $remind_user_arr[$val['remind_id']]['im']=='1'){ echo "checked";if/} {sta:if($SYSINFO['im_enable']=='false'){ echo "disabled";if/} /></td>
+						<td><input type="checkbox" name="{echo: $val['remind_id'];/}[mobile]" value="1" {sta:if(isset($remind_user_arr[$val['remind_id']]['mobile']) && $remind_user_arr[$val['remind_id']]['mobile']=='1'){ echo "checked";if/} disabled /></td> -->
+					</tr>
+					{end:if/}
+				{end:foreach/}
+					<tr><td colspan="4" class="center"><input class="submit" type="submit" value="{echo:lp{m_remind_setting};/}" /></td></tr>
+				</table>
+				</form>
+          </div>
+          <div class="clear"></div>
+          <div class="right_bottom"></div>
+          <div class="back_top"><a href="#"></a></div>
+      </div>
+{inc: require("shop/index_footer.php");/}
+</body>
+</html>

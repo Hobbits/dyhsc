@@ -1,0 +1,94 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>{echo: lp{m_u_center};/}</title>
+<link rel="stylesheet" type="text/css" href="skin/{echo: $SYSINFO['templates'];/}/css/modules.css">
+<link rel="stylesheet" type="text/css" href="skin/{echo: $SYSINFO['templates'];/}/css/layout.css">
+<link rel="stylesheet" type="text/css" href="skin/{echo: $SYSINFO['templates'];/}/css/style.css">
+<script type="text/javascript" src="skin/{echo: $SYSINFO['templates'];/}/js/changeStyle.js"></script>
+<script type="text/javascript" src="skin/{echo: $SYSINFO['templates'];/}/js/userchangeStyle.js"></script>
+
+<style type="text/css">
+td{text-align:left;}
+</style>
+</head>
+<body onload="menu_style_change('user_passwd');changeMenu();">
+	{inc: require("shop/index_header.php");/}
+	<div class="site_map">
+	  {echo:lp{m_current_position};/}<A href="index.php">{echo:$SYSINFO['sys_name'];/}</A>/<a href="modules.php">{echo:lp{m_u_center};/}</a>/&nbsp;&nbsp;{echo: lp{m_edit_password};/}
+	</div>
+    <div class="clear"></div>
+    	{inc: require("modules/left_menu.php");/}
+        <div class="main_right">
+        	<div class="right_top"></div>
+            <div class="cont">
+                <div class="cont_title">{echo: lp{m_edit_password};/}</div>
+                <hr />
+				<form action="do.php?act=user_passwd" method="post" name="form_passwd" onsubmit="return checkForm();">
+					<table width="100%" style="border:0" cellspacing="0">
+						<tr class="trcolor">
+							<td width="40%" class="textright">{echo: lp{m_old_password};/}:</td>
+							<td><input type="password" name="user_passwd" value="" maxlength="20" /></td>
+							<td>{echo: lp{i_reg_passwdinfo};/}</td>
+							
+						</tr>
+						<tr class="trcolor">
+							<td class="textright">{echo: lp{m_new_password};/}:</td>
+							<td><input type="password" name="user_new_passwd" value="" maxlength="20" /></td>
+							<td >{echo: lp{i_reg_passwdinfo};/}</td>
+						</tr>
+						<tr class="trcolor">
+							<td class="textright">{echo: lp{m_re_password};/}:</td>
+							<td><input type="password" name="user_verify_passwd" value="" maxlength="20" /></td>
+							<td>{echo: lp{i_reg_repasswd1};/}</td>
+						</tr>
+						<tr class="trcolor">
+							<td></td><td><input type="hidden" name="user_id" value="{echo: $user_id;/}" />
+							<input class="submit" type="submit" name="submit" value="{echo: lp{m_edit_password};/}" /></td>
+						</tr>
+					</table>
+				</form>
+            </div>
+            <div class="clear"></div>
+			<div class="right_bottom"></div>
+			<div class="back_top"><a href="#"></a></div>
+        </div>
+    {inc: require("shop/index_footer.php");/}
+<script language="JavaScript">
+<!--
+function checkForm() {
+	var user_passwd = document.getElementsByName("user_passwd")[0];
+	var user_new_passwd = document.getElementsByName("user_new_passwd")[0];
+	var user_verify_passwd = document.getElementsByName("user_verify_passwd")[0];
+	if(user_passwd.value=='') {
+		alert("{echo: lp{m_oldpassword_notnone};/}");
+		user_passwd.focus();
+		return false;
+	} else if(user_new_passwd.value=='') {
+		alert("{echo: lp{m_password_notnone};/}");
+		user_new_passwd.focus();
+		return false;
+	} else if(user_new_passwd.value.length<6 || user_new_passwd.value.length>16) {
+		alert("{echo: lp{i_rmsgpwd_format};/}");
+		user_new_passwd.focus();
+		return false;
+	}else if(user_verify_passwd.value!=user_new_passwd.value) {
+		alert("{echo: lp{m_password_notsame};/}");
+		user_verify_passwd.value = '';
+		user_verify_passwd.focus();
+		return false;
+	} else if(user_passwd.value==user_new_passwd.value) {
+		alert("{echo: lp{m_password_same};/}");
+		user_new_passwd.focus();
+		user_new_passwd.value = '';
+		user_verify_passwd.value = '';
+		return false;
+	}
+
+	return true;
+}
+//-->
+</script>
+</body>
+</html>

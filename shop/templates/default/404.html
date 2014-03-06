@@ -1,0 +1,46 @@
+														<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>{echo:lp{i_member_login};/}</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="keywords" content="" />
+<meta name="description" content="" />
+<meta  http-equiv="Refresh" content="3;url={echo:$errorarray[1];/}" />
+<base href="{echo: $baseUrl;/}" />
+<link href="skin/{echo: $SYSINFO['templates'];/}/css/index.css" rel="stylesheet" type="text/css" />
+<link href="skin/{echo: $SYSINFO['templates'];/}/css/import.css" rel="stylesheet" type="text/css" />
+
+<script type="text/javascript" src="skin/{echo: $SYSINFO['templates'];/}/js/changeStyle.js"></script>
+<script type="text/javascript" src="skin/{echo: $SYSINFO['templates'];/}/js/area.js"></script>
+<script type='text/javascript' src='./servtools/md5.js'></script>
+</head>
+{sta:if($errno) [exc]}
+<body onload= "javascript:setTimeout( 'window.close() ',3000);">
+{sta: } else [exc]}
+<body>
+{end:if/}
+<div id="wrapper">
+{inc: include("shop/index_header.php");/}
+
+<div class="error_box">
+
+  <p>{echo:$errorarray[0];/}</p>
+  
+  <p>{echo:lp{i_href};/}</p>
+  <p><a title="{echo:lp{i_hand_index};/}" href="{echo:$errorarray[1];/}">{echo:lp{i_hand_index};/}>></a></p>
+</div><!-- main end -->
+{inc: require("shop/index_footer.php");/}
+<!--footer end-->
+</div>
+<script type='text/javascript'>
+function countDown(secs,surl){
+	if($('skip')){
+	  $("skip").innerHTML=secs;
+	  --secs > 0 ? setTimeout("countDown("+secs+",'"+surl+"')",1000):location.href=surl;
+	}
+}
+countDown(5,'{echo:$siteDomain;/}{echo:$indexFile;/}');
+</script>
+</body>
+</html>
+																																			

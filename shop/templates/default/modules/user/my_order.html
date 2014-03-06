@@ -1,0 +1,251 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>{echo:lp{m_u_center};/}</title>
+<link rel="stylesheet" type="text/css" href="skin/{echo: $SYSINFO['templates'];/}/css/modules.css">
+<link rel="stylesheet" type="text/css" href="skin/{echo: $SYSINFO['templates'];/}/css/layout.css">
+<script type="text/javascript" src="skin/{echo: $SYSINFO['templates'];/}/js/changeStyle.js"></script>
+<link rel="stylesheet" type="text/css" href="skin/{echo: $SYSINFO['templates'];/}/css/style.css">
+<script type="text/javascript" src="skin/{echo: $SYSINFO['templates'];/}/js/userchangeStyle.js"></script>
+
+<style type="text/css">
+.red{color:#fc0000;}
+.green {color:green;}
+</style>
+</head>
+<body onload="menu_style_change('user_my_order');changeMenu();">
+{inc: require("shop/index_header.php");/}
+	<div class="site_map">
+	  {echo:lp{m_current_position};/}<A href="index.php">{echo:$SYSINFO['sys_name'];/}</A>/<a href="modules.php">{echo:lp{m_u_center};/}</a>/&nbsp;&nbsp;{echo:lp{m_my_order};/}
+	</div>
+    <div class="clear"></div>
+	{inc: require("modules/left_menu.php");/}
+	<div class="main_right">
+		<div class="right_top"></div>
+		<div class="cont">
+			<div class="cont_title">
+				 <span class="tr_op">
+				<form action="modules.php?app=user_my_order" method="post">
+					<select name="state">
+						<option value='' {sta:if($state=="") {echo 'selected'; if/}>全部</option>
+						<option value='1' {sta:if($state=="1"){echo "selected";if/}>未确定</option>
+						<option value='2' {sta:if($state=="2"){echo "selected";if/}>已确定</option>
+						<option value='3' {sta:if($state=="3"){echo "selected";if/}>未支付</option>
+						<option value='4' {sta:if($state=="4"){echo "selected";if/}>已支付</option>
+						<option value='5' {sta:if($state=="5"){echo "selected";if/}>未发货</option>
+						<option value='6' {sta:if($state=="6"){echo "selected";if/}>已发货</option>
+						<option value='7' {sta:if($state=="7"){echo "selected";if/}>已完成</option>
+						<option value='8' {sta:if($state=="8"){echo "selected";if/}>已发货待确认</option>
+						<option value='9' {sta:if($state=="9"){echo "selected";if/}>未评价</option>
+					</select>&nbsp;&nbsp;&nbsp;&nbsp;
+					<input class="btn_ser" type="submit" value="查询" />&nbsp;&nbsp;&nbsp;&nbsp;
+				</form>
+				</span>
+				{echo:lp{m_my_order};/}
+				<!-- <a href="javascript:;" onclick="merge_sub()">{echo:lp{m_merge_order};/}</a> -->
+			</div>
+			<hr />
+ 			 <table class="commodityCart" width="100%" border="0" cellspacing="0">
+        <tbody>
+          <tr>
+            <th width="90px" align="center">{echo:lp{m_showgoods_photo};/}</th>
+            <!--限定宽度，不让图片太宽把右侧的文字挤换行！-->
+            <th width="">{echo:lp{m_order_goods_info};/}</th>
+            <th width="190">{echo:lp{m_order_orderinfo};/}</th>
+            <th width="60" align="center">{echo:lp{m_count};/}</th>
+            <th width="90">{echo:lp{m_status};/}</th>
+            <th width="80">{echo:lp{m_manage};/}</th>
+          </tr>
+           {sta:if(!empty($result['result'])) {
+				foreach($result['result'] as $v) [loop]}
+          <!-- order01 -->
+          <tr class="orderInfo">
+            <td colspan="6">{echo:lp{m_order_group};/}：{echo:$v['payid'];/}</td>
+          </tr>
+          {sta:$num =count($v['order_goods']); foreach($v['order_goods'] as $k=> $goods)[loop]}
+          <tr>
+            <td><img src="{echo:$goods['goods_thumb'];/}" alt="{echo:$goods['goods_name'];/}" width="80" width="80" onerror="this.src='skin/default/images/nopic.gif'"/></td>
+            <td><a href="modules.php?app=user_photo_view&id={echo:$goods['id'];/}&path=user_my_order" target="_blank" >{echo:$goods['goods_name'];/}</a></td>
+            <!-- 合并  -->
+            {sta:if($k==0)[exc]}
+            <td class="border_l" rowspan="{echo:$num;/}"  >{echo:lp{m_order_ordertime};/}：{echo:$v['order_time'];/}<br />{echo:lp{m_order_shops};/}：{echo:$v['shop_name'];/}</td>
+             <td class="border_l" rowspan="{echo:$num;/}"  >{echo:lp{m_money_sign};/}{echo:$v['order_value'];/}</td>
+			  <td class="border_l" rowspan="{echo:$num;/}" >
+            	{sta: if($goods['lock_flg']==1){
+            		echo "<span class='black'>".lp{s_goods_locked}."</span><br />";
+            	}else if($v['open_flg']==1){
+            		echo "<span class='black'>".lp{m_favitor_close}."</span><br />";
+            	}else if($v['lock_flg']==1){
+            		echo "<span class='black'>".lp{m_favitor_lock}."</span><br />";
+            	}else{
+	            	if($v['order_status']==0){
+							echo "<span class='black'>".lp{m_order_cancel}."</span><br />";
+						} elseif($v['protect_status']==1) {
+							echo "<span class='red'>维权中</span><br />";
+						}elseif($v['protect_status']==2) {
+							echo "<span class='red'>同意维权</span><br />";
+						} elseif($v['protect_status']==3) {
+							echo "<span class='red'>维权结束</span><br />";
+						} elseif($v['order_status']==3) {
+							echo "<span class='green'>".lp{m_order_combuy}."</span><br />";
+						}else {
+							if($v['pay_status']==0) {
+								echo "<span class='red'>".lp{m_order_nopayed}."</span><br /> ";
+							} elseif($v['pay_status']==2){
+								echo "<span class='red'>待退款</span><br /> ";
+							} elseif($v['pay_status']==3){
+								echo "<span class='red'>已退款</span><br /> ";
+							} elseif($v['pay_status']==4){
+								echo "<span class='red'>退款成功</span><br /> ";
+							}else {
+								if($v['transport_status']) {
+									echo "<span class='red'>".lp{m_order_transported}."</span><br /> ";
+								} else {
+									echo "<span class='red'>".lp{m_order_notransported}."</span><br />";
+								}
+							}	
+					}
+				if/}
+            </td>
+            <td class="border_l"  rowspan="{echo:$num;/}" >
+            {sta: if($goods['lock_flg']==1)[exc]}
+				<a href="modules.php?app=user_order_view&order_id={echo: $v['order_id'];/}" title="{echo: lp{m_view_orderinfo};/}">{echo: lp{m_view_orderinfo2};/}</a><br />
+				{sta:if(empty($v['get_back_time'])&&$v['pay_status']==1&&$v['order_status']>0&&$v['order_status']<3&&time()>(strtotime($v['pay_time'])+24*3600))[exc]}
+					<a href="do.php?act=get_back_money&order_id={echo: $v['order_id'];/}" >{echo: lp{m_refund};/}</a>
+				{end:if/}
+			{sta: }else if($v['open_flg']==1)[exc]}
+					<span class='black'>{echo: lp{m_favitor_close};/}</span><br />
+			{sta: }else if($v['lock_flg']==1)[exc]}
+					<span class='black'>"{echo: lp{m_favitor_lock};/}"</span><br />
+			{sta:}else[exc]}
+				{sta:if($v['order_status']==1  && $v['pay_status']==0) [exc]}
+					<a href="do.php?act=user_order_del&id={echo: $v['order_id'];/}" onclick="return confirm('{echo: lp{m_sure_cancelthisorder};/}');">{echo: lp{m_cancelorder};/}</a><br />
+					<a href="modules.php?app=user_payment_message&id={echo: $v['order_id'];/}">{echo: lp{m_pay};/}</a><br />
+				{end:if/}
+				{sta:if($v['order_status']==1 && $v['pay_status']==1 &&$v['transport_status']==0) [exc]}
+					<a href="do.php?act=ask_back_money&id={echo: $v['order_id'];/}">申请退款</a><br />
+				{end:if/}
+				{sta:if($v['order_status']==1  && $v['pay_status']==3) [exc]}
+					<a href="do.php?act=sure_back_money&id={echo: $v['order_id'];/}">确认退款</a><br />
+				{end:if/}
+				
+				{sta:if($v['transport_status']==1 && $v['order_status']==3 && $v['protect_status']==0) [exc]}
+					<a href="modules.php?app=user_protect_rights&id={echo: $v['order_id'];/}">申请维权</a><br />
+				{end:if/}
+				
+				{sta:if($v['protect_status']!=0 && $v['protect_status']!=3) [exc]}
+					<a href="do.php?act=user_cancel_protect&id={echo: $v['order_id'];/}"><font color="red">结束维权</font></a><br />
+				{end:if/}
+				
+				{sta:if($v['protect_status']==1 || $v['protect_status']==2) [exc]}
+					<a href="modules.php?app=user_protect_rights&id={echo: $v['order_id'];/}"><font color="red">查看维权</font></a><br />
+				{end:if/}
+				
+				{sta:if($v['transport_status']==1 && $v['order_status']==1) [exc]}
+					<a href="do.php?act=user_order_checkget&id={echo: $v['order_id'];/}"  onclick="return confirm('{echo: lp{m_sure_thisgoodsreceive};/}');">{echo: lp{m_sure_receive};/}</a><br />
+					申请维权<br />
+				{end:if/}
+				<a href="modules.php?app=user_order_view&order_id={echo: $v['order_id'];/}" title="{echo: lp{m_view_orderinfo};/}">{echo: lp{m_view_orderinfo2};/}</a><br />
+				<!-- 订单投诉 开始 -->
+				{sta:  if($v['pay_status']!=0 && $v['pay_status']!=4 && $v['order_status']!=3) [exc]}
+					{sta:  if($v['complaint']==0) [exc]}
+					<a href="modules.php?app=user_complaint&order_id={echo: $v['order_id'];/}" >{echo: lp{m_complaints};/}</a><br />
+					{sta:}else[exc]}
+					{echo:lp{m_already_complain} ;/}<br />
+					{end:if/}
+				{end:if/}
+				<!-- 订单投诉 结束 -->
+				<!-- 订单评价 开始 -->
+				{sta:if($v['transport_status']==1 && $v['order_status']==3 && $v['buyer_reply']==0) [exc]}
+					<a href="modules.php?app=shop_credit_add&id={echo: $v['order_id'];/}&t=buyer" >{echo: lp{m_evaluate};/}</a><br />
+				{sta:}else if($v['transport_status']==1 && $v['order_status']==3 && $v['buyer_reply']==1)[exc]}
+					{echo:lp{m_already_valuation};/}<br />
+				{end:if/}
+				<!-- 订单评价 结束 -->
+			{end: if/}
+			</td>
+            <!-- 合并  -->
+            {end:if/}
+          {end:foreach/}
+          <tr>
+          {end:foreach/}
+           <tr><td colspan="6" ><div class="page">{inc: require("modules/page.php");/}</div></td></tr>
+          {sta:} else [exc]}
+				<tr><td colspan="6" class="center">{echo: lp{m_nolist_record};/}</td></tr>
+				{end:if/}
+        </tbody>
+      </table>
+		</div>
+		<div class="clear"></div>
+		<div class="right_bottom"></div>
+		<div class="back_top"><a href="#"></a></div>
+	</div>
+	<form action="do.php?act=merge" method="post" id="merge_form" >
+		<div id="order_id_box"></div>
+		<input type="hidden" name="shop_id_value" id="shop_id_value" value="0" />
+	</form>
+{inc: require("shop/index_footer.php");/}
+</body>
+</html>
+<script language="JavaScript" src="servtools/ajax_client/ajax.js"></script>
+<script language="JavaScript">
+function add_merge(order_id,shop_id,bl,ck_obj){
+	if(bl){
+		if(document.getElementById("shop_id_value").value==0){
+			document.getElementById("shop_id_value").value=shop_id;
+		}
+		if(shop_id!=document.getElementById('shop_id_value').value){
+			alert("{echo:lp{m_same_order_error};/}！");
+			ck_obj.checked=false;
+		}else{
+			document.getElementById("order_id_box").innerHTML+="<input type='hidden' name='order_id[]' value='"+order_id+"' />";
+		}
+
+	}else{
+		document.getElementById("order_id_box").innerHTML="";
+		var obj=document.getElementsByName("order_id[]");
+		for(i=0;i<obj.length;i++){
+			if(obj[i].value != order_id){
+				document.getElementById("order_id_box").innerHTML+="<input type='hidden' name='order_id[]' value='"+obj[i].value+"' />";
+			}
+		}
+		if(obj.length<=0){
+			document.getElementById("shop_id_value").value=0;
+		}
+	}
+}
+
+function merge_sub (){
+	var obj=document.getElementsByName("order_id[]");
+	if(obj.length<=0){
+		alert("{echo:lp{m_select_order};/}");
+	}else if(obj.length<=1){
+		alert("{echo:lp{m_tow_order};/}！");
+	}else{
+		if(confirm("{echo:lp{m_merge_prompt};/}")){
+			document.getElementById("merge_form").submit();
+		}else{
+			window.location.reload();
+		}
+	}
+}
+
+<!--
+function toggle_show(obj,id) {
+	var re = /yes/i;
+	var src = obj.src;
+	var isshow = 1;
+	var sss = src.search(re);
+	if(sss > 0) {
+		isshow = 0;
+	}
+	ajax("do.php?act=shop_isshow_toggle","POST","id="+id+"&s="+isshow,function(data){
+		if(data) {
+			obj.src = 'skin/default/images/'+data+'.gif';
+		}
+	});
+}
+
+//-->
+</script>

@@ -1,0 +1,63 @@
+#articlePage article h2{
+    line-height: 2.5em;
+    text-align: center;
+    margin-bottom: 1em;
+}
+#articlePage article img{
+    max-width: 100%;
+}
+
+#articlePage .articleText{
+    margin-top: 1.5em;
+    font-size: 1em;
+}
+
+
+#articlePage details{
+    text-align: right;
+}
+
+#articlePage details dt{
+    float: left;
+}
+
+.articleHeaderbox{
+    position: relative;
+    width: 100%;
+    padding: 0;
+    margin: 0 auto;
+    background-color: #fff;
+    -webkit-box-shadow: 0 0 4px rgba(0, 0, 0, 0.2), inset 0 0 50px rgba(0, 0, 0, 0.1);
+    -moz-box-shadow: 0 0 4px rgba(0, 0, 0, 0.2), inset 0 0 50px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2), inset 0 0 50px rgba(0, 0, 0, 0.1);
+}
+
+.articleHeaderbox:before, .articleHeaderbox:after
+{
+    position: absolute;
+    width: 40%;
+    height: 0.7em;
+    content: ' ';
+    left: 0.8em;
+    bottom: 0.8em;
+    background: transparent;
+    -webkit-transform: skew(-5deg) rotate(-5deg);
+    -moz-transform: skew(-5deg) rotate(-5deg);
+    -ms-transform: skew(-5deg) rotate(-5deg);
+    -o-transform: skew(-5deg) rotate(-5deg);
+    transform: skew(-5deg) rotate(-5deg);
+    -webkit-box-shadow: 0 0.7em 0.8em rgba(0, 0, 0, 0.3);
+    -moz-box-shadow: 0 0.7em 0.8em rgba(0, 0, 0, 0.3);
+    box-shadow: 0 0.7em 0.8em rgba(0, 0, 0, 0.3);
+    z-index: -1;
+}
+.articleHeaderbox:after
+{
+    left: auto;
+    right: 0.8em;
+    -webkit-transform: skew(5deg) rotate(5deg);
+    -moz-transform: skew(5deg) rotate(5deg);
+    -ms-transform: skew(5deg) rotate(5deg);
+    -o-transform: skew(5deg) rotate(5deg);
+    transform: skew(5deg) rotate(5deg);
+}

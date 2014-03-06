@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>搜索</title>
+</head>
+<body>
+
+<!--TODO 注册-->
+<div ng-controller="searchCtrl" id="pageSearch" data-role="page" ngm-pageshow="pre()">
+    <header data-role="header" data-position="fixed">
+        <a href="#!/" class="ui-btn-left" data-direction="reverse" data-icon="home" data-iconpos="notext" data-role="button">后退</a>
+        <h1>搜索</h1>
+        <a class="fakeSubmit ui-btn-right" data-icon="search" data-role="button" data-theme="b">再搜</a>
+    </header>
+
+    <section data-role="content">
+
+        <div data-role="collapsible-set">
+            <div data-role="collapsible" id="moreOption" data-mini="true">
+
+                <h3 class="searchHead ui-corner-top">高级搜索</h3>
+
+                <form data-ajax="false" src="" data-ng-submit="search()">
+                    <ul class="opts" data-role="listview"
+                        ng-switch on="searchParameter.search_type" data-inset="true">
+                        <li>
+
+                                <select ng-init='searchParameter.search_type="good"' data-mini="true"
+                                        ng-model="searchParameter.search_type">
+                                    <option value="good" selected>搜商品</option>
+                                    <option value="shop">搜商店</option>
+                                </select>
+
+                                 <input data-mini="true" data-ng-model="searchParameter.key" type="search" placeholder="请输入关键词"/>
+
+
+                        </li>
+
+                        <!--<li data-role="fieldcontain">-->
+
+                            <!--<fieldset ng-init='searchShop=true;searchGood=true'-->
+                                    <!--class="searchFilters" data-role="controlgroup" data-type="horizontal">-->
+                                  <!--&lt;!&ndash;<legend>搜索范围</legend>&ndash;&gt;-->
+                                  <!--<input data-ng-model="searchShop" data-mini="true" type="checkbox" id="checkbox-1" />-->
+                                  <!--<label for="checkbox-1">搜店铺</label>-->
+                                <!--<input data-ng-model="searchGood" data-mini="true" type="checkbox" id="checkbox-2" />-->
+                                <!--<label for="checkbox-2">搜商品</label>-->
+                            <!--</fieldset>-->
+
+                        <!--</li>-->
+
+                        <li ng-switch-when="shop">
+                            <fieldset class="searchFilters" data-role="controlgroup" data-type="horizontal">
+                                <!--<legend>筛选店铺行业分类:</legend>-->
+                                <label for="sg_cat1">一级</label>
+                                <select data-mini="true" id="sg_cat1" ng-model="scat1" ng-change="getscat2List(scat1)" ng-options="cat1.cat_name for cat1 in scat1List" >
+
+                                </select>
+                                <label for="sg_cat2">二级:</label>
+                                <select data-mini="true" id="sg_cat2"
+                                        ng-change="applyscat2(scat2)"
+                                        ng-model="scat2" ng-show="scat2List" ng-options="cat2.cat_name for cat2 in scat2List">
+
+                                </select>
+                            </fieldset>
+                        </li>
+
+                        <li ng-switch-when="good">
+                            <fieldset class="searchFilters" data-role="controlgroup" data-type="horizontal">
+                                <!--<legend>筛选商品分类:</legend>-->
+                                <label for="g_cat1">一级</label>
+                                <select data-mini="true" id="g_cat1" ng-model="gcat1" ng-change="getgcat2List(gcat1)" ng-options="cat1.cat_name for cat1 in gcat1List" >
+
+                                </select>
+                                <label for="g_cat2">二级:</label>
+                                <select data-mini="true" id="g_cat2"
+                                        ng-model="gcat2" ng-change="applygcat2(gcat2)"
+                                        ng-show="gcat2List" ng-options="cat2.cat_name for cat2 in gcat2List">
+
+                                </select>
+                            </fieldset>
+                        </li>
+
+                        <li>
+                            <fieldset class="searchFilters" data-role="controlgroup" data-type="horizontal">
+                                <label for="se_sheng">省</label>
+                                <select data-mini="true" ng-model="prov" ng-change="getCityList()" ng-options="p.provName for p in provList" id="se_sheng">
+
+                                </select>
+                                <label ng-show="cityList" for="se_shi">市</label>
+                                <select data-mini="true" ng-model="city" ng-show="cityList" id="se_shi" ng-options="c.cityName for c in cityList" >
+
+                                </select>
+                            </fieldset>
+                        </li>
+
+                    </ul>
+                    <input style="display: none" data-role="none" class="trueSubmit noShow" type="submit" value="submit"/>
+                </form>
+            </div>
+
+        </div>
+
+
+
+        <div>
+
+            <ul style="margin-top: 2em"
+                ng-show="gresultList" data-role="listview" data-divider-theme="d" data-split-theme="e" data-split-icon="grid">
+                <li data-role="list-divider">商品搜索结果</li>
+                <li data-mini="true" data-ng-repeat="r in gresultList">
+                    <a class="goodItem" ng-href="#!/gooddetail/{{r.goodsid}}/detail">
+                        <!--<img class="shopThum" ng-src="{{logobaseURL+r.img[0].img_thumb}}">-->
+                        <h4>{{r.goodsname}}</h4>
+                        <p>{{r.intro | htmlToPlaintext}}</p>
+                        <span class="ui-li-count">{{r.price}}</span>
+                    </a>
+                </li>
+            </ul>
+
+            <ul style="margin-top: 2em"
+                ng-show="sresultList" data-role="listview" data-divider-theme="d" data-split-theme="e" data-split-icon="grid">
+                <li data-role="list-divider">店铺搜索结果</li>
+                <li data-mini="true" data-ng-repeat="r in sresultList">
+                    <a class="shopItem" ng-href="#!/shopGuest/{{r.shopid}}/info">
+                        <img class="shopThum" ng-src="{{logobaseURL+r.thumb_logo}}">
+                        <h4>{{r.shopname}}</h4>
+                        <p>{{r.shopmanagement | htmlToPlaintext}}</p>
+                    </a>
+                </li>
+            </ul>
+
+            <div data-ng-show="noResult" class="textbox-warning">
+                没有结果
+            </div>
+
+
+        </div>
+    </section>
+    <appfooter></appfooter>
+
+
+</div>
+<!--注册结束-->
+
+</body>
+</html>

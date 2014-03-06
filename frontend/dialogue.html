@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>消息记录</title>
+</head>
+<body>
+
+
+<!--TODO 聊天-->
+<div ng-controller="dialogueCtrl" id="pageDialogue" data-role="page"
+     ngm-pageshow="prefetch()" ngm-pagebeforehide="out()">
+
+
+    <link rel="stylesheet" href="css/chat.css"/>
+    <!--字体样式-->
+    <link rel="stylesheet" href="css/font/css/fontello.css"/>
+    <link rel="stylesheet" href="css/font/css/animation.css"/>
+    <style ng-bind-html-unsafe="cssInner">
+
+    </style>
+
+
+
+    <header id="chatHeader" data-role="header" data-position="fixed">
+        <a data-rel="back" class="ui-btn-left" data-direction="reverse" data-icon="arrow-l" data-role="button">后退</a>
+        <h1>{{opposite_name}}</h1>
+        <a data-ngm-vclick="clearScreen()" class="ui-btn-right" data-icon="refresh" data-role="button">清屏</a>
+    </header>
+
+    <section data-role="content">
+
+        <div data-ngm-vclick="loadHistoryAct()" ng-show="Loadmore.show" class="loadmore" style="margin-bottom: 1em">
+            <i ng-show="Loadmore.loading" class="icon-spin1 animate-spin"></i>点击加载更多历史</div>
+
+
+
+          <ol id="chating" data-role="none">
+              <li class="" ng-class="dialog.targetClassname" ng-repeat="dialog in dialogueList | orderBy:'timestamp':false">
+                  <div class="gavatar">
+                      <div class="gavInner">
+                      </div>
+                  </div>
+                  <div class="chatContent">
+                      <div class="contentBox">
+                          <div><h4>{{dialog.senderName}} 说</h4><time>{{dialog.timediff}}</time></div>
+                          <div class="trueContent">{{dialog.message}}</div>
+                          <div class="chathorn"></div>
+                      </div>
+                  </div>
+              </li>
+
+
+
+          </ol>
+
+
+    </section>
+
+    <footer data-role="footer" data-position="fixed" data-tap-toggle="false">
+       <form data-ajax="false" src="" class="chatInputWrap vCenter">
+            <div class="chatTextingWrap">
+                <textarea data-ng-model="chatTexting" data-role="none"></textarea>
+            </div>
+
+             <div class="chatSend" data-ngm-vclick="send()" ng-class="cansendClass()">
+                 <i class="icon-paper-plane"></i>
+             </div>
+
+
+       </form>
+
+    </footer>
+
+</div>
+<!--对话结束-->
+
+
+</body>
+</html>

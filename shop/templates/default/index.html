@@ -1,0 +1,226 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+<title>{echo: $header['title'];/}</title>
+<meta name="keywords" content="{echo: $header['keywords'];/}" />
+<meta name="description" content="{echo: $header['description'];/}" />
+<base href="{echo: $baseUrl;/}" />
+<link href="skin/{echo: $SYSINFO['templates'];/}/css/index.css" rel="stylesheet" type="text/css" />
+<link href="skin/{echo: $SYSINFO['templates'];/}/css/import.css" type="text/css" rel="stylesheet" />
+<link rel="icon" href="favicon.ico" type="image/x-icon" />
+<script type="text/javascript" src="skin/{echo:$SYSINFO['templates'];/}/js/changeStyle.js"></script>
+<script src="skin/{echo:$SYSINFO['templates'];/}/js/slide.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="wrapper">
+{inc: include("shop/index_header.php");/}
+  <!-- contents -->
+  <div id="contents" >
+    <div id="channel" class="clearfix">
+      <ul class="clearfix">
+        <li id="category">
+           <h2><img src="skin/default/images/ttl_channel_all.gif" alt="{echo:$i_langpackage->i_allgoodsheader_category;/}"  onerror="this.src='skin/default/images/nopic.gif'"/></h2>
+        </li>
+         {sta: foreach($nav_list as  $value)[loop]}
+         	<li><span><a href="{echo: $value['url'];/}">{echo: $value['nav_name'];/}</a>|</span></li>
+         {end:foreach/}
+      </ul>
+    </div>
+    <div id="category_box" class="allMerchan"  style="display:none" onmouseover="show_obj(this)"  onmouseout="hidden_obj(this)">
+        <ul  >
+        {sta: foreach(array_slice ($CATEGORY[0], 0) as $key=>$cat)[loop]}
+        	<li class="clearfix">
+            <h3><a href="{echo: category_url($cat['cat_id']);/}" title="{echo: $cat['cat_name'];/}">{echo: $cat['cat_name'];/}</a></h3>
+            {sta:if(isset($CATEGORY[$cat['cat_id']]) && $CATEGORY[$cat['cat_id']])[exc]}
+            <p>
+                {sta: foreach(array_slice ($CATEGORY[$cat['cat_id']], 0, 8) as $subcat)[loop]}
+                    <a href="{echo: category_url($subcat['cat_id']);/}" title="{echo: $cat['cat_name'];/}">{echo: $subcat['cat_name'];/}</a>|
+                {end:foreach/}
+             </p>
+             {end:if/}
+            </li>
+		{end:foreach/}
+        </ul>
+    </div>
+    <!-- leftColumn-->
+    <div id="leftColumn">
+      <div class="left_top">
+		<div class="slide_container" id="idTransformView">
+			  <ul class="slider" id="idSlider">
+			  {sta: foreach($images_info as  $key =>$value)[loop]}
+				<li><a href="{echo:$value['images_link'];/}" target="_blank"><img src="{echo: $value['images_url'];/}" width="664" height="148" alt="" onerror="this.src='skin/default/images/nopic.gif'"/></a></li>
+			  {end:foreach/}
+			 </ul>
+			 <ul class="slide_num" id="idNum">
+				 {sta:foreach($images_info as $key =>$value)[loop]}
+				 <li>{echo:intval($key+1);/}</li>
+				 {end:foreach/}
+			 </ul>
+        	<script type="text/javascript">slide(148);</script>
+        </div>
+        <div class="news">
+          <ul class="clearfix">
+          {sta: foreach($notice as $value)[loop]}
+          	<li>
+      			{sta: if($value['is_blod'] && $value['tag_color'])[exc]}
+					<a href="{echo: article_url($value['article_id']);/}" title="{echo: $value['title'];/}" style=" color:{echo: $value['tag_color'];/};"><b>{echo: sub_str($value['title'],22,false);/}</b></a>
+				{sta: } else if($value['is_blod'])[exc]}
+					<a href="{echo: article_url($value['article_id']);/}" title="{echo: $value['title'];/}" ><b>{echo: sub_str($value['title'],22,false);/}</b></a>
+				{sta: } else if($value['tag_color'])[exc]}
+					<a href="{echo: article_url($value['article_id']);/}" title="{echo: $value['title'];/}" style="color:{echo: $value['tag_color'];/};">{echo: sub_str($value['title'],22,false);/}</a>
+				{sta: } else [exc]}
+					<a href="{echo: article_url($value['article_id']);/}" title="{echo: $value['title'];/}" >{echo: sub_str($value['title'],22,false);/}</a>
+				{end:if/}
+          	</li>
+          {end:foreach/}
+          </ul>
+        </div>
+        <ul class="list_adv clearfix">
+          <li><script language="JavaScript" src="uploadfiles/asd/1.js"></script></li>
+          <li><script language="JavaScript" src="uploadfiles/asd/2.js"></script></li>
+          <li><script language="JavaScript" src="uploadfiles/asd/3.js"></script></li>
+          <li class="lst"><script language="JavaScript" src="uploadfiles/asd/4.js"></script></li>
+        </ul>
+      </div>
+      <div class="hotMerchan bg">
+        <h2 class="ttlm_hot">{echo: $i_langpackage->i_hotgoods_sort;/}</h2>
+        <div class="normal">
+          <ul class="list_item clearfix">
+		{sta:$i=1;/}
+		{sta: foreach($goods_promote as $value)[loop]}
+            <li>
+              <p class="pic"><a href="{echo: goods_url($value['goods_id']);/}"><img  src="{echo: $value['is_set_image'] ? str_replace('thumb_','',$value['goods_thumb']) : 'skin/default/images/nopic.gif';/}" alt="{echo: $value['goods_name'];/}" width="112" height="112" onerror="this.src='skin/default/images/nopic.gif'"/></a></p>
+              <p class="desc"><a href="{echo: goods_url($value['goods_id']);/}">{echo: sub_str($value['goods_name'],20,false);/}</a></p>
+              <p class="price">{echo:lp{i_money_sign};/}{echo:$value['goods_price'];/}</p>
+            </li>
+			{sta:$i++;/}
+		{end:foreach/}
+          </ul>
+        </div>
+      </div>
+      <div class="allMerchan bgnone">
+        <h2 class="ttlm_category">{echo:$i_langpackage->i_allgoodsheader_category;/}</h2>
+        <ul  >
+        {sta: foreach(array_slice ($CATEGORY[0], 0, 5) as $key=>$cat)[loop]}
+        	<li class="clearfix">
+            <h3><a href="{echo: category_url($cat['cat_id']);/}" title="{echo: $cat['cat_name'];/}">{echo: $cat['cat_name'];/}</a></h3>
+            {sta:if(isset($CATEGORY[$cat['cat_id']]) && $CATEGORY[$cat['cat_id']])[exc]}
+            <p>
+                {sta: foreach(array_slice ($CATEGORY[$cat['cat_id']], 0, 8) as $subcat)[loop]}
+                    <a href="{echo: category_url($subcat['cat_id']);/}" title="{echo: $cat['cat_name'];/}">{echo: $subcat['cat_name'];/}</a>|
+                {end:foreach/}
+             </p>
+             {end:if/}
+            </li>
+		{end:foreach/}
+        </ul>
+      </div>
+      <!-- /leftColumn -->
+    </div>
+    <!-- rightColumn -->
+    <div id="rightColumn">
+      <div class="help_guest clearfix">
+      	{sta: if($USER['user_id'])[exc]}
+			<a title="{echo:lp{i_u_start};/}" href="{echo: article_url(11);/}">
+	      		<span class="g_help">{echo:lp{i_u_start};/}</span>
+	      	</a>
+
+	    {sta:}else [exc]}
+	      	<a title="{echo:lp{i_register_free};/}" href="modules.php?app=reg">
+	      		<span class="g_regist" >{echo:lp{i_register_free};/}</span>
+	      	</a>
+	      	<a title="{echo:lp{i_login};/}" href="login.php">
+	      		<span class="g_login">{echo:lp{i_login};/}</span>
+	      	</a>
+	    {end:if/}
+      	<a title="{echo:lp{i_free_open};/}" href="modules.php?app=shop_info">
+      		<span class="g_opedshop">{echo:lp{i_free_open};/}</span>
+      	</a>
+      </div>
+      <div class="rules">
+        <ul>
+          <li><a class="groupbuy" href="article.php?id=33">{echo: $i_langpackage->i_group_buy_small_shops;/}</a></li>
+          <li><a class="credit" href="article.php?id=34">{echo: $i_langpackage->i_credit_evaluation_system;/}</a></li>
+        </ul>
+      </div>
+      <div class="user_service mg12b">
+        	<div class="top"><div class="line"></div><ul id="tab0"><li id="tab0_title0" class="active" onmouseover="nTabs('tab0',this);"><a href="" hidefocus="true">{echo:lp{i_ammall};/}</a></li><li id="tab0_title1" onmouseover="nTabs('tab0',this);"><a href="" hidefocus="true">{echo:lp{i_amsell};/}</a></li></ul></div>
+            <div id="tab0_content0" class="content">
+            	<ul>
+                  	 {sta: foreach($maller as $key =>$value)[loop]}
+               			<li><a href="article.php?id={echo:$value['article_id'];/}">{echo: $value['title'];/}</a></li>
+               		 {end:foreach/}
+                </ul>
+            </div>
+            <div id="tab0_content1" class="content" style="display:none">
+            	<ul>
+                	 {sta: foreach($seller as $key =>$value)[loop]}
+               			<li><a href="article.php?id={echo:$value['article_id'];/}">{echo: $value['title'];/}</a></li>
+            	   {end:foreach/}
+                </ul>
+            </div>
+        </div>
+      <div class="tagSet bg_gary mg12b">
+        <h3 class="ttlm_hottag">{echo:lp{i_hot_label};/}</h3>
+        <div class="tags">
+        	{sta:foreach($tag_list as $value)[loop]}
+        	<a href="{echo:$value['url'];/}" style="color:{echo:$value['tag_color'];/};{sta:if($value['is_blod'])[exc]}font-weight:800;{end:if/}">{echo:$value['tag_name'];/}</a>
+        	{end:foreach/}
+		</div>
+      </div>
+      <div class="popularity bg_gary mg12b">
+        <h3 class="ttlm_popu">{echo: $i_langpackage->i_goodsheader_category;/}</h3>
+        <div class="content">
+          <ul id="promote_goods" class="cls">
+        {sta:$i=1;/}
+		{sta:  foreach($goods_hot as $value)[loop]}
+        <li onmouseover="promote_change(this)" {sta:if($i==1)[exc]} class="selected"{end:if/} >
+        <span class="num">{echo:$i;/}</span><a title="{echo: $value['goods_name'];/}" target="_blank" href="{echo: goods_url($value['goods_id']);/}"><img src="{echo: $value['is_set_image'] ? $value['goods_thumb'] : 'skin/default/images/nopic.gif';/}" height="60" width="60" onerror="this.src='skin/default/images/nopic.gif'">{echo: sub_str($value['goods_name'],20,false);/}</a><div class="price clearfix">
+        <label><b>{echo:lp{i_money_sign};/}{echo:$value['goods_price'];/}{echo:lp{i_yan};/}</b></label></div>
+        </li>
+        {sta:$i++;/}
+		{end:foreach/}
+        </ul>
+        </div>
+      </div>
+      <div class="shopLogo bg_gary">
+        <h3 class="ttlm_logos">{echo:lp{i_brand_navigation};/}</h3>
+        <ul class="list_logos clearfix">
+        {sta: foreach($brand_rs as $value)[loop]}
+          <li ><a href="brand_info.php?brand_id={echo:$value['brand_id'];/}"><img src="{echo:$value['brand_logo'];/}" alt="{echo:$value['brand_name'];/}"  width="110" height="42"  onerror="this.src='skin/default/images/no_page.jpg'"/></a></li>
+        {end:foreach/}
+        </ul>
+      </div>
+      <!-- /rightColumn -->
+    </div>
+    <div style="clear:both"></div>
+    <div class="shopRecom bg ">
+      <h2 class="ttlm_shop" title="{echo:lp{i_better_shop};/}">&nbsp;</h2>
+      <ul class="clearfix">
+      {sta: foreach($shop_info as $value)[loop]}
+        <li>
+          <p class="pic"><a href="{echo: shop_url($value['shop_id'],'index',$value['shop_domain']);/}"><img src="{echo: $value['shop_logo'] ? $value['shop_logo'] : 'skin/default/images/shop_nologo.gif';/}" alt="{echo: $value['shop_name'];/}" width="112" height="55" onerror="this.src='skin/default/images/shop_nologo.gif'"/></a></p>
+          <p class="shopname"><a href="{echo: shop_url($value['shop_id'],'index',$value['shop_domain']);/}">{echo: $value['shop_name'];/}</a></p>
+          <p class="shopower">{echo: $i_langpackage->i_seller;/}：<a href="{echo: shop_url($value['shop_id'],'index');/}" >{echo: $value['user_name'];/}</a></p>
+        </li>
+      {end:foreach/}
+      </ul>
+    </div>
+    <!-- /contents -->
+</div>
+{inc: require("shop/index_footer.php");/}
+</div>
+</body>
+<script language="JavaScript" src="servtools/ajax_client/ajax.js"></script>
+<script language="JavaScript">
+<!--
+
+
+var d = new Date();
+var t = d.getTime();
+ajax("crons.php","POST","t="+t,function(data){});
+//-->
+</script>
+</html>

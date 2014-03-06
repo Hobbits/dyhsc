@@ -1,0 +1,153 @@
+#chatHeader+div[class*='ui-body']{
+    background: url('../images/chatbg.jpg') repeat;
+}
+#chating{
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+#chating li{
+    padding: 0;margin: 0 0 1em 0;
+    display: block;
+    width: 100%;
+}
+#chating .gavatar{
+    width: 3em;height: 3em;
+    padding: 0.5%;
+    background-color: #E1E7E9;
+}
+#chating .gavatar .gavInner{
+    /*background-image: url("../images/7-1.jpg");*/
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+    background-size: cover !important;
+    width: 99%;height: 99%;
+}
+#chating .opposite .gavatar .gavInner{
+    /*background-image: url("../images/7-2.png");*/
+}
+#chating .chatContent{
+    position: relative;
+}
+#chating .chathorn{/*聊天泡泡角*/
+    width: 1em;
+    height: 1em;
+    position: absolute;
+    top:1.2em;
+
+    background-size: contain;
+}
+.opposite .chathorn{/*聊天泡泡角*/
+    left:0.1em;
+    background: url("../images/horn1.svg") 50% 50% no-repeat;
+    -moz-transform:scaleX(-1);
+    -webkit-transform:scaleX(-1);
+    -o-transform:scaleX(-1);
+    transform:scaleX(-1);
+    /*IE*/
+    filter:FlipH;
+}
+.me .chathorn{/*聊天泡泡角*/
+    background: url("../images/horn2.svg") 50% 50% no-repeat;
+    right:0.1em;
+}
+
+
+#chating .contentBox{
+    color: #656565;
+    padding: 0.5em .3em;
+    border-radius: 0.2em;
+}
+#chating .opposite .contentBox{
+     background-color: #cfe9d2;
+ }
+#chating .me .contentBox{
+    background-color: #E1E7E9;
+}
+
+#chating .opposite .contentBox{
+    margin-left: 1em;
+}
+#chating .me .contentBox{
+    margin-right: 1em;
+}
+
+#chating .contentBox h4{
+    display: inline-block;
+    margin: 0;
+    font-weight: bold;
+    color: #333333;
+}
+#chating time{
+    color: #999999;
+    font-style:italic;
+}
+#chating time:before{
+    content: " | ";
+}
+#chating .trueContent{
+    margin-top:0.5em ;
+    word-break:break-all;
+}
+
+#chating .opposite .gavatar{float: left;}
+#chating .opposite .chatContent{margin-left: 3.5em;}
+#chating .me .gavatar{float: right;}
+#chating .me .chatContent{margin-right: 3.5em;text-align: right;}
+
+#pageDialogue footer{
+}
+#pageDialogue .chatInputWrap{
+    padding: 0.5em 0.2em 0.5em 0.2em;
+    position: relative;
+    width: 100%;height: 100%;
+    min-height: 2.5em;
+}
+.chatTextingWrap{
+    height: 2.5em;
+    max-height: 5em;
+    border-radius: 0.5em;
+    position: absolute;
+    left: .5em;
+    right: 4.5em;
+}
+
+.chatInputWrap textarea{
+    height: 2.5em;width:100%;
+    max-height: 100%;
+    border-radius: 0.5em;
+    margin: 0;
+    border: 0;
+}
+.chatInputWrap textarea:focus{
+    outline: none;
+    box-shadow: 0px 0 1em rgba(82, 168, 236, 0.6) inset, 0px 0px 8px rgba(82, 168, 236, 0.6);
+}
+.chatInputWrap .chatSend{
+    float: right;
+    width: 2.5em;
+    height: 2.5em;
+    color: rgb(82, 168, 236);
+    margin-right: 1em;
+}
+.chatInputWrap .chatSend.canSend{
+     color: #c4fff5;
+}
+.chatInputWrap .chatSend i:before{
+    font-size: 2em;
+    line-height: 100%;
+}
+
+@media screen and (max-width:320px) {
+    #chating .gavatar {
+        display:none;
+    }
+    #chating .opposite .chatContent{
+        margin-left:.5em;
+    }
+    #chating .me .chatContent {
+        margin-right:.5em;
+    }
+}
+
+

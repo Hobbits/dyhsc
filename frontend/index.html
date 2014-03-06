@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html ng-app="app">
+<head>
+    <meta charset="utf-8"/>
+
+    <title>中国汽配市场</title>
+    <meta content="中国汽配市场"/>
+    <!--<link rel="apple-touch-icon-precomposed" href="icon.png">-->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+    <meta name="application-name" content="中国汽配市场" />
+    <meta name="format-detection" content="telephone-no"/>
+
+    <meta name="viewport" content="target-densitydpi=medium-dpi, width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1, maximum-scale=1">
+
+    <link rel="stylesheet" href="libs/jquery.mobile-1.3.2.min.css"/>
+    <link rel="stylesheet" href="css/reset.css"/>
+    <link rel="stylesheet" href="css/main.css"/>
+    <!--<link rel="stylesheet" href="css/nganimate.css"/>-->
+
+
+    <script src="phonegap.js"></script>
+
+    <script src="libs/jquery-2.0.3.min.js"></script>
+    <script src="js/servURL.js"></script>
+    <script src="js/config.js"></script>
+    <script>
+        $(document).bind("mobileinit", function() {
+            //$.mobile.pageContainer = $('#pageContainer');
+
+            // PhoneGap Support options
+            $.mobile.allowCrossDomainPages = true;
+            $.support.cors = true;
+            $.mobile.phonegapNavigationEnabled = true;
+
+            $.mobile.buttonMarkup.hoverDelay = 0;
+
+            // Setting default page and dialog transition to none
+            $.mobile.defaultPageTransition = 'none';
+            $.mobile.defaultDialogTransition = 'none';
+            // DOM caching
+            $.mobile.page.prototype.options.domCache = false;
+            //$.support.dynamicBaseTag=true;
+
+            $.event.special.swipe.horizontalDistanceThreshold=50;
+
+            $.mobile.loader.prototype.options.text = "加载中...";
+            $.mobile.loader.prototype.options.textonly=true;
+            $.mobile.loader.prototype.options.textVisible = true;
+
+            if($.support.touchOverflow && isiOS){$.mobile.touchOverflowEnabled = true;}
+        });
+    </script>
+
+
+<script src="libs/jquery.mobile-1.3.2.min.js"></script>
+</head>
+<body class="my" ng-controller="rootC" ontouchstart="">
+
+<script id="panelTemp" type="text/ng-template">
+    <div data-role="panel" class="myPanel inject" data-position-fixed="true"
+         data-position="left"  data-display="overlay">
+        <h1><img src="images/logo.gif"/></h1>
+        <ul class="panelul" data-role="listview" data-inset="false">
+            <li>
+                <a href="#!/">首页</a>
+            </li>
+            <li>
+                <a href="#!/filterlv1/%7B%22search_type%22:%22good%22,%22lv%22:%221%22%7D">浏览商品</a>
+            </li>
+            <li>
+                <a href="#!/account">管理中心</a>
+            </li>
+			<li>
+                <a href="#!/news">新闻中心</a>
+            </li>
+            <li class="newMsg">
+                <a href="#!/chatlist">新消息</a>
+                <span class="ui-li-count">0</span>
+            </li>
+            <li>
+                <a href="#!/buy">我的订单</a>
+            </li>
+        </ul>
+    </div>
+
+    <div id="blueline" class="bluelineShadow inject"> </div>
+</script>
+
+
+<!--TODO 首页-->
+<div id="pagemain" ng-controller="mainCtrl" data-role="page" ngm-pageshow="pre()">
+
+
+
+    <header data-role="header" data-position="fixed">
+        <a ngm-vclick="openPanel()" class="ui-btn-left" data-icon="bars" data-role="button">快速链接</a>
+        <h1>中国汽配市场</h1>
+        <a href="#!/login" ng-show="!islogged" id="goLogin" class="ui-btn-right" data-icon="arrow-u" data-role="button">登录</a>
+
+    </header>
+
+    <section data-role="content" id="mainContent" >
+        <div id="mainpageTop">
+            <form data-ajax="false" src="" ng-submit="mainsearch()">
+                <input data-mini="true" data-ng-model="mainSearch" type="search" value="" placeholder="搜索商品和商店"/>
+
+            </form>
+
+
+
+            <link rel="stylesheet" href="libs/swiper/idangerous.swiper.css">
+            <link rel="stylesheet" href="libs/swiper/idangerous.swiper.3dflow.css">
+            <style>
+                .swiper-slide{
+                    background-size: cover !important;
+                    background-position: right !important;
+                    cursor: pointer;
+                }
+                .swiper-slide a {
+                    display:block;
+                    width:100%;
+                    height:100%;
+                    cursor: pointer;
+                }
+            </style>
+            <div class="swiper-container">
+                <div class="swiper-wrapper">
+                    <!--First Slide-->
+                    <div class="swiper-slide">
+                        <a href="#"></a>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+
+        <div class="ui-grid-c" id="navigator">
+            <div class="ui-block-a flexbox-center">
+                <a href="#!/filterlv1/%7B%22search_type%22:%22good%22,%22lv%22:%221%22%7D">
+                    <h3>浏览商品</h3>
+                    <img src="images/nav/llsp.svg" />
+                </a>
+            </div>
+            <div class="ui-block-b flexbox-center">
+                <a href="#!/news">
+                    <h3>新闻分类</h3>
+                    <img src="images/nav/hyzx.svg" />
+                </a>
+            </div>
+            <div class="ui-block-c flexbox-center">
+                <a href="#!/goods">
+                    <h3>产品管理</h3>
+                    <img src="images/nav/cpgl.svg" />
+                </a>
+            </div>
+            <div class="ui-block-d flexbox-center">
+                <a href="#!/buy">
+                    <h3>订单管理</h3>
+                    <img src="images/nav/ddgl.svg" />
+                </a>
+            </div>
+
+            <div class="ui-block-a flexbox-center">
+                <a href="#!/buddyChat">
+                    <h3>商友聊天</h3>
+                    <img src="images/nav/hylt.svg" />
+                </a>
+            </div>
+            <div class="ui-block-b flexbox-center">
+                <a href="#!/chatlist">
+                    <h3>问询记录</h3>
+                    <img src="images/nav/wxjl.svg" />
+                </a>
+            </div>
+            <div class="ui-block-c flexbox-center">
+                <a href="#!/near">
+                    <h3>附近商户</h3>
+                    <img src="images/nav/fjsh.svg" />
+                </a>
+            </div>
+            <div class="ui-block-d flexbox-center">
+                <a href="#!/account">
+                    <h3>管理中心</h3>
+                    <img src="images/nav/zztg.svg" />
+                </a>
+            </div>
+        </div><!-- /grid -->
+
+
+    </section>
+
+
+
+    <!--<div data-role="footer" data-position="fixed">-->
+    <!--<div data-role="navbar">-->
+    <!--<ul>-->
+    <!--<li><a href="#" data-icon="grid">Summary</a></li>-->
+    <!--<li><a href="#" data-icon="star" class="ui-btn-active">Favs</a></li>-->
+    <!--<li><a href="#!/shop" data-icon="gear">管理店铺</a></li>-->
+    <!--</ul>-->
+    <!--</div>-->
+    <!--</div>-->
+</div>
+<!--首页结束-->
+
+
+
+
+
+
+
+
+    <div id="popup" data-role="popup" class="ui-content" style="max-width:80%;display: none;">
+        <a ngm-vclick="closepop()" data-role="button" data-theme="a" data-icon="delete" data-iconpos="notext" class="ui-btn-right">Close</a>
+        <p id="poptext">pop</p>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+<script src="libs/angular.min.js"></script>
+
+<script src="libs/jquery-mobile-angular-adapter.min.js"></script>
+<script src="js/services/ready.js"></script>
+<script src="js/services/geolocation.js"></script>
+
+<script src="js/route.js"></script>
+
+<script src="js/directives.js"></script>
+<script src="js/filters.js"></script>
+<!--浏览器里要注释掉-->
+<script src="js/services/notification.js"></script>
+
+<script src="js/services/localStorageService.js"></script>
+
+<script src="js/services/service.js"></script>
+<script src="js/services/geo.js"></script>
+<script src="js/services/share.js"></script>
+
+<script src="js/controllers/rootC.js"></script>
+<script src="js/controllers/mainCtrl.js"></script>
+<script defer src="js/controllers/loginCtrl.js"></script>
+<script defer src="js/controllers/regCtrl.js"></script>
+<script defer src="js/controllers/shopCtrl.js"></script>
+<script defer src="js/controllers/shopguestCtrl.js"></script>
+
+<script defer src="js/controllers/accCtrl.js"></script>
+<script defer src="js/controllers/chatlistCtrl.js"></script>
+<script defer src="js/controllers/dialogueCtrl.js"></script>
+<script defer src="js/controllers/addgoodCtrl.js"></script>
+<script defer src="js/controllers/goodslistCtrl.js"></script>
+<script defer src="js/controllers/gooddetailCtrl.js"></script>
+<script defer src="js/controllers/uploadMoreCtrl.js"></script>
+<script defer src="js/controllers/searchCtrl.js"></script>
+<script defer src="js/controllers/filterCtrl.js"></script>
+<script defer src="js/controllers/nearshopCtrl.js"></script>
+<script defer src="js/controllers/myqrCtrl.js"></script>
+<script defer src="js/controllers/orderCtrl.js"></script>
+<script defer src="js/controllers/orderlistCtrl.js"></script>
+<script defer src="js/controllers/orderlistSellCtrl.js"></script>
+<script defer src="js/controllers/orderDetailCtrl.js"></script>
+<script defer src="js/controllers/chatlistCtrl.js"></script>
+<script defer src="js/controllers/favCtrl.js"></script>
+<script defer src="js/controllers/buddyChatCtrl.js"></script>
+<script defer src="js/controllers/searchFriendCtrl.js"></script>
+<script defer src="js/controllers/newsCtrl.js"></script>
+
+
+<script defer src="js/controllers/shareCtrl.js"></script>
+<script src="js/other/other.js"></script>
+</body>
+</html>

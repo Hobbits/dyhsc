@@ -1,0 +1,95 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>{echo: lp{m_u_center};/}</title>
+<link rel="stylesheet" type="text/css" href="skin/{echo: $SYSINFO['templates'];/}/css/modules.css">
+<link rel="stylesheet" type="text/css" href="skin/{echo: $SYSINFO['templates'];/}/css/layout.css">
+<link rel="stylesheet" type="text/css" href="skin/{echo: $SYSINFO['templates'];/}/css/style.css">
+<script type="text/javascript" src="skin/{echo: $SYSINFO['templates'];/}/js/changeStyle.js"></script>
+<script type="text/javascript" src="skin/{echo: $SYSINFO['templates'];/}/js/userchangeStyle.js"></script>
+<style type="text/css">
+
+</style>
+</head>
+<body onload="menu_style_change('user_remind_info');changeMenu();">
+	{inc: require("shop/index_header.php");/}
+	<div class="site_map">
+	  {echo:lp{m_current_position};/}<A href="index.php">{echo:$SYSINFO['sys_name'];/}</A>/<a href="modules.php">{echo:lp{m_u_center};/}</a>/&nbsp;&nbsp;{echo: lp{m_my_remind};/}
+	</div>
+    <div class="clear"></div>
+    {inc: require("modules/left_menu.php");/}
+		<div class="main_right">
+        	<div class="right_top"></div>
+            <div class="cont">
+                <div class="cont_title">{echo: lp{m_my_remind};/}</div>
+                <hr />
+				<form action="do.php?act=user_remind_info" method="post" name="form_profile" onsubmit="return submitform();">
+				<table width="98%" class="form_table">
+					<tr class="center">
+						<th><input type="checkbox" onclick="checkall(this);" value='' /></th>
+						<th>{echo:lp{m_message_content};/}</th>
+						<th>{echo:lp{m_time_send};/}</th>
+						<th>{echo:lp{m_message_state};/}</th>
+						<th>{echo:lp{m_manage};/}</th>
+					</tr>
+				{sta:foreach($remind_rs as $val)[loop]}
+					<tr class="center">
+						<td><input type="checkbox" name="searchkey[]" value={echo:$val['rinfo_id'];/} /></td>
+						<td class="left">{echo:$val['remind_info'];/}</td>
+						<td>{echo:$val['remind_time'];/}</td>
+						<td>{sta:if($val['isread']==0)[exc]}<span style='color:red;'> {end:if/}{echo:$type[$val['isread']];/}</td>
+						<td>
+						{sta:if($val['isread']==0)[exc]}<a href="do.php?act=user_remind_info&searchkey={echo:$val['rinfo_id'];/}&updsubmit=updsubmit">{echo:lp{m_mark_read};/}</a> | {end:if/}
+						{sta:if($val['isread']!=2)[exc]}<a href="do.php?act=user_remind_info&searchkey={echo:$val['rinfo_id'];/}&deletesubmit=deletesubmit" onclick="return confirm('{echo:lp{m_confirm};/}');">{echo:lp{m_del};/}</a>{end:if/}
+						{sta:if($val['isread']==2)[exc]}{echo:$type[$val['isread']];/}{end:if/}
+						</td>
+					</tr>
+				{end:foreach/}
+				<tr><td colspan="5"><INPUT class="submit" onclick="return confirm('{echo:lp{m_confirm};/}');" type=submit value="{echo:lp{m_mark_read};/}" name=updsubmit> <INPUT class="submit" onclick="return confirm('{echo:lp{m_confirm};/}');" type=submit value="{echo:lp{m_del};/}" name=deletesubmit> </td></tr>
+				</table>
+				</form>
+            </div>
+            <div class="clear"></div>
+			<div class="right_bottom"></div>
+			<div class="back_top"><a href="#"></a></div>
+        </div>
+    {inc: require("shop/index_footer.php");/}
+<script language="JavaScript" src="../servtools/ajax_client/ajax.js"></script>
+<script language="JavaScript">
+<!--
+var inputs = document.getElementsByTagName("input");
+function submitform() {
+	var checknum = 0;
+	for(var i=0; i<inputs.length; i++) {
+		if(inputs[i].type=='checkbox') {
+			if(inputs[i].checked && inputs[i].value) {
+				checknum++;
+			}
+		}
+	}
+	if(checknum==0) {
+		alert("{echo:lp{m_choice};/}");
+		return false;
+	}
+	return true;
+}
+function checkall(obj) {
+	if(obj.checked) {
+		for(var i=0; i<inputs.length; i++) {
+			if(inputs[i].type=='checkbox') {
+				inputs[i].checked = true;
+			}
+		}
+	} else {
+		for(var i=0; i<inputs.length; i++) {
+			if(inputs[i].type=='checkbox') {
+				inputs[i].checked = false;
+			}
+		}
+	}
+}
+//-->
+</script>
+</body>
+</html>

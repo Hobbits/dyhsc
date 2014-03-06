@@ -1,0 +1,118 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>{echo: lp{m_u_center};/}</title>
+<link rel="stylesheet" type="text/css" href="skin/{echo: $SYSINFO['templates'];/}/css/modules.css">
+<link rel="stylesheet" type="text/css" href="skin/{echo: $SYSINFO['templates'];/}/css/layout.css">
+<link rel="stylesheet" type="text/css" href="skin/{echo: $SYSINFO['templates'];/}/css/style.css">
+<script type="text/javascript" src="skin/{echo: $SYSINFO['templates'];/}/js/changeStyle.js"></script>
+<script type="text/javascript" src="skin/{echo: $SYSINFO['templates'];/}/js/userchangeStyle.js"></script>
+
+<style type="text/css">
+.red{color:red;}
+</style>
+</head>
+<body onload="changeMenu();">
+	{inc: require("shop/index_header.php");/}
+	<div class="site_map">
+	  {echo:lp{m_current_position};/}<A href="index.php">{echo:$SYSINFO['sys_name'];/}</A>/<a href="modules.php">{echo:lp{m_u_center};/}</a>/&nbsp;&nbsp;{echo: lp{m_hiserver_member};/}
+	</div>
+    <div class="clear"></div>
+	{inc: require("modules/left_menu.php");/}
+		<div class="main_right">
+            <div class="right_top"></div>
+            <div class="cont">
+                <div class="cont_title">{echo: lp{m_hiserver_member};/}</div>
+			     <div id="stepTip">
+			      <ul class="list_step clearfix">
+			     <li  class="now">{echo: lp{m_u_first};/}:<br />{echo: lp{m_a_info};/}</li>
+			     <li>{echo: lp{m_u_secound};/}:<br />{echo: lp{m_a_shop_info};/}</li>
+			     <li>{echo: lp{m_u_third};/}:<br />{echo: lp{m_a_manager_info};/}</li>
+			     <li style="padding-right:0">{echo: lp{m_u_fore};/}:<br />{echo: lp{m_accomplish};/}</li>
+			     </ul>
+			     </div>
+                <hr />
+				<form action="do.php?act=shop_request" method="post" name="form_shop_request" onsubmit="return check_form(this)" enctype="multipart/form-data">
+				<table width="100%" border="0" cellspacing="0">
+				
+					{sta: if($request_info['status']=='1')[exc]}
+						<tr><td align="center">{echo: lp{m_hiserver_member_suc};/}</td></tr>
+					{sta: }else [exc]}
+						{sta: if($request_info['status']=='2')[exc]}
+						<tr><td align="center" colspan="2"><font color="red"><B>{echo: lp{m_hiserver_member_fail};/}</B></font></td></tr>
+						{end:if/}
+					<tr><td class="textright" width="40%">{echo: lp{m_request_compayname};/}：</td><td><input type="text" name="company_name" value="{echo: $request_info['company_name'];/}" style="width:200px" /> <span class="red">*</span></td></tr>
+					<tr><td class="textright">{echo: lp{m_request_personname};/}：</td><td><input type="text" name="person_name" value="{echo: $request_info['person_name'];/}" style="width:100px" /> <input type="hidden" name="request_id" value="{echo: $request_info['request_id'];/}" /></td></tr>
+					<tr><td class="textright">{echo: lp{m_request_criedtype};/}：</td><td>
+					<select name="credit_type">
+					<option value="{echo: lp{m_request_sfz};/}">{echo: lp{m_request_sfz};/}</option>
+					<option value="{echo: lp{m_request_jgz};/}">{echo: lp{m_request_jgz};/}</option>
+					<option value="{echo: lp{m_request_operatenum};/}">{echo: lp{m_request_jgz};/}</option>
+					</select> <span class="red">*</span></td></tr>
+					<tr><td class="textright">{echo: lp{m_request_criednum};/}：</td><td><input type="text" name="credit_num" value="{echo: $request_info['credit_num'];/}" maxlength="200" style="width:200px" /> <span class="red">*</span></td></tr>
+					<tr><td class="textright">{echo: lp{m_paper_upload};/}：</td><td><input type="file" name="attach[]" /> <span class="red">*</span>{echo: lp{m_request_supporttype};/}（jpg,gif,png）</td></tr>
+					<tr><td class="textright">{echo: lp{m_request_comaddress};/}：</td><td><input type="text" name="company_area" maxlength="200" style="width:200px" value="{echo: $request_info['company_area'];/}" /> </td></tr>
+					<tr><td class="textright">{echo: lp{m_request_moraddress};/}：</td><td><input type="text" name="company_address" value="{echo: $request_info['company_address'];/}" maxlength="200" style="width:300px" /> <span class="red">*</span></td></tr>
+					<tr><td class="textright">{echo: lp{m_request_zip};/}：</td><td><input type="text" name="zipcode" value="{echo: $request_info['zipcode'];/}" maxlength="10" style="width:100px" /> <span class="red">*</span></td></tr>
+					<tr><td class="textright">{echo: lp{m_request_mobile};/}：</td><td><input type="text" name="mobile" value="{echo: $request_info['mobile'];/}" maxlength="20" style="width:200px" /> <span class="red">*</span></td></tr>
+					<tr><td class="textright">{echo: lp{m_request_phone};/}：</td><td><input type="text" name="telphone" value="{echo: $request_info['telphone'];/}" maxlength="20" style="width:200px" /> <span class="red">*</span></td></tr>
+					<tr><td colspan="2" align="center"><input type="hidden" name="user_id" value="{echo: $user_id;/}" />
+					<input type="submit" name="submit" value="{echo: lp{m_post_app};/}" /></td></tr>
+					<tr><td colspan="2" align="center">{echo: lp{m_request_suc_correctnum};/}</td></tr>
+					{end:if/}
+				</table>
+				</form>
+            </div>
+            <div class="clear"></div>
+			<div class="right_bottom"></div>
+			<div class="back_top"><a href="#"></a></div>
+        </div>
+{inc: require("shop/index_footer.php");/}
+</body>
+</html>
+<script language="JavaScript" type="text/javascript">
+	function check_form(obj){
+		if(obj.company_name.value==''){
+			alert("{echo:lp{m_check_complay};/}");
+			return false;
+		}
+		
+		if(obj.credit_num.value==''){
+			alert("{echo:lp{m_check_card};/}");
+			return false;
+		}
+		if(isNaN(obj.credit_num.value.substr(0,obj.credit_num.value.length-1))){
+			alert("{echo:lp{m_check_truecard};/}");
+			return false;
+		}
+		if(obj.company_address.value==''){
+			alert("{echo:lp{m_check_address};/}");
+			return false;
+		}
+		if(obj.zipcode.value==''){
+			alert("{echo:lp{m_check_postcode};/}");
+			return false;
+		}
+		if(isNaN(obj.zipcode.value)){
+			alert("{echo:lp{m_check_postcodeisnum};/}");
+			return false;
+		}
+		if(obj.mobile.value==''){
+			alert("{echo:lp{m_check_mobile};/}");
+			return false;
+		}
+		if(isNaN(obj.mobile.value)){
+			alert("{echo:lp{m_check_mobileisnum};/}");
+			return false;
+		}
+		if(obj.telphone.value==''){
+			alert("{echo:lp{m_check_phone};/}");
+			return false;
+		}
+		if(isNaN(obj.telphone.value)){
+			alert("{echo:lp{m_check_phoneisnum};/}");
+			return false;
+		}
+	}
+</script>

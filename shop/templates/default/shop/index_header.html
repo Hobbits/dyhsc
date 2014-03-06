@@ -1,0 +1,44 @@
+<div id="header" class="clearfix">
+    <div class="site_nav clearfix">
+      <p class="login_info"><span>{echo: lp{i_welcome};/}{echo:$SYSINFO['sys_name'];/}!</span>{sta: if($USER['login'])[exc]}{echo: lp{i_hi};/}! {echo: $USER['user_name'];/} <a href="do.php?act=logout">{echo: lp{i_logout};/}</a>{sta:} else [exc]}<a href="login.php">{echo:lp{i_login};/}</a>&nbsp;|&nbsp;<a href="modules.php?app=reg">{echo:lp{i_register_free};/}</a>{end:if/}</p>
+      <p class="quick_menu">
+        <a href="index.php">{echo:lp{i_shop_index};/}</a><a href="modules.php">{echo:lp{i_u_center};/}</a>
+        <a class="shop_cart" href="modules.php?app=user_cart">{echo:lp{i_cart};/}</a>
+        <a href="modules.php?app=user_favorite">{echo:lp{i_favorite};/}</a>
+      </p>
+    </div>
+    <div class="topMain clearfix">
+      <h1 id="logo">
+  		{sta: if($SYSINFO['sys_logo'])[exc]}
+			<a href="index.php">
+				<img src="{echo:$SYSINFO['sys_logo'];/}" title="{echo:$SYSINFO['sys_name'];/}" style="float:left;width:209px; height:43px;" onerror="this.src='skin/default/images/nopic.gif'"/>
+			</a>
+  		{sta:}else [exc]}
+  			<a href="index.php"><img src="skin/{echo: $SYSINFO['templates'];/}/images/img_logo.gif" title="" alt="{echo:$SYSINFO['sys_name'];/}" /></a>
+  		{sta:if/}
+      </h1>
+      <form action="search.php" method="POST" id="search_form" >
+      <div class="search_panel clearfix">
+    	<p class="search_sel" onclick="setShow('sel_content');setOnShowPara('sel_content');">
+			{sta: if($search_header_type == lp{i_s_company})[exc]}
+				<input class="sel_value" id="sel_value" value="{echo:lp{i_s_company};/}" name="search_type" type="text" />
+  			{sta:}else [exc]}
+    			<input class="sel_value" id="sel_value" value="{echo:lp{i_goods_search};/}" name="search_type" type="text" />
+			{sta:if/}
+    	</p>
+    	{sta:if(!$ksearch)[exc]}
+        <p class="search_txt"><input name="k" type="text" onblur="inputTxt(this,'set');" onfocus="inputTxt(this,'clean');" value="{echo:lp{i_search_keyword};/}" /></p>
+       {sta:}else[exc]}
+       <p class="search_txt"><input name="k" type="text" onblur="inputTxt(this,'set');" onfocus="inputTxt(this,'clean');" style="color:#000000;"; value="{echo:$ksearch;/}" /></p>
+       {sta:if/}
+       
+        <p class="search_btn"><input type="submit" value="" /></p>
+        <div id="sel_content" class="sel_list" style="display:none">
+        	<ul><li onclick="document.getElementById('sel_value').value = this.innerHTML" onmouseover="this.className = 'li_hover'" onmouseout="this.className = ''">{echo:lp{i_goods_search};/}</li><li onclick="document.getElementById('sel_value').value = this.innerHTML" onmouseover="this.className = 'li_hover'" onmouseout="this.className = ''">{echo:lp{i_s_company};/}</li></ul>
+        </div>
+      </div>
+      </form>
+    </div>
+</div>
+
+<input type="text" name="sel_content_c" id="sel_content_c" size="0" onblur="javascript:timerSetHidden('sel_content',200);" style="top:-100px;position:absolute;width:1px;height:1px;border:0px;background-color:transparent;" value="1">

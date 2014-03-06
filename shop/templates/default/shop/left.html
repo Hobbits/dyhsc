@@ -1,0 +1,83 @@
+    <div id="shopContents" class="clearfix">
+      <div id="leftCloumn">
+        <div class="shopInfo mg12b" >
+          <h2><p><img src="{echo: $SHOP['shop_logo'] ? $SHOP['shop_logo'] : 'skin/default/images/shop_nologo.gif';/}" alt="{echo: $SHOP['shop_name'];/}"   /></p></h2>
+          <p>{echo:lp{s_nickname};/}：<span><a target="_blank" href="" title="{echo: $ranks['user_name'];/}">{echo: $ranks['user_name'];/}</a></span></p>
+          {sta:if($im_enable==true)[exc]}<p>{echo:lp{s_contact_seller};/}：<script src="imshow.php?u={echo:$SHOP['user_id'];/}"></script></p>{end:if/}
+          <p>{echo:lp{s_goods_num};/}：<span>{echo: $SHOP['goods_num'];/}</span></p>
+
+          <p>{echo:lp{s_seller_c};/}：<a href="shop_rank.php" hideFocus=true>
+		  <img style="margin-left:5px; vertical-align:text-bottom" src="{echo:$credit_row['int_img'];/}" title="{echo:$credit['SUM(seller_credit)'];/}" />
+		  </a></p>
+
+
+          <p>{echo:lp{s_new_login};/}：<span>{echo: $ranks['last_login_time'];/}</span></p>
+          <p>{echo:lp{s_creat_time};/}：<span>{echo: $SHOP['shop_creat_time'];/}</span></p>
+          <p>{echo:lp{s_approve_info};/}：<span><a href="javascript:;" title="{echo:$rank_name['rank_name'];/}"  class="shop_cert left">{echo:$rank_name['rank_name'];/}</a></span></p>
+		  <p><a class="favShop" onclick="add_shopFavorite({echo: $shop_id;/})" href="javascript:;">{echo:lp{s_store_shop};/}</a>
+<!--		  <a class="setLatter" href="shop.php?shopid={echo: $shop_id;/}&app=index#message">{echo:lp{s_send_mail};/}</a>-->
+		  </p>
+        </div>
+        <div class="shopSearch bg_gary mg12b">
+          <h3 class="ttlm_shopsec"><a class="highlight" href="ucategory.php?s={echo: $SHOP['shop_id'];/}">{echo:lp{s_store_insearch};/}</a></h3>
+          <form action="ucategory.php" method="get">
+            <input name="s" value="{echo: $SHOP['shop_id'];/}" type="hidden" />
+          <p>
+            <input class="txt_ser" name="k" type="text" />
+            <input class="btn_ser mg20b" value="{echo:lp{s_search};/}" type="submit" />
+          </p>
+          <input type="hidden" name="shop_user" id="shop_user" value="{echo:$USER['user_id'];/}">
+          </form>
+        </div>
+        <div class="itemsCate bg_gary">
+          <h3 class="ttlm_itemsCate"><a href="{echo: shop_url($shop_id,'products');/}">{echo:lp{s_goods_category};/}</a></h3>
+          <ul class="items">
+            {sta: if(empty($category_list_new))[exc]}
+            <li class="unflod">
+            <h4><a href="">{echo: lp{s_shop_noaddcategory};/}</a></h4>
+            </li>
+            {sta:} else {
+                $category_0 = get_sub_category($category_list_new,0);
+                foreach($category_0 as $v) [loop]}
+            <li class="unflod">
+            <h4><a href="{echo: ucategory_url($v['shop_cat_id']);/}">{echo: $v['shop_cat_name'];/}</a></h4>
+            {sta:
+                $category_sub = get_sub_category($category_list_new,$v['shop_cat_id']);
+                if(!empty($category_sub))[exc]}
+            <ul class="per_items">
+                {sta:foreach($category_sub as $value) [loop]}
+                    <li><h4><a href="{echo: ucategory_url($value['shop_cat_id']);/}">{echo: $value['shop_cat_name'];/}</a></h4></li>
+                {sta: foreach/}
+            </ul>
+                {sta: if/}
+            </li>
+            {sta: foreach/}
+            {end:if/}
+          </ul>
+        </div>
+      </div>
+<script language="JavaScript" src="servtools/ajax_client/ajax.js"></script>
+<script language="JavaScript">
+	<!--
+
+		function add_shopFavorite(id) {
+			var user_id = document.getElementById('shop_user').value;
+			if (id == user_id){
+				alert("{echo:lp{s_myshop_error};/}");
+			}else {
+				ajax("do.php?act=shop_add_favorite","POST","id="+id,function(data){
+					if(data == 1) {
+						alert("{echo: lp{s_g_addedfavorite};/}");
+					} else if(data == -1) {
+						alert("{echo: lp{s_store_info};/}");
+					} else if(data == -2){
+						alert("{echo: lp{s_shop_error1};/}");
+					}else {
+						alert("{echo: lp{s_g_addfailed};/}");
+					}
+				});
+			}
+		}
+
+	//-->
+</script>

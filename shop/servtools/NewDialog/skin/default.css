@@ -1,0 +1,46 @@
+/*	2010-06-01  */
+
+.ui_title_wrap, .ui_bottom button { font-size:12px 'Microsoft Yahei', Arial; }
+.ui_content_wrap { min-width:9em; }/*设置对话框最小尺寸*/
+.ui_dialog, .ui_dialog_main { border:1px solid #000!important; }
+.ui_border { background-color:#000; filter:alpha(opacity=30); opacity:0.3; }/*设置外边框透明度*/
+.ui_focus .ui_border { filter:alpha(opacity=50); opacity:0.5; }
+.ui_move .ui_border { filter:alpha(opacity=40); opacity:0.4; }
+.ui_td_00, .ui_td_02, .ui_td_20, .ui_td_22 { width:8px; height:8px; }/*设置边框厚度*/
+.ui_overlay div { background:#000; filter:alpha(opacity=70); opacity:0.7; }/*设置遮罩颜色与透明度*/
+.ui_focus .ui_dialog_main { -moz-box-shadow: 0 0 3px rgba(0, 0, 0, 0.7); -webkit-box-shadow: 0 0 3px rgba(0, 0, 0, 0.7); box-shadow: 0 0 3px rgba(0, 0, 0, 0.7); }
+.ui_focus .ui_td_21 { -moz-box-shadow: 0 5px 5px rgba(0, 0, 0, 0.3); -webkit-box-shadow: 0 5px 5px rgba(0, 0, 0, 0.3); box-shadow: 0 5px 5px rgba(0, 0, 0, 0.3); }/*CSS3投影*/
+.ui_move .ui_td_21 { -moz-box-shadow:none; -webkit-box-shadow:none; box-shadow:none; }
+.ui_dialog_main { background-color:#FFF; }
+.ui_title { position:relative; height:100%; border-bottom:2px solid #EBEBEB; }
+.ui_move .ui_title { border-bottom:2px solid #FFF; }
+.ui_title_text { height:30px; line-height:30px; padding:0 30px 0 10px; background-color:#3A6EA5; font-weight:700; color:#EBEBEB; border-style:solid; border-width:1px; border-color:#4E84C0 #4E84C0 #0D1D3C #4E84C0; text-shadow:0 1px 0 #000; -moz-box-shadow: inset 0 -2px 2px rgba(0, 0, 0, 0.2); -webkit-box-shadow: inset 0 -2px 2px rgba(0, 0, 0, 0.2); box-shadow: inset 0 -2px 2px rgba(0, 0, 0, 0.2); }
+.ui_move .ui_title_text { color:#FFF; }
+.ui_focus .ui_title_text { background-color:#214FA3; }
+.ui_close { padding:0; top:6px; right:6px; width:13px; height:13px; line-height:13px; text-align:center; color:#FFF!important; text-decoration:none; border:1px solid #3A6EA5; }
+.ui_focus .ui_close { border:1px solid #214FA3; }
+.ui_close:hover { text-decoration:none; background-color:#771C35; border:1px solid #000; cursor:default; }
+.ui_close:active { background-color:#A80000; }
+.ui_content { color:#666; }
+.ui_focus .ui_content { color:#000; }
+.ui_resize { width:8px; height:8px; }
+.ui_loading_tip { color:#808080; }/*loading提示*/
+.ui_move_temp div { background-color:#214FA3; filter:alpha(opacity=40); opacity:0.4; }/*拖动用的替身对话框*/
+.ui_btns { background-color:#F6F6F6; border-top:1px solid #EBEBEB; border-bottom:1px solid #CCC; -moz-box-shadow: inset 0 -2px 2px rgba(204, 204, 204, 0.3); -webkit-box-shadow: inset 0 -2px 2px rgba(204, 204, 204, 0.3); box-shadow: inset 0 -2px 2px rgba(204, 204, 204, 0.3); }
+.ui_btns button { padding:2px 4px; letter-spacing:2px; }
+* html .ui_ie6_select_mask { left:-1px!important; top:-1px!important; }
+
+/*
+风格拓展参数[可添加组合在'style'参数中]
+可用来支持消息类型图标等
+*/
+
+/*没有标题栏*/
+.noTitleBar .ui_title_wrap { height:0; _display:none; visibility:hidden; }
+/*去除所有背景*/
+.noSkin .ui_border, .noSkin .ui_title_wrap, .noSkin .ui_dialog_icon { display:none; }
+.noSkin .ui_bottom_wrap { display:none; *display:block; *height:0; overflow:hidden; }
+* html .noSkin .ui_btns { height:0; overflow:hidden; position:absolute; left:-99999em; }
+.noSkin .ui_content { margin:0; }
+.noSkin .ui_dialog_main { background:transparent; border:none 0!important; }
+.noSkin .ui_content_wrap { min-width:inherit; _width:auto; }

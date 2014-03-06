@@ -1,0 +1,54 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>{echo: $header['title'];/}</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="keywords" content="{echo: $header['keywords'];/}" />
+<meta name="description" content="{echo: $header['description'];/}" />
+<base href="{echo: $baseUrl;/}" />
+<link href="skin/{echo: $SYSINFO['templates'];/}/css/index.css" rel="stylesheet" type="text/css" />
+<link href="skin/{echo: $SYSINFO['templates'];/}/css/import.css" type="text/css" rel="stylesheet" />
+<link href="skin/{echo: $SYSINFO['templates'];/}/css/article.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="skin/{echo: $SYSINFO['templates'];/}/js/changeStyle.js"></script>
+</head>
+<body>
+<div id="wrapper">
+	{inc: require("shop/index_header.php");/}
+
+  <div id="contents" class="clearfix" >
+  <div id="pkz"> {echo:lp{i_location};/}：<a href="index.php">{echo:lp{i_index};/}</a> > {echo:$cat_name;/} </div>
+  <div id="mall_banner" class="mg12b"><script language="JavaScript" src="uploadfiles/asd/5.js"></script></div>
+  <h3 class="ttlm_infoContents">{echo:lp{s_message_center};/}</h3>
+    <div id="artContents" class=" clearfix">
+        <ul class="artlist_ttlm">
+        {sta:foreach($article_cat as $val)[loop]}
+            <li {sta:if($val['cat_id']==$cat_id)[exc]}class="now"{end:if/}><a href="{echo:article_list_url($val['cat_id']);/}">{echo:$val['cat_name'];/}</a></li>
+        {end:foreach/}
+        </ul>
+<!--main right end-->
+    <div class="artpan">
+        <ul class="artlist_txt" >
+        {sta:if($result['result'])[exc]}
+        {sta:foreach($result['result'] as $val)[loop]}
+            <li class="clearfix"><span class="right">{echo: $val['add_time'];/}</span>
+            <a href="{echo:article_list_url($val['cat_id']);/}">[{echo:$cat_name;/}]</a>
+            <a class="ttls" href="{echo:article_url($val['article_id']);/}"><font style="color:{echo: $val['tag_color'];/} ">{echo: $val['title'];/}</font></a></li>
+        {end:foreach/}
+        {end:}else{ ;/}
+        {echo:lp{i_none_articles};/}
+        {end:if/}
+        </ul>
+		<div class="pagenav clearfix">
+        	{sta:if($result['countpage']>0)[exc]}
+        	{inc: include("modules/page.php");/}
+            {end:if/}
+		</div>
+    </div>
+	</div>
+</div>
+<!-- main end -->
+{inc: require("shop/index_footer.php");/}
+<!--footer end-->
+</div>
+</body>
+</html>

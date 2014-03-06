@@ -1,0 +1,108 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>{echo: $header['title'];/}</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+<meta name="keywords" content="{echo: $header['keywords'];/}" />
+<meta name="description" content="{echo: $header['description'];/}" />
+<base href="{echo: $baseUrl;/}" />
+<link href="skin/{echo: $SYSINFO['templates'];/}/css/index.css" rel="stylesheet" type="text/css" />
+<link href="skin/{echo: $SYSINFO['templates'];/}/css/import.css" type="text/css" rel="stylesheet" />
+<link href="skin/{echo: $SYSINFO['templates'];/}/css/article.css" type="text/css" rel="stylesheet" />
+<link href="skin/{echo: $SYSINFO['templates'];/}/css/parts.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="skin/{echo: $SYSINFO['templates'];/}/js/changeStyle.js"></script>
+<script type="text/javascript" src="js/changeStyle.js"></script>
+</head>
+<body>
+<div id="wrapper">
+{inc: include("shop/index_header.php");/}
+<!--search end -->
+	<div id="contents" class="clearfix" >
+		<div id="sub_channel">
+	      <ul class="clearfix">
+	      	<li>
+	          <h3><img src="skin/default/images/part/ttl_channel_all.gif" alt="{echo:lp{i_index};/}" /></h3>
+	        </li>
+	        <li><a href="shop_list.php">{echo:lp{i_store_list};/}</a></li>
+	      </ul>
+	    </div>
+
+		<div id="leftbar">
+	    <ul id="listShopType">
+			 {sta: foreach(array_slice ($CATEGORY[0], 0, 3) as $key=>$cat)[loop]}
+	        	<li>
+	            <h3><a href="{echo: category_url($cat['cat_id']);/}" title="{echo: $cat['cat_name'];/}">{echo: $cat['cat_name'];/}</a></h3>
+	            {sta:if(isset($CATEGORY[$cat['cat_id']]) && $CATEGORY[$cat['cat_id']])[exc]}
+	            <ul class="per_items clearfix">
+	                {sta: foreach(array_slice ($CATEGORY[$cat['cat_id']], 0, 3) as $subcat)[loop]}
+	                    <li><a href="" title="{echo: $cat['cat_name'];/}">{echo: $subcat['cat_name'];/}</a></li>
+	                {end:foreach/}
+	             </ul>
+	             {end:if/}
+	            </li>
+			{end:foreach/}
+    	</ul>
+	    </div>
+	<div id="rightbar">
+      	<div id="leftMian">
+			  <div class="top clearfix">
+				  <h3 class="ttlm_listshop">{echo:lp{i_like_storelist};/}</h3>
+				  <div class="sel_address">
+					<select name="area_select" onchange="area_change(this.value);">
+						<option value="0">{echo:lp{i_locus};/}</option>
+						{sta: foreach($area_list as $k=>$v)[loop]}
+							<option value="{echo: $v['area_id'];/}" {sta: if($v['area_id']==$area_id){echo 'selected';if/}>{echo: $v['area_name'];/}</option>
+						{end:foreach/}
+					</select>
+				  </div>
+			 </div>
+				<div id="listShop" class="c_m">
+			 	 <ul class="list_title clearfix">
+					<li class="summary" width="300px;">{echo:lp{i_s_com};/}</li>
+	                <li class="quantity ">{echo:lp{i_goods_num};/}</li>
+	                <li class="shopower">{echo:lp{i_shopour};/}</li>
+	                <li class="level">{echo:lp{i_is_vis};/}</li>
+					<li class="address">{echo:lp{i_in_area};/}</li>
+			 	 </ul>
+				  <ul class="list_view">
+						{sta: if($result['result']) {
+							foreach($result['result'] as $v) [loop]}
+						<li id="showli_4" class="clearfix">
+						  <div class="photo"><a target="_blank" href="{echo: shop_url($v['shop_id']);/}"><img src="{echo: $v['shop_logo'] ? $v['shop_logo'] : 'skin/default/images/shop/shop_logo.gif';/}" width="112" height="112" alt="" onerror="this.src='skin/default/images/nopic.gif'"/></a></div>
+						  <div class="smmery">
+							<h4><a href="{echo: shop_url($v['shop_id']);/}">{echo: $v['shop_name'];/}</a></h4>
+							<p class="des">[{echo: lp{i_info};/}]{echo: sub_str(strip_tags($v['shop_intro']),28);/}</p>
+						  </div>
+						  <div class="quantity">{echo: $v['goods_num'];/}</div>
+						  <div class="shopower"> <a class="" href="{echo: shop_url($v['shop_id']);/}">{echo: $v['user_name'];/}</a> </div>
+						  <div class="operating">  <a href="javascript:;" title="{echo:$v['rank_name'];/}"  class="addfavorite">{echo:$v['rank_name'];/}</a> </div>
+						  <div class="address">{echo: $areainfo[$v['shop_province']];/}.{echo: $areainfo[$v['shop_city']];/}</div>
+						</li>
+
+						{sta:  }} else {
+						echo "<li>".lp{i_comapny_none}."</li>";
+						if/}
+				  </ul>
+				</div>
+				<div class="pagenav clearfix">
+					{inc: require("modules/page.php");/}
+				</div>
+      	</div>
+      </div>
+	</div>
+</div>
+<!--main right end-->
+{inc: require("shop/index_footer.php");/}
+<!--footer end-->
+</body>
+<script language="JavaScript">
+<!--
+
+function area_change(value){
+	location.href = "shop_list.php?areaid="+value;
+}
+
+//-->
+</script>
+</html>

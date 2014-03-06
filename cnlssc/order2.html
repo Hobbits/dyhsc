@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>订单信息</title>
+</head> 
+</head>
+<body>
+<div ng-controller="orderCtrl" data-role="page" ngm-pageshow="step2get()">
+
+        <header data-role="header" data-position="fixed">
+            <a data-rel="back" class="ui-btn-left" data-direction="reverse" data-icon="arrow-l" data-role="button">后退</a>
+            <h1>订单信息</h1>
+            <a ngm-if="orderDetail.alipayOn" data-theme="b" class="ui-btn-right" data-iconpos="right" data-icon="arrow-r" data-role="button">支付</a>
+        </header>
+
+        <div data-role="content">
+            <ul data-role="listview" data-inset="true" >
+                <li>商品名称：{{orderDetail.goods_name}}</li>
+                <li>购买数量：{{orderDetail.order_num}}</li>
+                <li>单价：{{orderDetail.goods_price}}</li>
+                <li>运费：{{orderDetail.transport_price}}</li>
+                <li>应支付总金额：{{orderDetail.order_amount}}</li>
+                <li>支付方式:<span ngm-if="orderDetail.alipayOn">生成支付宝订单</span>
+                    <span ngm-if="!orderDetail.alipayOn">自己联系</span>
+                </li>
+                <li>发货地址：{{orderDetail.goodaddress}}</li>
+                <li>收货人：{{orderDetail.consignee}}</li>
+                <li>收货人电话：{{orderDetail.mobile}}</li>
+                <li>收货地址：{{orderDetail.address}}</li>
+                <li>订单号：{{orderDetail.payid}}</li>
+
+            </ul>
+            
+
+        </div>
+
+
+
+
+</div>
+</body>
+</html>

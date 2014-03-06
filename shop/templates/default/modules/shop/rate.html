@@ -1,0 +1,65 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>{echo: lp{m_u_center};/}</title>
+<link rel="stylesheet" type="text/css" href="skin/{echo: $SYSINFO['templates'];/}/css/modules.css">
+<link rel="stylesheet" type="text/css" href="skin/{echo: $SYSINFO['templates'];/}/css/layout.css">
+<link rel="stylesheet" type="text/css" href="skin/{echo: $SYSINFO['templates'];/}/css/style.css">
+<script type="text/javascript" src="skin/{echo: $SYSINFO['templates'];/}/js/changeStyle.js"></script>
+<script type="text/javascript" src="skin/{echo: $SYSINFO['templates'];/}/js/userchangeStyle.js"></script>
+
+</head>
+{sta: if($t=="seller")[exc]}
+	<body onload="menu_style_change('shop_rate_seller');changeMenu();">
+{sta: } else if($t=="buyer")[exc]}
+	<body onload="menu_style_change('shop_rate_buyer');changeMenu();">
+{sta: } else if($t=="bymain")[exc]}
+	<body onload="menu_style_change('shop_rate_bymain');changeMenu();">
+{end:if/}
+	{inc: require("shop/index_header.php");/}
+	<div class="site_map">
+	  {echo:lp{m_current_position};/}<A href="index.php">{echo:$SYSINFO['sys_name'];/}</A>/<a href="modules.php">{echo:lp{m_u_center};/}</a>/&nbsp;&nbsp;{sta: if($t=="seller")[exc]} {echo: lp{m_shoprate_frombuyer};/} {sta: } else if($t=="buyer")[exc]}{echo: lp{m_shoprate_fromseller};/}{sta: } else if($t=="bymain")[exc]}{echo: lp{m_shoprate_topep};/}{end:if/}
+	</div>
+    <div class="clear"></div>
+    {inc: require("modules/left_menu.php");/}
+		<div class="main_right">
+        	<div class="right_top"></div>
+            <div class="cont">
+                <div class="cont_title">{echo: lp{m_shoprate_manage};/}</div>
+                <hr />
+				<form action="do.php?act=user_passwd" method="post" name="form_passwd" >
+				<table width="100%" border="0" cellspacing="0">
+					<tr class="center">
+						<th width="100">{echo: lp{m_evaluate};/}</th>
+						<th>{echo: lp{m_comment};/}</th>
+						<th width="100">{echo: lp{m_commentators};/}</th>
+						<th>{echo: lp{m_goods_info};/}</th>
+						<th width="80">{echo: lp{m_manage};/}</th>
+					</tr>
+
+					{sta: if(!empty($result['result'])) {
+						foreach($result['result'] as $v) [loop]}
+					<tr>
+						<td class="center">{echo:$credit[$v['credit']];/}</td>
+						<td>{echo:$v['evaluate'];/}{sta:if($v['exptime'] and $v['explanation'])[exc]}<br />[{echo: lp{m_commentate};/}]{echo:$v['explanation'];/}{end:if/}<br />[{echo:$v['evaltime'];/}]</td>
+						<td class="center">{echo:$v['user_name'];/}</td>
+						<td><a href="{echo: goods_url($v['goods_id']);/}" target="_blank" style="font-size:12px; font-weight:bold; color:#0044DD" title="{echo:$v['goods_name'];/}">{echo:sub_str($v['goods_name'],50);/}</a>
+						<br />{echo: lp{m_price};/}：￥<span style="color:#FF6600; font-weight:bold;"><?php echo  $v['goods_price'];?></span>{echo: lp{m_yuan};/}</td>
+						<td>{sta:if(!$v['exptime'])[exc]}<a href="modules.php?app=shop_rate_r&id={echo: $v['cid'];/}&t={echo:$t;/}" >{echo: lp{m_commentate};/}</a>{end:if/}</td>
+					</tr>
+					{end:foreach/}
+					<tr><td colspan="5" class="page">{sta:require("modules/page.php");/}</td></tr>
+					{sta:}else [loop]}
+					<tr><td colspan="5" class="center">{echo: lp{m_nolist_record};/}</td></tr>
+					{end:if/}
+				</table>
+				</form>
+            </div>
+            <div class="clear"></div>
+			<div class="right_bottom"></div>
+			<div class="back_top"><a href="#"></a></div>
+        </div>
+    {inc: require("shop/index_footer.php");/}
+</body>
+</html>

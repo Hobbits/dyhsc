@@ -1,0 +1,103 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>{echo:lp{m_u_center};/}</title>
+<link rel="stylesheet" type="text/css" href="skin/{echo: $SYSINFO['templates'];/}/css/layout.css">
+<link rel="stylesheet" type="text/css" href="skin/{echo: $SYSINFO['templates'];/}/css/style.css">
+<link rel="stylesheet" type="text/css" href="skin/{echo: $SYSINFO['templates'];/}/css/common.css">
+<script type="text/javascript" src="skin/{echo: $SYSINFO['templates'];/}/js/changeStyle.js"></script>
+<script type="text/javascript" src="skin/{echo: $SYSINFO['templates'];/}/js/userchangeStyle.js"></script>
+
+<style type="text/css">
+
+</style>
+</head>
+<body>
+{inc: require("shop/index_header.php");/}
+	<div class="site_map">
+	  {echo:lp{m_current_position};/}<A href="index.php">{echo:$SYSINFO['sys_name'];/}</A>/<a href="modules.php">{echo:lp{m_u_center};/}</a>/&nbsp;&nbsp;{echo:lp{m_page_first};/}
+	</div>
+    <div class="clear"></div>
+	{inc: require("modules/left_menu.php");/}
+    <div class="main_right">
+		  <div class="cont">
+			  <div class="index_top">
+				  <div class="welcom_img"></div>
+					{echo: lp{m_last_login};/}: {echo:$user_info['last_login_time'];/}
+				  <br/>
+					{echo:lp{m_last_ip};/}: {echo:$user_info['last_ip'];/}
+				  <br/>
+					{echo:lp{m_you_have};/} <font color="#FF0000">{echo:$remind_num;/}</font> {echo:lp{m_site_rem};/}，<a href="modules.php?app=user_remind_info" class="highlight bold">{echo:lp{m_click_view};/}</a>
+				  <br/>
+				  <div class="q_nav">
+				  {sta:if(get_sess_shop_id()>0)[exc]}
+				  {sta: } else [exc]}
+				  <a id="qn_1" href="modules.php?app=shop_request" title="{echo:lp{m_i_mk_store};/}">{echo:lp{m_i_mk_store};/}</a>
+				  {end:if/}
+					  <a id="qn_2" href="modules.php?app=shop_rate&t=buyer" title="{echo:lp{m_buy_pingjia};/}">{echo:lp{m_buy_pingjia};/}</a>
+					  <a id="qn_3" href="modules.php?app=user_my_order" title="{echo:lp{m_order_inquiry};/}">{echo:lp{m_order_inquiry};/}</a>
+					  <a id="qn_4" href="modules.php?app=user_favorite" title="{echo:lp{m_my_favorite};/}">{echo:lp{m_my_favorite};/}</a>
+					  <a id="qn_5" href="modules.php?app=user_profile" title="{echo:lp{m_base_setting};/}">{echo:lp{m_base_setting};/}</a>
+				  </div>
+			  </div>
+		  </div>
+
+		  <div class="index_tab">
+			  
+			  <div class="tab_box">
+				  <b>{echo:lp{m_buy_prompt};/}</b>
+				  <hr />
+					{echo:lp{m_you_have};/} <span>{echo:$order_num_need_pay;/}</span> {echo:lp{m_pending_payment_order};/}“<b><a href="modules.php?app=user_my_order&state=3" class="highlight bold">{echo:lp{m_payment_orders_be};/}</a></b>”{echo:lp{m_in_payment};/}
+				  <br/>
+					{echo:lp{m_you_have};/} <span>{echo:$order_num_send;/}</span> {echo:lp{m_seller_shipped_orders};/}“<b><a href="modules.php?app=user_my_order&state=8" class="highlight bold">{echo:lp{m_yes_no};/}</a></b>”
+				  <br/>
+					{echo:lp{m_you_have};/} <span>{echo:$order_num;/}</span> {echo:lp{m_order_not_evaluated};/}“<b><a href="modules.php?app=user_my_order&state=9" class="highlight bold">{echo:lp{m_yes_pingjia};/}</a></b>”{echo:lp{m_confirmed};/}
+				  <br/>
+                  
+			  </div>
+			  
+	      </div>
+	      <div class="index_tab">
+			  
+			  <div class="tab_box">
+				 <b>{echo:lp{m_sell_prompt};/}</b>
+				  <hr />
+					{echo:lp{m_you_have};/} <span>{echo:$order_sale_no_pay;/}</span> {echo:lp{m_payment_no};/}{echo:lp{m_payment_no_to};/}“<b><a href="modules.php?app=shop_my_order&state=1" class="highlight bold">{echo:lp{m_payment_no};/}</a></b>”{echo:lp{m_confirmed};/}
+				  <br/>
+					{echo:lp{m_you_have};/} <span>{echo:$order_sale_no_huo;/}</span> {echo:lp{m_order_notransported_no};/}{echo:lp{m_payment_no_to};/}“<b><a href="modules.php?app=shop_my_order&state=8" class="highlight bold">{echo:lp{m_order_notransported_to};/}</a></b>”{echo:lp{m_confirmed};/}
+				  <br/>
+					{echo:lp{m_you_have};/} <span>{echo:$order_sale_no_ping;/}</span> {echo:lp{m_order_not_evaluated};/}“<b><a href="modules.php?app=shop_my_order&state=9" class="highlight bold">{echo:lp{m_completed_orders};/}</a></b>”{echo:lp{m_confirmed};/}
+				  <br/>
+				  	{echo:lp{m_you_have};/} <span>{echo:$order_sale_no_liu;/}</span> {echo:lp{m_unread_no};/}{echo:lp{m_payment_no_to};/}“<b><a href="modules.php?app=shop_guestbook&state=1" class="highlight bold">{echo:lp{m_unread_no};/}</a></b>”{echo:lp{m_unread_kan};/}
+				  <br/>
+                  
+			  </div>
+			  
+	      </div>
+	      <div class="clear"></div>
+	  	  <div class="back_top"><a href="#"></a></div>
+    </div>
+{inc: require("shop/index_footer.php");/}
+</body>
+<script language="JavaScript">
+<!--
+function change_style(flag) {
+	if (flag =='style1'){
+		document.getElementById('style1').className="current";
+		document.getElementById('style2').className="";
+		document.getElementById('display_order').style.display="block";
+		document.getElementById('display_favorite').style.display="none";
+
+	}
+	if (flag =='style2'){
+		document.getElementById('style1').className="";
+		document.getElementById('style2').className="current";
+		document.getElementById('display_order').style.display="none";
+		document.getElementById('display_favorite').style.display="block";
+	}
+}
+
+//-->
+</script>
+</html>

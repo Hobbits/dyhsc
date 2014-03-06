@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>商品图片</title>
+</head>
+<body>
+<!--TODO 商品图片-->
+<div data-role="page" class="unselectable" ng-controller="gooddetailCtrl" id="pagegoodGallery" ngm-pageshow="getitemInfo()">
+    <header data-role="header" data-position="fixed" data-id="gooddetailHeader">
+        <a data-rel="back" class="ui-btn-left" data-direction="reverse" data-icon="arrow-l" data-role="button">后退</a>
+        <h1>商品信息</h1>
+        <a ngm-if="isGoodowner" ng-href="#!/uploadmore/{{getgoodid()}}" class="ui-btn-right" data-icon="plus" data-role="button">添加图片</a>
+        <a ngm-if="!isGoodowner" data-ngm-vclick="fav('g',getgoodid())" class="ui-btn-right" data-icon="star" data-role="button">收藏</a>
+        <div data-role="navbar">
+            <ul>
+                <li><a templarlink="#!/gooddetail/{{getgoodid()}}/detailRev">详情</a></li>
+                <li><a class="ui-btn-active">图片集</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <div id="galleryTip" class="textbox-info">
+        翻开后长按可弹出菜单
+    </div>
+
+    <section data-role="content">
+
+        <ul data-role="none" class="gallery">
+            <li data-ng-repeat="img in galleryList">
+                <a style="background-image:url({{logobaseURL+img.img_thumb}});">
+                    <div ngm-taphold="showMenu($index,$event)" class="imgword">
+                        &nbsp;
+                    </div>
+                </a>
+            </li>
+        </ul>
+
+
+        <div id="imgmenu" data-role="popup" data-overlay-theme="a" data-theme="d">
+            <ul data-role="listview" data-inset="true">
+                <li><a data-ngm-vclick="menuAct(1)">查看原图</a></li>
+                <li ngm-if="isGoodowner"><a data-ngm-vclick="menuAct(2)">设为主图</a></li>
+                <li ngm-if="isGoodowner"><a data-ngm-vclick="menuAct(3)">删除此图</a></li>
+            </ul>
+        </div>
+
+
+        <div data-role="popup" id="popupIMG" data-overlay-theme="a" data-theme="d" data-corners="false">
+            <a data-ngm-vclick="closepop()" data-role="button" data-theme="a" data-icon="delete" data-iconpos="notext" class="ui-btn-right">Close</a>
+            <img class="popphoto" src="" />
+        </div>
+
+
+
+    </section>
+
+
+
+</div>
+<!--商品图片结束-->
+
+</body>
+</html>

@@ -1,0 +1,14 @@
+@charset "utf-8";
+/*----------------------------------------
+Name: import.css
+Date Created:2009/05/24 xian.zhang
+Last Updated:2009/05/24 xian.zhang
+----------------------------------------*/
+
+
+/*import common CSS
+----------------------------------------*/
+
+
+@import url("reset.css");
+@import url("common.css");

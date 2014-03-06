@@ -1,0 +1,13 @@
+{sta:if($result['countpage']>0)[exc]}
+	<a class="upPage"  href="{echo:'http://'.$_SERVER['SERVER_NAME'].$_SERVER['PHP_SELF'].$result['preurl'];/}">{echo:lp{m_page_pre};/}</a>
+		{sta:if($first_page==1)[exc]}
+			<a href="{echo:'http://'.$_SERVER['SERVER_NAME'].$_SERVER['PHP_SELF'].$result['nopage'].'1' ;/}" >{echo:'1';/}</a><span>...</span>
+		{end:if/}
+		{sta:for($i=$start_page;$i<=$end_page;$i++)[loop]}
+			<a {sta:if($i==$result['page'])[exc]} class="now" {end:if/} href="{echo:'http://'.$_SERVER['SERVER_NAME'].$_SERVER['PHP_SELF'].$result['nopage'].$i ;/}" >{echo:$i;/}</a>
+		{end:for/}
+		{sta:if($last_page==1)[exc]}
+			<span>...</span><a href="{echo:'http://'.$_SERVER['SERVER_NAME'].$_SERVER['PHP_SELF'].$result['nopage'].$result['countpage'] ;/}" >{echo: $result['countpage'];/}</a>
+		{end:if/}
+	<a class="nextPage" href="{echo:'http://'.$_SERVER['SERVER_NAME'].$_SERVER['PHP_SELF'].$result['nexturl'];/}" >{echo:lp{m_page_next};/}</a>
+{end:if/}

@@ -1,0 +1,103 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>{echo: lp{m_u_center};/}</title>
+<link rel="stylesheet" type="text/css" href="skin/{echo: $SYSINFO['templates'];/}/css/modules.css">
+<link rel="stylesheet" type="text/css" href="skin/{echo: $SYSINFO['templates'];/}/css/layout.css">
+<link rel="stylesheet" type="text/css" href="skin/{echo: $SYSINFO['templates'];/}/css/style.css">
+<script type="text/javascript" src="skin/{echo: $SYSINFO['templates'];/}/js/changeStyle.js"></script>
+<script type="text/javascript" src="skin/{echo: $SYSINFO['templates'];/}/js/userchangeStyle.js"></script>
+
+</head>
+<body onload="menu_style_change('user_my_order');changeMenu();">
+{inc: require("shop/index_header.php");/}
+    <div class="site_map">
+	  {echo:lp{m_current_position};/}<A href="index.php">{echo:$SYSINFO['sys_name'];/}</A>/<a href="modules.php">{echo:lp{m_u_center};/}</a>/&nbsp;&nbsp;{echo: lp{m_complaints};/}
+	</div>
+    <div class="clear"></div>
+	{inc: require("modules/left_menu.php");/}
+    <div class="main_right">
+		<div class="right_top"></div>
+        <div class="cont">
+            <div class="cont_title">{echo: lp{m_complaints};/}</div>
+			<hr />
+			<form action="do.php?act=user_complaint_add" method="post" name="form_profile" onsubmit="return checkform1();">
+				<table width="100%" style="border:0" cellspacing="0">
+					<tr><td class="textright" width="100px;">{echo: lp{m_by_complainant};/}：</td><td class="textleft"><a href="shop.php?shopid={echo: $order_rs['shop_id'];/}&app=index" target="_blank">{echo:$order_rs['shop_name'];/}</a><input type="hidden" name="shopid" value="{echo:$order_rs['shop_id'];/}"><input type="hidden" name="shop_name" value="{echo:$order_rs['shop_name'];/}"></td></tr>
+					<tr><td class="textright">{echo: lp{m_related_products};/}：</td><td class="textleft"><a href="goods.php?id={echo:$order_rs['goods_id'];/}" target="_blank">{echo:$order_rs['goods_name'];/}</a><input type="hidden" name="goods_id" value="{echo:$order_rs['goods_id'];/}"><input type="hidden" name="goods_name" value="{echo:$order_rs['goods_name'];/}"></td></tr>
+					<tr><td class="textright">{echo: lp{m_of_complaint};/}：</td>
+					<td class="textleft"><select name="complaints_title" id="complaints_title" require="true" datatype="Require" msg="{echo: lp{m_select_complaints_reason};/}"  >
+		            	<option selected>{echo: lp{m_select_complaints_reason};/}</option>
+						{sta:foreach($complaints_title as $val)[loop]}
+							<option value="{echo:$val['type_content'];/}">{echo:$val['type_content'];/}</option>
+						{end:foreach/}
+		              	</select>
+					  	<span id="ShowTypeMsg" style="padding-left:5px;">{echo: lp{m_choose_trade_complaints};/}</span></td></tr>
+					<tr><td class="textright" valign="top">{echo: lp{m_complaints_content};/}：</td><td class="textleft"><textarea name="complaints_content" id="complaints_content" cols="60" rows="10" require="true" datatype="Require" msg="{echo: lp{m_please_enter_complaints};/}" class="inputmain" onblur="cutSize(this,500);countShow2(this.value,'count');" onkeyup="cutSize(this,500);countShow2(this.value,'count');"></textarea>
+					<br />({echo: lp{m_current};/}<span id="count">0</span>{echo: lp{m_upto_bytes};/})<br /><span style="padding:10px; ">{echo: lp{m_real_evidence_dispute};/}</span></td></tr>
+					 <tr>
+		                <td class="textright">{echo:lp{i_verifycode};/}：</td>
+		                <td class="textleft " style="vertical-align:middle"><input type="text" class="border_c" name="veriCode" id="veriCode" style="width:100px; *margin:0 15px  13px 0;" maxlength="4" /> 
+		          	<img border="0" src="servtools/veriCodes.php" width="80" height="40" align="absmiddle"  id="verCodePic"><a style="display:inline-block;*margin:0 0 13px 10px" href="javascript:;" onclick="return getVerCode();">{echo:lp{i_change_img};/}</a></td>
+		              </tr>
+					<tr><td colspan="2" align="center"><input class="submit" type="submit" name="submit" value="{echo: lp{m_send};/}" /></td></tr>
+				</table>
+				<input type="hidden" name="order_id" value="{echo:$order_id;/}">
+			</form>
+        	</div>
+        <div class="clear"></div>
+        <div class="right_bottom"></div>
+        <div class="back_top"><a href="#"></a></div>
+    </div>
+{inc: require("shop/index_footer.php");/}
+<script language="JavaScript" src="servtools/ajax_client/ajax.js"></script>
+<script language="JavaScript">
+<!--
+function cutSize(obj,len)
+{
+	//obj.value = obj.value.replace(/(^[\s]*)|([\s]*$)/g, "");
+	var str = obj.value;
+	if(str.replace(/[^\x00-\xff]/g,'**').length <= len)
+	{
+		return;
+	}
+	str = str.substr(0,len);
+	while(str.replace(/[^\x00-\xff]/g,'**').length > len)
+	{
+		str = str.substr(0,str.length -1);
+	}
+	obj.blur();
+	obj.value = str;
+	obj.focus();
+}
+
+function countShow2(str,idName)
+{
+	document.getElementById(idName).innerHTML=str.replace(/[^\x00-\xff]/g,'**').length;
+}
+function checkform1(){
+	var type = document.getElementById('complaints_title').value;
+	var content = document.getElementById('complaints_content').value;
+	var veriCode = document.getElementById("veriCode").value;
+	if(type.length==0){
+		alert("请选择投诉原因！");
+		return false;
+		}
+	if(content.length==0){
+		alert("请输入投入内容！");
+		return false;
+		}
+	if(!veriCode){
+		alert('{echo:lp{i_verifycode_notnone};/}');
+		return false;
+	}
+}
+function getVerCode() {
+	document.getElementById("verCodePic").src="servtools/veriCodes.php?vc="+Math.random();
+	return false;
+}
+//-->
+</script>
+</body>
+</html>

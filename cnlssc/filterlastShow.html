@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>最后一级</title>
+</head>
+<body>
+    <div data-role="page" ng-controller="filterCtrl"
+     data-id="filterHeader" ngm-pagebeforeshow="setShow()">
+        <header data-role="header" data-position="fixed">
+            <a data-rel="back" class="ui-btn-left" data-direction="reverse" data-icon="arrow-l" data-role="button">后退</a>
+            <h1>{{headerName}}</h1>
+        </header>
+
+        <section data-role="content">
+            <div ngm-if="!showList" class="textbox-warning">
+                暂无货物
+            </div>
+            <ul
+                ng-show="showList" data-role="listview" data-divider-theme="d" data-split-theme="e" data-split-icon="grid">
+
+                <li data-mini="true" data-ng-repeat="item in showList">
+                    <a class="goodItem" ng-href="#!/gooddetail/{{item.goodsid}}/detail">
+                        <!--<img class="shopThum" ng-src="{{logobaseURL+r.img[0].img_thumb}}">-->
+                        <h4>{{item.goodsname}}</h4>
+                        <p>{{item.intro | htmlToPlaintext}}</p>
+                        <span class="ui-li-count">{{item.price}}</span>
+                    </a>
+                </li>
+            </ul>
+        </section>
+        <appfooter></appfooter>
+    </div>
+</body>
+</html>

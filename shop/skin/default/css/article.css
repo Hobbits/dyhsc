@@ -1,0 +1,137 @@
+@charset "utf-8";
+/*----------------------------------------
+Name: parts.css
+Date Created:2009/05/31 xian.zhang
+Last Updated:2009/06/09 xian.zhang
+----------------------------------------*/
+
+.ttlm_infoContents {
+	width:177px;
+	height:29px;
+	margin-bottom:8px;
+	background:url(../images/article/ttlm_infocontents.gif) no-repeat left top;
+	text-indent:-99999px
+}
+#artContents .artlist_ttlm {
+	float:left;
+	width:150px;
+	margin-right:-1px
+}
+#artContents .artlist_ttlm li {
+	width:116px;
+	padding:14px 0 14px 32px;
+	margin-bottom:5px;
+	background:url(../images/article/icon_article_ttlm.gif) no-repeat 13px center #FAFAFA;
+	border:1px solid #ccc;
+	border-right:none;
+	font-size:14px;
+	line-height:14px;
+}
+#artContents .artlist_ttlm li.now {
+	position:relative;
+	z-index:1;
+	background-color:#FFFFFF;
+	border-right:1px solid #FFF;
+}
+#artContents .artlist_ttlm li.now a {
+	font-weight:bolder;
+	color:#FF7A01
+}
+#artContents .artpan {
+	float:left;
+	width:780px;
+	padding:14px;
+	border:1px solid #ccc;
+	min-height:400px;
+	_height:400px;
+}
+#artContents .artpan .artlist_txt li {
+	padding-left:10px;
+	padding-bottom:8px;
+	margin-top:12px;
+	background:url(../images/icon_square.gif) no-repeat left 3px;
+	color:#333;
+	line-height:12px;
+	border-bottom:1px dotted #ccc;
+}
+#artContents .artpan .artlist_txt li a {
+	margin-right:8px;
+	display:block;
+	float:left;
+	line-height:16px;
+}
+#artContents .artpan .artlist_txt li a.ttls{
+	width:580px;
+	overflow:hidden;
+	white-space:nowrap;
+	}
+#artContents .artpan .artlist_txt li a strong {
+	font-weight:bolder
+}
+#artContents .artpan .artlist_txt li a.green {
+	color:#8FC41E
+}
+#artContents .artpan .artlist_txt li a.blue {
+	color:#01479F
+}
+#artContents .artpan .artlist_txt li a.orange {
+	color:#F56C02;
+}
+#artContents .artpan .artlist_txt li span {
+	float:right;
+}
+/*-----------------------------
+      article_per.html
+------------------------------*/
+.artpan .artTitle {
+	margin:10px 0 20px;
+	color:#FF7B00;
+	font-size:16px;
+	font-weight:bolder;
+	text-align:center;
+}
+.artpan .artInfo {
+	padding-bottom:10px;
+	margin-bottom:20px;
+	color:#666;
+	text-align:center;
+	border-bottom:1px solid #C8C8C8
+}
+.artpan .artInfo span {
+	margin-right:10px
+}
+.artpan .artTxt {
+	margin:0 15px
+}
+.artpan .artTxt p {
+	text-indent:2em;
+	line-height:22px;
+	color:#333
+}
+.artpan .artTag {
+	padding-top:15px;
+	padding-left:15px;
+	margin-top:20px;
+	border-top:1px solid #C8C8C8
+}
+.artpan .artTag span {
+	color:#333;
+	font-family:Arial, Helvetica, sans-serif;
+	font-weight:bolder;
+}
+.artpan .artTag a {
+	margin-left:12px;
+	color:#ff8b22;
+}
+.artpan .link {
+	padding-top:15px;
+	margin:10px 15px;
+	border-top:1px solid #E4E4E4;
+	line-height:20px
+}
+.artpan .link span {
+	color:#333
+}
+.artpan .link a {
+	color:#ff8b22;
+}

@@ -1,0 +1,237 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>{echo: lp{m_u_center};/}</title>
+<link rel="stylesheet" type="text/css" href="skin/{echo: $SYSINFO['templates'];/}/css/modules.css">
+<link rel="stylesheet" type="text/css" href="skin/{echo: $SYSINFO['templates'];/}/css/layout.css">
+<link rel="stylesheet" type="text/css" href="skin/{echo: $SYSINFO['templates'];/}/css/style.css">
+<script type="text/javascript" src="skin/{echo: $SYSINFO['templates'];/}/js/changeStyle.js"></script>
+<script type="text/javascript" src="skin/{echo: $SYSINFO['templates'];/}/js/userchangeStyle.js"></script>
+
+<style type="text/css">
+.edit span{background:#efefef;}
+.search {margin:5px;}
+.search input {color:#444;}
+td.img img{cursor:pointer}
+</style>
+<script>
+var inputs = document.getElementsByTagName("input");
+function submitform() {
+	var checked = false;
+	for(var i=0; i<inputs.length; i++) {
+		if (inputs[i].checked == true) 
+        {
+            checked = true;
+            if(confirm('{echo:lp{m_manage_sure_del};/}')){
+            	break; 
+                }else{
+                	return false;
+                	break; 
+                    }
+        }
+	}
+	if (!checked){ 
+		alert("{echo:lp{m_selceted_one};/}");
+		return false;
+	}
+	return true;
+}
+function checkall(obj) {
+	if(obj.checked) {
+		for(var i=0; i<inputs.length; i++) {
+			if(inputs[i].type=='checkbox') {
+				inputs[i].checked = true;
+			}
+		}
+	} else {
+		for(var i=0; i<inputs.length; i++) {
+			if(inputs[i].type=='checkbox') {
+				inputs[i].checked = false;
+			}
+		}
+	}
+}
+function check_shop(obj){
+	if(obj.checked) {
+		for(var i=0; i<inputs.length; i++) {
+			if(inputs[i].type=='checkbox') {
+				inputs[i].checked = true;
+			}
+		}
+	} else {
+		for(var i=0; i<inputs.length; i++) {
+			if(inputs[i].type=='checkbox') {
+				inputs[i].checked = false;
+			}
+		}
+	}
+}
+function submitform_shop() {
+	var checked = false;
+	for(var i=0; i<inputs.length; i++) {
+		if (inputs[i].checked == true) 
+        {
+            checked = true;
+            if(confirm('{echo:lp{m_manage_sure_del};/}')){
+            	break; 
+                }else{
+                	return false;
+                	break; 
+                    }
+        }
+	}
+	if (!checked){ 
+		alert("{echo:lp{m_selceted_one};/}");
+		return false;
+	}
+	return true;
+}
+</script>
+</head>
+<body onload="menu_style_change('user_favorite');changeMenu();">
+{inc: require("shop/index_header.php");/}
+	<div class="site_map">
+	  {echo:lp{m_current_position};/}<A href="index.php">{echo:$SYSINFO['sys_name'];/}</A>/<a href="modules.php">{echo:lp{m_u_center};/}</a>/&nbsp;&nbsp;{echo:lp{m_my_favorite};/}
+	</div>
+    <div class="clear"></div>
+	{inc: require("modules/left_menu.php");/}
+
+	        <div class="main_right">
+				<div class="right_top"></div>
+
+				<div class="cont">
+					<div class="cont_title">
+						{echo:lp{m_my_favorite};/}
+					</div>
+				  <hr />
+                  <div class="index_tab">
+                	<ul>
+                      <li><a id="style1" class="current" href="javascript:;" onclick="change_style('style1')">{echo:lp{m_goods_store};/}</a></li>
+                      <li><a id="style2" href="javascript:;" onclick="change_style('style2')">{echo:lp{m_shop_store};/}</a></li>
+                    </ul>
+                  </div>
+                  <div id="display_order" class="tab_box">
+					<form action="do.php?act=user_favorite_del" name="form" method="post" onsubmit="return submitform();">
+					<table width="98%" border="0" cellspacing="0">
+					  <tr>
+						<th width="20"><input type="checkbox" onclick="checkall(this);" /></th>
+						<th width="90">{echo: lp{m_goods_image};/}</th>
+						<th>{echo: lp{m_goods_info};/}</th>
+						<th width="60">{echo: lp{m_manage};/}</th>
+					  </tr>
+					  {sta:
+						if(!empty($my_favorite['result'])) {
+							foreach($my_favorite['result'] as $v) [loop]}
+						<tr class="trcolor">
+							<td><input type="checkbox" name="favorite[]" value="{echo: $v['favorite_id'];/}" /></td>
+							<td align="center"><a href="{echo: goods_url($v['goods_id']);/}" target="_blank"><img src="{echo: $v['goods_thumb'];/}" width="80" height="80" onerror="this.src='skin/default/images/nopic.gif'"></a></td>
+							<td class="name"><a href="{echo: goods_url($v['goods_id']);/}" target="_blank">{echo: $v['goods_name'];/}</a>
+							<br /> {echo: lp{m_order_shops};/}：<a href="{echo:shop_url($v['shop_id']);/}" target="_blank">{echo: $v['shop_name'];/}</a> &nbsp;&nbsp; {echo: lp{m_price};/}：￥<span style="color:#FF6600; font-weight:bold;">{echo: $v['goods_price'];/}</span>{echo: lp{m_yuan};/}
+							<br /> {echo: lp{m_collect_num};/}：<span>{echo: $v['favpv'];/}</span> &nbsp;&nbsp; {echo: lp{m_add_time};/}：{echo: substr($v['add_time'],0,16);/} &nbsp;&nbsp; <script src="imshow.php?u={echo: $v['user_id'];/}"></script>
+							</td>
+							<td align="center">
+							
+							{sta:if($v['lock_flg']=='1') { ;/}
+								<font color='red'>{echo: lp{m_other_shop_lock};/}</font>
+							{sta:} elseif($v['open_flg']=='1') { ;/}
+								<font color='red'>{echo: lp{m_other_shop_close};/}</font>
+							{sta:} else [exc]}
+								<a href="modules.php?app=user_order_adress&gid={echo: $v['goods_id'];/}&v=1">{echo: lp{m_ccbuy};/}</a>
+							{end:if/}<br />
+							<a href="do.php?act=user_favorite_del&id={echo: $v['favorite_id'];/}" onclick="return confirm('{echo: lp{m_suredel_favorite};/}');">{echo: lp{m_del};/}</a>
+							</td>
+						</tr>
+						{end:foreach/}
+						<tr><td colspan="4" class="textleft"><INPUT class="submit" type="submit" value="{echo:lp{m_pl_del};/}" name="deletesubmit" /> </td></tr>
+						<tr><td colspan="4" ><div class="page">{inc: require("modules/page.php");/}</div></td></tr>
+						{sta: } else [exc]}
+						<tr><td colspan="4" class="center">{echo: lp{m_nolist_record};/}</td></tr>
+						{end:if/}
+					</table>
+					</form>
+				  </div>
+                  <div id="display_favorite" class="tab_box" style="display:none;">
+					<form action="do.php?act=user_shopfavorite_del" name="form_shop" method="post" onsubmit="return submitform_shop();">
+                  	<table width="98%" border="0" cellspacing="0">
+					  <tr>
+						<th width="20"><input type="checkbox" onclick="check_shop(this);" /></th>
+						<th width="90">{echo:lp{m_shop_logo};/}</th>
+						<th>{echo:lp{m_shop_infomation};/}</th>
+						<th width="60">{echo: lp{m_manage};/}</th>
+					  </tr>
+					  {sta:
+						if(!empty($shop_favorite['result'])) {
+							foreach($shop_favorite['result'] as $v) [loop]}
+						<tr class="trcolor">
+							<td><input type="checkbox" name="favorite_shop[]" value="{echo: $v['favorite_id'];/}" /></td>
+							<td align="center">
+								{sta: if($v['shop_logo'])[exc]}
+									<a href="{echo: shop_url($v['shop_id']);/}" target="_blank">
+										<img src="{echo: $v['shop_logo'];/}" width="80" height="80" onerror="this.src='skin/default/images/nopic.gif'">
+									</a>
+								{sta: } else[exc]}
+									<a href="{echo: shop_url($v['shop_id']);/}" target="_blank">
+										<img src="skin/default/images/shop_nologo.gif" width="80" height="80" >
+									</a>
+								{end:if/}
+							</td>
+
+							<td class="name">
+								<a href="{echo: shop_url($v['shop_id']);/}" target="_blank">{echo: $v['shop_name'];/}</a>
+								<br />{echo:lp{m_shop_intro};/}：&nbsp;&nbsp;{echo: $v['shop_intro'];/}
+							</td>
+							<td align="center">
+							 {sta:if($v['lock_flg']=='1') {;/}
+								 	<font color='red'>{echo: lp{m_other_shop_lock};/}</font><br />
+							 {end:if/}
+							 {sta:if($v['open_flg']=='1') {;/}
+								 	<font color='red'>{echo: lp{m_other_shop_close};/}</font><br />
+							 {end:if/}
+								<a href="do.php?act=user_shopfavorite_del&id={echo: $v['favorite_id'];/}" onclick="return confirm('{echo: lp{m_suredel_favorite};/}');">{echo: lp{m_del};/}</a><br />
+							</td>
+						</tr>
+						{end:foreach/}
+						<tr>
+							<td colspan="4" class="textleft">
+								
+								<INPUT class="submit" type="submit" value="{echo:lp{m_pl_del};/}" name="deletesubmit" />
+							</td>
+						</tr>
+						<tr><td colspan="4" ><div class="page">{inc: require("modules/page.php");/}</div></td></tr>
+						{sta: } else [exc]}
+						<tr><td colspan="4" class="center">{echo: lp{m_nolist_record};/}</td></tr>
+						{end:if/}
+					</table>
+				  </form>
+                  </div>
+				</div>
+				<div class="clear"></div>
+				<div class="right_bottom"></div>
+				<div class="back_top"><a href="#"></a></div>
+			</div>
+	</form>
+{inc: require("shop/index_footer.php");/}
+<script language="JavaScript">
+<!--
+function change_style(flag) {
+	if (flag =='style1'){
+		document.getElementById('style1').className="current";
+		document.getElementById('style2').className="";
+		document.getElementById('display_order').style.display="block";
+		document.getElementById('display_favorite').style.display="none";
+
+	}
+	if (flag =='style2'){
+		document.getElementById('style1').className="";
+		document.getElementById('style2').className="current";
+		document.getElementById('display_order').style.display="none";
+		document.getElementById('display_favorite').style.display="block";
+	}
+}
+
+//-->
+</script>
+
+</body>
+</html>

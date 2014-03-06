@@ -1,0 +1,137 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>{echo: lp{m_u_center};/}</title>
+<link rel="stylesheet" type="text/css" href="skin/{echo: $SYSINFO['templates'];/}/css/modules.css">
+<link rel="stylesheet" type="text/css" href="skin/{echo: $SYSINFO['templates'];/}/css/layout.css">
+<link rel="stylesheet" type="text/css" href="skin/{echo: $SYSINFO['templates'];/}/css/style.css">
+<script type="text/javascript" src="skin/{echo: $SYSINFO['templates'];/}/js/changeStyle.js"></script>
+<script type="text/javascript" src="skin/{echo: $SYSINFO['templates'];/}/js/userchangeStyle.js"></script>
+
+<style type="text/css">
+th{background:#EFEFEF}
+.red { color:red;}
+td div {float:left; text-align:center; border: 1px solid #DADADA; margin: 5px; padding:2px; width:130px;}
+td span {display:block; margin-left:10px;}
+.imga {display:block; margin-bottom:4px; height:100px;}
+</style>
+</head>
+<body onload="menu_style_change('goods_list');changeMenu();">
+{inc: require("shop/index_header.php");/}
+    <div class="site_map">
+	  {echo:lp{m_current_position};/}<A href="index.php">{echo:$SYSINFO['sys_name'];/}</A>/<a href="modules.php">{echo:lp{m_u_center};/}</a>/&nbsp;&nbsp;{echo: lp{m_goods_image};/}
+	</div>
+    <div class="clear"></div>
+	{inc: require("modules/left_menu.php");/}
+    <div class="main_right">
+    	<div class="right_top"></div>
+			<div class="cont">
+				<div class="cont_title">
+					<span class="tr_op">
+					<a href="modules.php?app=goods_list" >
+				{echo: lp{m_back_goodslist};/}</a>
+					</span>
+					{echo: lp{m_goods_image};/}
+				</div>
+				<hr />
+			<form action="do.php?act=goods_gallery_update" method="post" name="form_goods_gallery_update" enctype="multipart/form-data">
+				<table style="border:0" width="100%">
+					<thead><tr><td class="center">
+					{sta: if(!empty($gallery_list)){
+						foreach($gallery_list as $value) [loop]}
+					<div id="gallery_{echo: $value['img_id'];/}">
+						<a href="javascript:;" onclick="if (confirm('{echo: lp{m_sure_delimg};/}'))
+							dropImg('{echo: $value['img_id'];/}')">[{echo: lp{m_del};/}]</a>
+						{sta: if($value['is_set']) {
+		                	echo lp{m_is_img};
+		                } else { ?>
+							<a href="do.php?act=goods_gallery_set&id={echo: $value['img_id'];/}&gid={echo: $value['goods_id'];/}">
+							[{echo: lp{m_set_img};/}]</a>
+						{end:if/}<br />
+						<input type="hidden" name="imgid_{echo: $value['img_id'];/}" value="{echo: $value['img_id'];/}" />
+						<a href="{echo: $value['img_original'];/}" target="_blank" class="imga">
+						<img src="{echo: $value['thumb_url'];/}" class="img" onerror="this.src='../skin/default/images/nopic.gif'"/></a>
+						<input type="text" value="{echo: $value['img_desc'];/}" size="15" name="old_img_desc[{echo: $value['img_id'];/}]" maxlength="50" style="width:110px;"/>
+		            </div>
+					{sta: }}else {
+						echo "{echo: lp{m_not_uploadimg};/}";
+					if/}
+					</td></tr></thead>
+                    <tbody id="upload_img">
+					<tr><td class="textleft">
+					<a href="javascript:addNewUploadSpan();" style=" text-decoration:none">[+]</a> {echo: lp{m_img_desc};/}:
+						<input type="text" name="img_desc[]" maxlength="50" /> {echo: lp{m_upload_file};/}:
+						<input type="file" name="attach[]" />
+					</td></tr>
+                    </tbody>
+					<tfoot><tr><td class="left"><input type="hidden" name="goods_id" value="{echo: $goods_id;/}" />
+					<input class="submit" type="submit" name="submit" value="{echo: lp{m_update_goodsimg};/}" /></td></tr></tfoot>
+				</table>
+			</form>
+        </div>
+    </div>
+<div class="clear"></div>
+{inc: require("shop/index_footer.php");/}
+<script language="JavaScript" src="servtools/ajax_client/ajax.js"></script>
+<script language="JavaScript">
+<!--
+{sta:foreach($gallery_list as $value){
+	if($value['is_set']) {
+		echo "var is_set_img_id = '".$value['img_id']."';";
+	}
+foreach/}
+
+function addNewUploadSpan() {
+	var upload_img = document.getElementById("upload_img");
+	var newspan = document.createElement("tr");
+	var newtd = document.createElement("td");
+	newtd.innerHTML = '<a href="javas'+'cript:removeUploadSpan();" style=" text-decoration:none">[-]&nbsp;</a>  ';
+	newtd.innerHTML += '{echo: lp{m_img_desc};/}: <input type="text" name="img_desc[]" maxlength="50" /> ';
+	newtd.innerHTML += '{echo: lp{m_upload_file};/}: <input type="file" name="attach[]" />';
+	newspan.appendChild(newtd);
+	upload_img.appendChild(newspan);
+}
+
+function removeUploadSpan() {
+	var upload_img = document.getElementById("upload_img");
+	var number = upload_img.children.length;
+	var delnode = upload_img.children[number-1];
+	upload_img.removeChild(delnode);
+}
+
+function dropImg(id) {
+	var s = 0;
+	var imgid = 'imgid_'+id;
+	var is_set_img_id =document.getElementsByName("imgid").value;
+	if(is_set_img_id == id) {
+		s = 1;
+	}
+	ajax("do.php?act=goods_gallery_drop","POST","id="+id+"&s="+s+"&gid={echo:$goods_id;/}",function(data){
+		if(data==1) {
+			document.getElementById("gallery_"+id).style.display='none';
+		} else {
+			alert('{echo:  lp{m_delfail_tryagain};/}');
+		}
+	});
+}
+
+function resetimgwh() {
+	var imgarray = document.getElementsByTagName("img");
+	var top_height = 0;
+	for(var i=0; i<imgarray.length; i++) {
+		if(imgarray[i].className="img") {
+			if(imgarray[i].width > imgarray[i].height) {
+				imgarray[i].width = 100;
+				top_height = Math.ceil((100-imgarray[i].height*100/imgarray[i].width)/2);
+				imgarray[i].style.marginTop = top_height+'px';
+			} else {
+				imgarray[i].height = 100;
+			}
+		}
+	}
+}
+//-->
+</script>
+</body>
+</html>

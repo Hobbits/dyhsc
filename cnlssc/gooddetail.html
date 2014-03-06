@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>商品详情</title>
+</head>
+<body>
+<!--TODO 商品详情-->
+<div ng-controller="gooddetailCtrl" id="pagegoodDetail" data-role="page" ngm-pageshow="getitemInfo()">
+    <!--字体样式-->
+    <link rel="stylesheet" href="css/font/css/fontello.css"/>
+
+    <header data-role="header" data-position="fixed" data-id="gooddetailHeader">
+        <a data-rel="back" class="ui-btn-left" data-direction="reverse" data-icon="arrow-l" data-role="button">后退</a>
+        <h1>商品信息</h1>
+        <a ngm-if="isGoodowner" ng-href="#!/uploadmore/{{getgoodid()}}" class="ui-btn-right" data-icon="plus" data-role="button">添加图片</a>
+        <a ngm-if="!isGoodowner" data-ngm-vclick="fav('g',getgoodid())" class="ui-btn-right" data-icon="star" data-role="button">收藏</a>
+        <div data-role="navbar">
+            <ul>
+                <li><a class="ui-btn-active">详情</a></li>
+                <li><a templarlink="#!/gooddetail/{{getgoodid()}}/gallery">图片集</a></li>
+            </ul>
+        </div><!-- /navbar -->
+
+    </header>
+
+    <section data-role="content">
+
+        <ul data-role="listview" data-inset="false">
+            <li class="goodth">
+                <img ng-src="{{logobaseURL+goodInfo.imgs[0].img_thumb}}"  />
+                <h2>{{goodInfo.name}}</h2>
+
+            </li>
+            <li>单价：{{goodInfo.price}}元</li>
+            <li>简介：{{goodInfo.introduction | htmlToPlaintext}}</li>
+
+            <li>创建时间：{{goodInfo.addtime}}</li>
+            <li data-ngm-if="!isGoodowner">联系人：
+                <div class="inline">
+                    <a ng-href="#!/dialogue{{goodInfo.contact}}/{{goodInfo.shopid}}" class="icon-chat offline">{{goodInfo.contact}}</a>
+                </div>
+            </li>
+            <li>地址：{{goodInfo.address}}</li>
+            <li>联系电话：<div class="inline"><a ng-href="tel:{{goodInfo.telphone}}">{{goodInfo.telphone}}</a></div></li>
+        </ul>
+
+        <a ngm-if="!isGoodowner" style="margin-top: 2em"
+                ng-href="#!/order/{{getgoodid()}}/1" data-theme="c" data-role="button">提交订单</a>
+        <a style="margin-top: 2em"
+           data-ngm-vclick="goodShare()" data-theme="c" data-role="button">分享商品</a>
+
+    </section>
+
+    <div data-role="popup" class="sharePop" data-ng-controller="shareCtrl">
+        <link rel="stylesheet" href="css/font/css/social.css"/>
+        <ul data-role="listview" data-inset="true">
+            <li data-role="list-divider"><i class="icon-share"></i>分享</li>
+            <li ><a data-ngm-vclick="share('sina',shareObj)"><i class="hs-icon-sina-s"></i>新浪微博</a></li>
+            <li ><a data-ngm-vclick="share('tx',shareObj)"><i class="hs-icon-twb-s"></i>腾讯微博</a></li>
+        </ul>
+    </div>
+
+</div>
+<!--商品详情结束-->
+
+</body>
+</html>

@@ -1,0 +1,19 @@
+/* =====================Common Style Reset======================== */
+
+body,ul,ol,li,dl,dd,dt,p,pre,h1,h2,h3,h4,h5,h6,hr,form,fieldset,legend,img,input,button,textarea,th,td,blockquote { margin:0; padding:0; }
+ul, ol { list-style:none; }
+img { border:none; vertical-align:middle;}
+body {color:#333;}
+body, button, input, select, textarea { font:12px/1.5 "微软雅黑","宋体",Arial; }
+body, button, input, select { vertical-align:middle; }
+h1, h2, h3, h4, h5, h6 { font-size:100%; }
+em { font-style:normal; }
+table { border-collapse:collapse; border-spacing:0; }
+textarea {resize:none;}
+
+a:link {color:#333; text-decoration:none;}
+a:visited {color:#333;}
+a:hover, a:active, a:focus { color:#ff8400; text-decoration:underline; }
+
+
+.clear{ clear:both}

@@ -1,0 +1,82 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>{echo: lp{m_u_center};/}</title>
+
+<link rel="stylesheet" type="text/css" href="skin/{echo: $SYSINFO['templates'];/}/css/style.css">
+<script type="text/javascript" src="skin/{echo: $SYSINFO['templates'];/}/js/changeStyle.js"></script>
+<script type="text/javascript" src="skin/{echo: $SYSINFO['templates'];/}/js/userchangeStyle.js"></script>
+<style type="text/css">
+td span { color:red; }
+#reg_step { width:770px; height:29px; margin: 12px auto 20px; line-height: 29px; }
+#reg_step ol li { width: 154px; float: left; padding:0 0 3px; font-size: 14px; font-weight: bold; background-color:#ececec; color:#333; text-align:center; }
+#reg_step ol li span, #reg_step ol li strong { display: block; text-align:center; }
+#reg_step ol li.current { background:url(skin/default/images/steps_bg.gif) left top no-repeat; padding-top:4px; margin-top:-4px; color:#FFF; }
+#reg_step ol li.last_current { background-color: #F6A248; color: #fff; background-position: right -145px; }
+td { text-align:left; }
+</style>
+</head>
+<body>
+{inc: require("shop/index_header.php");/}
+<div class="site_map"> {echo:lp{m_current_position};/}<A href="index.php">{echo:$SYSINFO['sys_name'];/}</A>/<a href="modules.php">{echo:lp{m_u_center};/}</a>/&nbsp;&nbsp;商铺退款 </div>
+<div class="clear"></div>
+{inc: require("modules/left_menu.php");/}
+<div class="main_right">
+	<div class="right_top"></div>
+	<div class="cont">
+		<div ><h3 class="cont_title">退款信息</h3></div>
+   <hr />
+		<form action="do.php?act=shop_back_money&id={echo:$order_id;/}" method="post" onsubmit="return check();">
+		<table class="form_table_02" width="100%" border="0" cellspacing="0">
+			<tr>
+				<th>退款方式:</th>
+				<td><input type="text" id="back_money_way" name="back_money_way" maxlength="50"/></td>
+			</tr>
+			<tr>
+				<th>退款账户:</th>
+				<td><input type="text" id="back_money_accout" name="back_money_accout" maxlength="100"/></td>
+			</tr>
+			<tr>
+				<th>退款金额:</th>
+				<td><input type="text" id="back_money" name="back_money" maxlength="50"/></td>
+			</tr>
+			<tr>
+		        <td></td>
+		        <td><input type="submit" value="{echo: lp{m_send};/}"/></td>
+		    </tr>
+		</table>
+	</form>
+	</div>
+</div>
+<div class="clear"></div>
+{inc: require("shop/index_footer.php");/}
+<script language="JavaScript">
+function Trim(center) {
+	return center.replace(/\s+$|^\s+/g,"");
+}
+function check(){
+	var back_money_way = Trim(document.getElementById("back_money_way").value);
+	var back_money_accout = Trim(document.getElementById("back_money_accout").value);
+	var back_money = Trim(document.getElementById("back_money").value);
+	if(back_money_way.length==0){
+		alert("退款方式不能为空！");
+		return false;
+		}
+	if(back_money_accout.length==0){
+		alert("退款账户不能为空！");
+		return false;
+		}
+	if(back_money.length==0){
+		alert("退款金额不能为空！");
+		return false;
+		}
+	var number_reg = /^[\d|\.|,]+$/;
+	if(!back_money.match(number_reg)) {
+		alert('退款金额格式不正确！');
+		return false;
+	}
+}
+</script>
+</body>
+</html>

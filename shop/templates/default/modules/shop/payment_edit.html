@@ -1,0 +1,68 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>{echo: lp{m_u_center};/}</title>
+<link rel="stylesheet" type="text/css" href="skin/{echo: $SYSINFO['templates'];/}/css/modules.css">
+<link rel="stylesheet" type="text/css" href="skin/{echo: $SYSINFO['templates'];/}/css/layout.css">
+<link rel="stylesheet" type="text/css" href="skin/{echo: $SYSINFO['templates'];/}/css/style.css">
+<script type="text/javascript" src="skin/{echo: $SYSINFO['templates'];/}/js/changeStyle.js"></script>
+<script type="text/javascript" src="skin/{echo: $SYSINFO['templates'];/}/js/userchangeStyle.js"></script>
+<style type="text/css">
+
+</style>
+</head>
+<body onload="menu_style_change('shop_payment');changeMenu();">
+{inc: require("shop/index_header.php");/}
+	<div class="site_map">
+	  {echo:lp{m_current_position};/}<A href="index.php">{echo:$SYSINFO['sys_name'];/}</A>/<a href="modules.php">{echo:lp{m_u_center};/}</a>/&nbsp;&nbsp;{echo: lp{m_payment_setting};/}
+	</div>
+    <div class="clear"></div>
+    {inc: require("modules/left_menu.php");/}
+       <div class="main_right">
+       		<div class="right_top"></div>
+	       	<div class="cont">
+	            <div class="cont_title">{echo: lp{m_payment_setting};/}</div>
+	            <hr />
+				<form action="do.php?act=shop_payment_update" method="post" name="form_shop_pay" onsubmit="return checkForm();">
+					<table width="100%" class="form_table">
+						<tr>
+							<th width="160px;" align="left">{echo: lp{m_payment_name};/}：</td>
+							<th align="left">{echo:$payment['pay_name'];/}<input type="hidden" name="pay_id" value="{echo:$payment['pay_id'];/}" />
+							<input type="hidden" name="shop_payment_id" value="{echo:$info['shop_payment_id'];/}" /></td>
+						</tr>
+						<tr>
+							<td>{echo: lp{m_payment_desc};/}：</td>
+							<td><textarea name="pay_desc" rows="5" cols="40">{echo:strip_tags($info['pay_desc']);/}</textarea> <span class="red">*</span>{echo: lp{m_payment_showuser_pay};/}</td>
+						</tr>
+						<tr>
+							<td>{echo: lp{m_payment_enable};/}：</td>
+							<td><input type="radio" name="enabled" value="1" {sta:if($info['enabled'])[exc]}checked{end:if/}>{echo: lp{m_yes};/} <input type="radio" name="enabled" value="0"  {sta:if($info['enabled']==0)[exc]}checked{end:if/}>{echo: lp{m_no};/}</td>
+						</tr>
+						{sta:foreach($config_arr as $k=>$v)[loop]}
+						<tr>
+							<td>{echo:$v;/}：</td>
+							<td>
+							{sta:if($config_select[$k])[exc]}
+								<select name="pay_config[{echo:$k;/}]">
+									{sta:foreach($config_select[$k] as $sk=>$sv)[loop]}
+									<option value="{echo:$sk;/}" {sta:if($sk==$info[$k])[exc]}selected{end:if/}>{echo:$sv;/}</option>
+									{end:foreach/}
+								</select>
+							{sta: }else [exc]}
+							<input type="text" name="pay_config[{echo:$k;/}]" value="{echo:$info[$k];/}" style="width:200px;" />
+							{end:if/}
+							</td>
+						</tr>
+						{end:foreach/}
+						<tr>
+							<td colspan="2" class="center"><input type="submit" class="submit" value="{echo: lp{m_payment_config};/}" /></td>
+						</tr>
+					</table>
+			</form>
+	        </div>
+      </div>
+    <div class="clear"></div>
+    {inc: require("shop/index_footer.php");/}
+</body>
+</html>

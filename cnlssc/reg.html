@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>注册</title>
+</head>
+<body>
+
+<!--TODO 注册-->
+<div ng-controller="regCtrl" id="pageReg" data-role="page" >
+    <header data-role="header" data-position="fixed">
+        <a data-rel="back" class="ui-btn-left" data-direction="reverse" data-icon="arrow-l" data-role="button">后退</a>
+        <h1>用户注册</h1>
+    </header>
+
+    <section data-role="content">
+
+        <form ng-submit="regSubmit()" data-ajax="false" src="">
+            <ul data-role="listview" data-inset="true">
+                <li data-role="fieldcontain">
+                    <label for="regname">注册用户名:</label>
+                    <input type="text" name="name" ng-model="regprams.name" required id="regname" value=""  placeholder="请填写一个名字"/>
+                </li>
+                <li data-role="fieldcontain">
+                    <label for="reg_psw">创建密码:</label>
+                    <input type="password" id="reg_psw" ng-model="regprams.psw" required placeholder="请填写密码"/>
+                </li>
+                <li data-role="fieldcontain" ng-class="errorClass">
+                    <label for="reg_psw2">确认此密码:</label>
+                    <input type="password" id="reg_psw2" ng-model="psw2" required placeholder="请再次填写密码"/>
+                    <span class="formErrotip">{{comparePsw(regprams.psw,psw2)}}</span>
+                </li>
+
+                <li data-role="fieldcontain" style="text-align: center">
+                    <input ng-init="subBtn={isOff:false,submitText:'注册'}" type="submit" ng-disabled="subBtn.isOff" value="{{subBtn.submitText}}" />
+                </li>
+            </ul>
+        </form>
+
+    </section>
+
+
+</div>
+<!--注册结束-->
+
+</body>
+</html>

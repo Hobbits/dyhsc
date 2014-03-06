@@ -1,0 +1,227 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>{echo: lp{m_u_center};/}</title>
+<link rel="stylesheet" type="text/css" href="skin/{echo: $SYSINFO['templates'];/}/css/modules.css">
+<link rel="stylesheet" type="text/css" href="skin/{echo: $SYSINFO['templates'];/}/css/layout.css">
+<link rel="stylesheet" type="text/css" href="skin/{echo: $SYSINFO['templates'];/}/css/style.css">
+<script type="text/javascript" src="skin/{echo: $SYSINFO['templates'];/}/js/userchangeStyle.js"></script>
+
+</head>
+<body onload="bodyonload();changeMenu();">
+{inc: require("shop/index_header.php");/}
+	<div class="site_map">
+	  {echo:lp{m_current_position};/}<A href="index.php">{echo:$SYSINFO['sys_name'];/}</A>/<a href="modules.php">{echo:lp{m_u_center};/}</a>/&nbsp;&nbsp;{echo: lp{m_edit_transport_template};/}
+	</div>
+    <div class="clear"></div>
+	{inc: require("modules/left_menu.php");/}
+    <div class="main_right">
+		<div class="right_top"></div>
+		<div class="cont">
+			<div class="title_uc"><span class="tr_op"><a href="javascript:window.close();" ><h5>返回修改页面</h5></a>&nbsp;&nbsp;</span></div>
+			<form action="do.php?act=edit_transport_template" method="post" name="form_transport_template" onsubmit="return checkForm(this);">
+				<input type="hidden" name="id" value="{echo:$id;/}" />
+				<table id="boxtable" width="100%" style="border:0" cellspacing="0">
+					<tr>
+						<td width="100px;">{echo: lp{m_transport_name};/}:</td><td><input type="text" name="transport_name" value="{echo:$transport_template_info['transport_name'];/}" /><span>{echo:lp{m_transport_name_message};/}</span></td>
+					</tr>
+					<tr>
+						<td>{echo: lp{m_transport_description};/}:</td><td><input type="text" name="description" value="{echo:$transport_template_info['description'];/}" /><span>{echo:lp{m_transport_description_message};/}</span></td>
+					</tr>
+					<tr>
+						<td colspan="3"><b>{echo: lp{m_choose_transport_type};/}</b><span>{echo:lp{m_choose_transport_type_message};/}</span></td>
+					</tr>
+					{sta:if(is_array($arr_list))[exc]}
+						{sta:foreach($arr_list as $k=>$value)[loop]}
+							<tr>
+								<td colspan="3">&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" name="transport_type[]" value="{echo:$value['tranid'];/}" id="{echo:$value['tranid'];/}" onclick="showtype('{echo:$value['tranid'];/}')" />{echo:$value['tran_name'];/}:</td>
+							</tr>
+							<tr id="{echo:$value['tranid'];/}_box" style="display:none;">
+								<td colspan="3">&nbsp;&nbsp;&nbsp;&nbsp;
+									{echo:lp{m_transport_template_frist};/}<input type="text" id="frist{echo:$value['tranid'];/}" name="frist{echo:$value['tranid'];/}" value="0.00" maxlength="10"/>
+									{echo:lp{m_transport_template_second};/}<input type="text" id="second{echo:$value['tranid'];/}" name="second{echo:$value['tranid'];/}" value="0.00" maxlength="10"/><br />
+									<ul id="wordbox_{echo:$value['tranid'];/}">
+									{echo:$type_list[$v['tranid']];/}
+									</ul>
+									&nbsp;&nbsp;&nbsp;&nbsp;
+									<a href="javascript:;" onclick="showareslist('{echo:$value['tranid'];/}')" ><b>{echo:lp{m_transport_cont};/}</b></a>
+								</td>
+							</tr>
+						{end:foreach/}
+					{end:if/}
+					<tr>
+						<td colspan="3"><input class="submit" type="submit" name="sub" value="{echo:lp{m_shure};/}"  /></td>
+					</tr>
+				</table>
+			</form>
+		</div>
+	</div>
+	<div class="clear"></div>
+	<div id="bgdiv" style="display:none;"></div>
+	<div id="category_select" style="display:none;">
+		<div class="category_title_1"><span onclick="hidebgdiv();">{echo:lp{m_close};/}</span>{echo:lp{m_plss_select_cateogry};/}</div>
+		<ul id="select_first" class="ulselect">
+		{sta:if(isset($category_info))[exc]}
+			{sta:foreach($category_info as $k=>$v)[loop]}
+				{sta:if($v['parent_id']==0)[exc]}
+				<li title="{echo: $v['cat_id'];/}">{echo: $v['cat_name'];/}</li>
+				{end:if/}
+			{end:foreach/}
+			{end:if/}
+		</ul>
+		<ul id="select_second" class="ulselect"></ul>
+		<ul id="select_third" class="ulselect"></ul>
+		<ul id="select_fourth" class="ulselect"></ul>
+		<div class="category_com"><input type="button" value="{echo:lp{m_post};/}" onclick="postcatid();" /></div>
+	</div>
+	<div style="position:absolute;style:top:0px;left:0px; padding:5px; background:#f1f1f1; display:none; width:420px;" id="mydiv">
+		{sta:if(is_array($area_list))[exc]}
+			{sta:foreach($area_list as $k=>$value)[loop]}
+				<div style="float:left; width:75px;"><input type="checkbox" name="area[]" value="{echo:$value['area_id'];/}"  />{echo:$value['area_name'];/}</div>
+			{end:foreach/}
+		{end:if/}
+		<input type="hidden" name="hdnum" value="0" id="hdnum" />
+		<input type="hidden" name="hdtxt" value="" id="hdtxt" />
+		<input type="hidden" name="iseidt" id="iseidt" value="" />
+		<input type="button" name="doselect" value="{echo:lp{m_shure};/}"  onclick="doselect()" />
+	</div>
+<div class="footer">{inc:require("shop/index_footer.php");/}</div>
+</body>
+</html>
+<script language="JavaScript" type="text/javascript">
+	function showtype(txt){
+		var chosid = txt+"_box";
+		var actobj = document.getElementById(txt);
+		var obj = document.getElementById(chosid);
+		if(actobj.checked){
+			obj.style.display="";
+		}else{
+			obj.style.display="none";
+		}
+	}
+	function showareslist(txt){
+		var obj = document.getElementById('mydiv');
+		var areaobj = document.getElementsByName("area[]");
+		var inputname = "ord_item_dest"+txt+"[]";
+		var conobj = document.getElementsByName(inputname);
+		var arrstr = "";
+		for(i=0;i<conobj.length;i++){
+			arrstr+=conobj[i].value;
+		}
+		var arrstr = arrstr.substring(0,arrstr.length-1);
+		var strarr = arrstr.split(",");
+		if(arrstr.length>0){
+			for (a=0;a<areaobj.length;a++){
+				for(b=0;b<strarr.length;b++){
+					if(areaobj[a].value==strarr[b]){
+						areaobj[a].disabled=true;
+					}
+				}
+			}
+		}
+		document.getElementById('hdtxt').value=txt;
+
+		obj.style.left = document.body.clientWidth/2-(parseInt(500)/2)+"px";
+		obj.style.top = document.body.clientHeight/2-(parseInt(300)/2)-30+document.documentElement.scrollTop/2+"px";
+		obj.style.display="";
+	}
+	function doselect(){
+		var obj = document.getElementsByName("area[]");
+		var str="";
+		var num=document.getElementById('hdnum').value;
+		var hdtxt=document.getElementById('hdtxt').value;
+		var idlist ="";
+		for(i=0;i<obj.length;i++){
+			if(obj[i].checked){
+				str+=obj[i].nextSibling.nodeValue+",";
+				idlist+=obj[i].value+",";
+			}
+			obj[i].disabled=false;
+		}
+		var boxid = "wordbox_"+hdtxt;
+		var boxobj = document.getElementById(boxid);
+		if(document.getElementById('iseidt').value==''){
+			if(str.length>0){
+				boxobj.innerHTML+="&nbsp;&nbsp;&nbsp;&nbsp;<li >{echo:lp{m_to};/}<input type='text' name='ord_item_word"+(hdtxt)+"[]' value='"+str+"' "+"onclick=\"eidtarea('"+hdtxt+"','"+idlist+"','"+(num+1)+"')\""+" id='item"+(num+1)+"'  /><input type='hidden' id='itemvalue"+(num+1)+"' name='ord_item_dest"+(hdtxt)+"[]' value='"+idlist+"' />{echo:lp{m_de};/}{echo:lp{m_transport_template_frist};/}<input type='text' name='ord_area_frist"+(hdtxt)+"[]' value='' />{echo:lp{m_transport_template_second};/}<input type='text' name='ord_area_second"+(hdtxt)+"[]' value='' /></li>";
+				document.getElementById('hdnum').value=parseInt(num)+1;
+				for(i=0;i<obj.length;i++){
+					obj[i].checked=false;
+				}
+			}
+		}else{
+			var chosid = "itemvalue"+document.getElementById('iseidt').value;
+			var chostext = "item"+document.getElementById('iseidt').value;
+			var idobj = document.getElementById(chosid);
+			var txtobj = document.getElementById(chostext);
+			idobj.value=idlist;
+			txtobj.value=str;
+		}
+		document.getElementById('iseidt').value='';
+		document.getElementById('mydiv').style.display="none";
+	}
+	function remove(obj,dx){
+		if(isNaN(dx)||dx>obj.length){
+			return false;
+		}
+		for(i=0,n=0;i<obj.length;i++){
+			if(obj[i]!=obj[dx]){
+				obj[n++]=obj[i];
+			}
+		}
+		obj.length-=1;
+	}
+	function eidtarea(txt,ids,num){
+		var obj = document.getElementById('mydiv');
+		var areaobj = document.getElementsByName("area[]");
+		var strarr = ids.split(",");
+		document.getElementById('iseidt').value=num;
+		showareslist(txt);
+		for(i=0;i<areaobj.length;i++){
+			areaobj[i].disabled=false;
+			for(j=0;j<strarr.length;j++){
+				if(areaobj[i].value==strarr[j]){
+					areaobj[i].checked=true;
+				}
+			}
+		}
+	}
+	function bodyonload(){
+		{sta:foreach($post as $k=>$value)[loop]}
+			var obj= {echo:$value;/};
+			if(obj.frist>0){
+				document.getElementById("frist{echo: $k;/}").value=obj.frist;
+				document.getElementById("second{echo: $k;/}").value=obj.second;
+				document.getElementById('{echo: $k;/}').checked=true;
+				document.getElementById('{echo: $k;/}'+"_box").style.display='';
+			}
+		{end:foreach/}
+	}
+	function checkForm(obj){
+		if(obj.transport_name.value==''){
+			alert('{echo:lp{m_in_template_name};/}');
+			return false;
+		}
+		if(obj.description.value==''){
+			alert('{echo:lp{m_in_template_description};/}');
+			return false;
+		}
+		var transport_type =document.getElementsByName('transport_type[]');
+		var a=0;
+		for(i=0;i<transport_type.length;i++){
+			if(transport_type[i].checked){
+				var frist = "frist" + transport_type[i].value;
+				var second = "second" + transport_type[i].value;
+				a++;
+				if(parseInt(document.getElementsByName(frist)[0].value)==0||parseInt(document.getElementsByName(second)[0].value)==0){
+					alert('{echo:lp{m_set_shipping_cost};/}');
+					return false;
+				}
+			}
+		}
+		if(a==0){
+			alert('{echo:lp{m_choose_shipping_method};/}');
+			return false;
+		}
+	}
+</script>

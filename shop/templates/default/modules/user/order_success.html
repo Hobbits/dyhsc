@@ -1,0 +1,52 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>{echo: lp{m_u_center};/}</title>
+<link rel="stylesheet" type="text/css" href="skin/{echo: $SYSINFO['templates'];/}/css/modules.css">
+<link rel="stylesheet" type="text/css" href="skin/{echo: $SYSINFO['templates'];/}/css/layout.css">
+<link rel="stylesheet" type="text/css" href="skin/{echo: $SYSINFO['templates'];/}/css/style.css">
+<script type="text/javascript" src="skin/{echo: $SYSINFO['templates'];/}/js/userchangeStyle.js"></script>
+
+<style type="text/css">
+td span{color:red;}
+</style>
+</head>
+<body onload="menu_style_change('user_my_order');changeMenu();">
+{inc: require("shop/index_header.php");/}
+	<div class="site_map">
+	  {echo:lp{m_current_position};/}<A href="index.php">{echo:$SYSINFO['sys_name'];/}</A>/<a href="modules.php">{echo:lp{m_u_center};/}</a>/&nbsp;&nbsp;{echo: lp{m_order_success};/}
+	</div>
+    <div class="clear"></div>
+	{inc: require("modules/left_menu.php");/}
+    <div class="main_right">
+    	<div class="right_top"></div>
+        <div class="cont">
+            <div class="title_uc"><h3>{echo: lp{m_order_success};/}</h3><hr /></div>
+             <div id="stepTip" class="clearfix">
+			     <ul class="list_step1 clearfix">
+			     <li>{echo: lp{m_u_first};/}:<br />{echo: lp{m_ordernow_add};/}</li>
+			     <li>{echo: lp{m_u_secound};/}:<br />{echo: lp{m_sure_ordernow};/}</li>
+			     <li  class="now" style="padding-right:0">{echo: lp{m_u_third};/}:<br />{echo: lp{m_accomplish};/}</li>
+			     </ul>
+             </div>
+				<form action="do.php?act=user_order" method="post" name="form_profile">
+				<table width="100%" border="0" cellspacing="0">
+					<tr><td colspan="4">{echo: lp{m_postsuccess_rempayid};/}: {echo: $payid;/}</td></tr>
+					<tr><td colspan="4"><input class="submit" style="font-weight:normal" type="button" value="{echo: lp{m_back_myorder};/}" onclick="a()" /></td></tr>
+				</table>
+				</form>
+        	</div>
+    	</div>
+    </div>
+<div class="clear"></div>
+{inc: require("shop/index_footer.php");/}
+<script language="JavaScript">
+<!--
+function a() {
+	location.href="modules.php?app=user_my_order"
+}
+//-->
+</script>
+</body>
+</html>

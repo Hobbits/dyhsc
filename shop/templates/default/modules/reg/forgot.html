@@ -1,0 +1,81 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="keywords" content="{echo: $header['keywords'];/}" />
+<meta name="description" content="{echo: $header['description'];/}" />
+<title>{echo: lp{m_getback_pw};/}</title>
+<link href="skin/{echo: $SYSINFO['templates'];/}/css/index.css" rel="stylesheet" type="text/css" />
+<link href="skin/{echo: $SYSINFO['templates'];/}/css/import.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="skin/{echo: $SYSINFO['templates'];/}/js/changeStyle.js"></script>
+<script type="text/javascript" src="skin/{echo: $SYSINFO['templates'];/}/js/area.js"></script>
+<style>
+.forgotleft {float:left; width:330px;}
+.forgotright {float:left; width:600px; border:1px solid #eee; line-height:24px; padding-left:10px;}
+.forgotleft div {margin-top:10px;}
+</style>
+</head>
+<body>
+<div id="wrapper">
+{inc: include("shop/index_header.php");/}
+	<div id="contents" class="clearfix"  >
+		<h3 class="ttlm_login">{echo: lp{m_getback_pw};/}</h3>
+	    <div class="findpsw">
+	      	<h4>{echo:lp{m_forget_password};/}</h4>
+		      <form action="modules.php?app=forgot3" method="post" onsubmit="return checkform();">
+		      <table class="tab_findpsw" >
+		      	<tbody>
+		       	<tr>
+		        	<th>{echo: lp{m_mail_register};/}：</th>
+		         <td><input class="txt_230 ipt_nomal" autocomplete="off" type="text" name="user_email" /></td>
+		        </tr>
+		        <tr>
+			        <th >{echo:lp{m_picchar};/}</th>
+	         		<td>
+						<input type="text"  class="txt_4 ipt_nomal" name="veriCode" id="veriCode" maxlength="8" />
+                        <img style="margin-bottom:-16px; width:81px; height:41px;" align="absmiddle" border="0" src="servtools/veriCodes.php" id="verCodePic" onclick="getVerCode();">
+          				<a href="#" onclick="getVerCode();">  {echo:lp{m_change_pic};/} </a><SPAN id="veriCode_message"></SPAN>
+	         		</td>
+		        </tr>
+		        <tr>
+		        	<th ></th>
+		         <td><input class="btn_02" type="submit" value="{echo: lp{m_getback_pw};/}" /></td>
+		        </tr>
+		       </tbody>
+		      </table>
+		     </form>
+	   </div>
+  	</div>
+<script language="JavaScript" src="servtools/ajax_client/ajax.js"></script>
+<script language="JavaScript">
+<!--
+
+function getVerCode() {
+	document.getElementById("verCodePic").src = "servtools/veriCodes.php?vc="+Math.random();
+}
+function checkform() {
+
+	var user_email_reg = /^[0-9a-zA-Z_\-\.]+@[0-9a-zA-Z_\-]+(\.[0-9a-zA-Z_\-]+)*$/;
+	if(document.getElementsByName("user_email")[0].value=='') {
+		alert("{echo: lp{m_mail_null};/}");
+		return false;
+	}else if(!document.getElementsByName("user_email")[0].value.match(user_email_reg)) {
+		alert("{echo:lp{m_email_form};/}");
+		return false;
+	}
+
+	var veriCode = document.getElementsByName('veriCode')[0];
+
+	if(veriCode.value=='') {
+		alert("{echo:lp{m_code_error};/}");
+		return false;
+	}
+	return true;
+}
+//-->
+</script>
+<!-- main end -->
+<!--main right end-->
+{inc: require("shop/index_footer.php");/}
+</body>
+</html>

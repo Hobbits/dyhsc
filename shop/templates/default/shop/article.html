@@ -1,0 +1,101 @@
+{sta:if($article_info['cat_id']==8 ) [exc]}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>{echo: $header['title'];/}</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="keywords" content="{echo: $header['keywords'];/}" />
+<meta name="description" content="{echo: $header['description'];/}" />
+<base href="{echo: $baseUrl;/}" />
+<link href="skin/{echo: $SYSINFO['templates'];/}/css/import.css" type="text/css" rel="stylesheet" />
+<link href="skin/{echo: $SYSINFO['templates'];/}/css/about.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="skin/{echo: $SYSINFO['templates'];/}/js/changeStyle.js"></script>
+</head>
+<body>
+<!-- wrapper -->
+<div id="wrapper">
+  {inc: require("shop/index_header.php");/}
+  <!-- contents -->
+  <div id="contents" class="clearfix" ><div id="pkz"> {echo:lp{s_this_location};/}<a href="index.php">{echo:lp{i_index};/}</a>> {echo: $article_info['title'];/}</div>
+    <div class="top"><img src="skin/{echo: $SYSINFO['templates'];/}/images/about/about_img_top.jpg" alt="{echo:lp{s_mall_intro};/}"  width="960" height="160" />
+    </div>
+    <div id="aboutContents" class="clearfix">
+    	<div id="leftColumn">
+       <h3 class="ttlm_aboutMall">{echo:lp{s_mall_intro2};/}</h3>
+       <ul class="list_about">
+       {sta:foreach($left_article_list as $value)[loop]}
+       <li {sta:if($value['article_id']==$article_info['article_id'])[exc]}class="now"{end:if/} ><a href="article.php?id={echo:$value['article_id'];/}" {sta:if($value['article_id']==$article_info['article_id'])[exc]}class="now"{end:if/}>{echo:sub_str($value['title'],10);/}</a></li>
+       {end:foreach/}
+       </ul>
+     </div>
+     <div id="rightColumn">
+     <p><img class="float_l" src="images/about/about_img_01.jpg" alt="" width="220" height="177" /></p>
+     {echo:$article_info['content'];/}
+     </div>
+    </div><!-- /contents -->
+  </div>
+  <!-- footer -->
+  {inc: require("shop/index_footer.php");/}
+    <!-- /footer -->
+  </div>
+  <!-- /wrapper -->
+</div>
+</body>
+<!-- InstanceEnd -->
+</html>
+{sta:}else[exc]}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>{echo: $header['title'];/}</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="keywords" content="{echo: $header['keywords'];/}" />
+<meta name="description" content="{echo: $header['description'];/}" />
+<base href="{echo: $baseUrl;/}" />
+<link href="skin/{echo: $SYSINFO['templates'];/}/css/import.css" type="text/css" rel="stylesheet" />
+<link href="skin/{echo: $SYSINFO['templates'];/}/css/article.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="skin/{echo: $SYSINFO['templates'];/}/js/changeStyle.js"></script>
+</head>
+<body>
+<div id="wrapper">
+	{inc: require("shop/index_header.php");/}
+<!--search end -->
+  <!-- contents -->
+  <div id="contents" class="clearfix" >
+<div id="pkz"> {echo:lp{i_location};/}：<a href="index.php">{echo:lp{i_index};/}</a> > <a href="{echo:article_list_url($article_info['cat_id']);/}">{echo:$cat_name;/}</a> > {echo: $article_info['title'];/} </div>
+    <div id="mall_banner"  class="mg12b"><script language="JavaScript" src="uploadfiles/asd/5.js"></script></div>
+    <!--  contents  -->
+    <h3 class="ttlm_infoContents">{echo:lp{s_message_center};/}</h3>
+    <div id="artContents" class=" clearfix">
+        <ul class="artlist_ttlm">
+        {sta:foreach($article_cat as $val)[loop]}
+            <li {sta:if($val['cat_id']==$article_info['cat_id'])[exc]}class="now"{end:if/}><a href="{echo:article_list_url($val['cat_id']);/}">{echo:$val['cat_name'];/}</a></li>
+        {end:foreach/}
+        </ul>
+      <div class="artpan">
+      <h4 class="artTitle"><font style="color:{echo: $article_info['tag_color'];/} ">{echo: $article_info['title'];/}</font></h4>
+      <div class="artInfo">
+        <span>{echo: lp{s_time};/}: {echo: substr($article_info['add_time'],0,10);/}</span>
+
+      </div>
+      <div class="artTxt">
+      	<p>{echo: $article_info['content'];/}</p>
+      </div>
+      <div class="link">
+       <p >{echo:lp{i_up_article};/}：{sta:if(empty($up_article))[exc]} {echo:lp{i_none_article};/} {end:if/}<a href="{echo:article_url($up_article['article_id']);/}">{echo:$up_article['title'];/}</a><br/>{echo:lp{i_down_article};/}：{sta:if(empty($down_article))[exc]} {echo:lp{i_none_article};/} {end:if/}<a href="{echo:article_url($down_article['article_id']);/}">{echo:$down_article['title'];/}</a></p>
+      </div>
+      </div>
+      <!--  contents  -->
+    </div>
+    <!-- /contents -->
+  </div>
+
+<!-- main end -->
+{inc: require("shop/index_footer.php");/}
+<!--footer end-->
+</div>
+</body>
+</html>
+{end:if/}
+</body>
+</html>

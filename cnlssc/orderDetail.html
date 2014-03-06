@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>订单详情</title>
+</head> 
+</head>
+<body>
+<div ng-controller="orderDetailCtrl" data-role="page" ngm-pageshow="prefill()">
+
+        <header data-role="header" data-position="fixed">
+            <a data-rel="back" class="ui-btn-left" data-direction="reverse" data-icon="arrow-l" data-role="button">后退</a>
+            <h1>订单详情</h1>
+        </header>
+
+        <div data-role="content">
+            <ul data-role="listview" data-inset="true" >
+                <li>商品名称：<div style="display:inline-block;"><a ng-href="#!/gooddetail/{{orderDetails.goods_id}}/detail">{{orderDetails.goods_name}}</a></div></li>
+                <li>购买数量：{{orderDetails.order_num}}</li>
+                <li>单价：{{orderDetails.goods_price}}</li>
+                <li>运费：{{orderDetails.transport_price}}</li>
+                <li>支付总金额：{{orderDetails.order_amount}}</li>
+                <li>收货人：{{orderDetails.consignee}}</li>
+                <li>联系电话：<div class="inline"><a ng-href="tel:{{orderDetails.mobile}}">{{orderDetails.mobile}}</a></div></li>
+                <li>收货地址：{{orderDetails.address}}</li>
+                <li data-ngm-if="isSelf()">买家留言：{{orderDetails.message}}</li>
+                <li>发货地址：{{orderDetails.goodaddress}}</li>
+                <li>订单号：{{orderDetails.payid}}</li>
+                <li>下单时间：{{orderDetails.order_time}}</li>
+            </ul>
+            
+
+        </div>
+
+
+
+
+</div>
+</body>
+</html>

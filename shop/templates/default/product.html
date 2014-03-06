@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>产品信息</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="target-densitydpi=medium-dpi, width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1, maximum-scale=1">
+<link rel="stylesheet" href="templates/default/css/reset.css" type="text/css">
+<link rel="stylesheet" href="templates/default/css/layout.css" type="text/css">
+</head>
+<body>
+<div id="wrap">
+    <div id="header">
+        <h1><?php echo $shop_info[0]['shop_name'] ;?></h1>
+    </div>
+
+    <div id="content">
+        <div id="leftColumn">
+            <h2><img src="<?php echo $baseUrl.$shop_info[0]['logo_thumb'] ;?>" /></h2>
+            <p>地区：<?php echo $pname['area_name'].$cname['area_name']; ?></p>
+            <p>所属行业：<?php echo $categoryname['cat_name'] ;?></p>
+            <p>简介：<?php echo $shop_info['shop_intro'] ;?></p>
+            <p>经营范围：<?php echo $shop_info['shop_management'] ;?></p>
+            <p>公司地址：<?php echo $shop_info['shop_address'] ;?></p>
+            <p>联系人：<?php echo $shop_info['shop_contact'] ;?></p>
+            <p>电子邮箱：<?php echo $shop_info['shop_email'] ;?></p>
+            <p>联系电话：<?php echo $shop_info['telphone'] ;?></p>
+
+        </div>
+        <div id="rightColumn">
+            <h2><?php echo $result['name']; ?><span class="place">当前位置：<a href="#" onclick='history.back();'>最新产品</a>&nbsp;>&nbsp;<a href="#"><?php echo $result['name'] ;?></a></span></h2>
+            <div class="productPhpto">
+                <img src="<?php echo $baseUrl.$pic['img_url'] ;?>" />
+            </div>
+            <div class="productInfo">
+                <ul>    
+                    <li>单价：<?php echo $result['price']; ?>元</li>
+                    <li>简介：<?php echo $result['introduction']; ?></li>
+                    <li>创建时间：<?php echo $result['addtime']; ?></li>
+                    <li>联系人：<?php echo $result['contact']; ?></li>
+                    <li>地址：<?php echo $result['address'] ;?></li>
+                    <li>联系电话：<?php echo $result['telphone'];?></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+
+

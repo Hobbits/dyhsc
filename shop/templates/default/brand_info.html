@@ -1,0 +1,162 @@
+																																								<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>{echo: $header['title'];/}</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+<meta name="keywords" content="{echo: $header['keywords'];/}" />
+<meta name="description" content="{echo: $header['description'];/}" />
+<base href="{echo: $baseUrl;/}" />
+
+<link href="skin/{echo: $SYSINFO['templates'];/}/css/import.css" type="text/css" rel="stylesheet" />
+
+<link href="skin/{echo: $SYSINFO['templates'];/}/css/parts.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="skin/{echo: $SYSINFO['templates'];/}/js/changeStyle.js"></script>
+
+</head>
+<body>
+<div id="wrapper">
+{inc: include("shop/index_header.php");/}
+<!--search end -->
+  <div id="contents" class="clearfix" >
+		<div id="sub_channel">
+	      <ul class="clearfix">
+	      	<li>
+	          <h3><img src="skin/default/images/part/ttl_channel_all.gif" alt="{echo:lp{i_index};/}" onerror="this.src='skin/default/images/nopic.gif'"/></h3>
+	        </li>
+	        <li><a href="brand_list.php">{echo:lp{i_brand_list};/}</a></li><li><a>{echo:$brand_info['brand_name'];/}</a></li>
+	      </ul>
+	    </div>
+    <div class="pro_class brand_intro mg12b">
+      <img alt="{echo: $brand_info['brand_name'];/}" src="{echo: $brand_info['brand_logo'];/}"  onerror="this.src='skin/default/images/no_page.jpg'"><p><span>{echo:lp{i_service_tel};/}：</span>400-880-0123<br><span>{echo:lp{i_company_website};/}：</span>{echo: $brand_info['site_url'];/}
+  </p><p>{echo: $brand_info['brand_desc'];/}</p></div>
+
+    	<!-- leftColumn -->
+		<div id="leftColumn">
+			  <div class="SubCategoryBox mg12b">
+				<h3>{echo:lp{i_category_filter};/}</h3>
+				<ul>
+				  <li><span>{echo:lp{i_category};/}：</span><a class="active" > {echo:lp{i_all};/}</a>
+				  {sta:foreach($cat_rs as $k=>$v)[loop]}
+				  <a href="category.php?id={echo:$v['cat_id'];/}&brand_id={echo: $brand_info['brand_id'];/}"> {echo: $v['cat_name'];/}</a>
+				  {end:foreach/}
+				  </li>
+				</ul>
+			  </div>
+		  	  <div id="leftMian">
+        <div class="top clearfix ">
+          <h3 class="ttlm_selitems">{echo:lp{i_choice_good};/}</h3>
+          <ul class="toolbar">
+            <a id="list" class="selected"  hidefocus="true" href="javascript:void(0);" onclick="changeStyle2('list',this)">{echo:lp{i_list};/}</a><a id="window" hidefocus="true" href="javascript:void(0);" onclick="changeStyle2('window',this)">{echo:lp{i_show_window};/}</a>
+          </ul>
+        </div>
+        <div id="listItems" class="c_m">
+          <ul class="list_title clearfix">
+            <li class="summary">{echo:lp{i_goods_infos};/}</li>
+            <li class="price">{echo:lp{i_price};/}</li>
+            <li class="address">{echo:lp{i_in_area};/}</li>
+            <li class="operating">{echo:lp{i_handle};/}</li>
+          </ul>{sta:foreach($result['result'] as $k=>$v)[loop]}
+          <ul class="list_view">
+
+            <li id="showli_{echo:$v['goods_id'];/}" class="clearfix">
+              <div class="photo"><a target="_blank" href="{echo: goods_url($v['goods_id']);/}"><img onmouseout="hidebox({echo:$v['goods_id'];/})" onmouseover="showbox({echo:$v['goods_id'];/})" src="{echo: $v['is_set_image'] ? $v['goods_thumb'] : 'skin/default/images/nopic.gif';/}"  width="{echo:$SYSINFO['width1'];/}" height="{echo:$SYSINFO['height1'];/}"  alt="{echo:$v['goods_name'];/}" onerror="this.src='skin/default/images/nopic.gif'"/></a></div>
+              <div class="smmery">
+                <h4><a href="{echo: goods_url($v['goods_id']);/}">{echo: sub_str($v['goods_name'],40);/}</a></h4>
+                <p class="des">[{echo:lp{i_description};/}]{echo: sub_str($v['goods_name'],30);/}</p>
+                <p class="shopinfo">{echo:lp{i_shop};/}：<a class="seller" href="{echo: shop_url($v['shop_id']);/}">{echo: $v['shop_name'];/}</a> {echo: $v['rank_name'];/}</p>
+              </div>
+              <div class="price"> <em>{echo:lp{i_money_sign};/}{echo: $v['goods_price']=='0.00' ? $i_langpackage->i_price_discuss : $v['goods_price'];/}</em>
+                <p class="ship">{echo:lp{i_freight};/}：{echo:$v['transport_price']>0?$v['transport_price']:$v['transport_template_price'];/}</p>
+              </div>
+              <div class="address">
+                <p>{echo: $areainfo[$v['shop_province']];/}.{echo: $areainfo[$v['shop_city']];/}</p>
+              </div>
+              <div class="operating"> <a class="addfavorite" title="{echo:lp{i_collection};/}" href="{echo: goods_url($v['goods_id']);/}"></a>
+              <a class="itembuy" title="{echo:lp{i_buy};/}" href="modules.php?app=user_order&gid={echo:$v['goods_id'];/}&v=1"></a>
+              <a class="compare" title="{echo:lp{i_contrast};/}" href="javascript:;" onclick="initFloatTips('{echo:$v['goods_id'];/}','{echo:sub_str($v['goods_name'],10);/}',1,'{echo:$v['cat_id'];/}')"></a> </div>
+              <div style="display: none;" id="showbox_{echo:$v['goods_id'];/}" class="showbox">
+				<div class="subbox"><img id="showimg_{echo:$v['goods_id'];/}" src="{echo: $v['is_set_image'] ? $v['goods_thumb'] : 'skin/default/images/nopic.gif';/}" width="234" height="234" alt="{echo:lp{i_loading_img};/}" onerror="this.src='skin/default/images/nopic.gif'"/></div>
+			  </div>
+            </li>
+
+          </ul>
+          {end:foreach/}
+
+        </div>
+		 <div class="pagenav clearfix">
+			{sta:if($result['countpage']>0)[exc]}
+        	{inc: include("modules/page.php");/}
+            {sta: } else [exc]}
+            <p style="padding:20px 0 0 20px">{echo:lp{i_no_product};/}！</p>
+            {end:if/}
+         </div>
+    </div>
+    </div>
+		<div id="rightColumn">
+
+			  <div class="tagSet bg_gary mg12b">
+				<h3 class="ttlm_hottag">{echo:lp{i_hot_label};/}</h3>
+				<div class="tags">
+			{sta:foreach($tag_list as $value)[loop]}
+        	<a href="{echo:$value['url'];/}" style="color:{echo:$value['tag_color'];/};{sta:if($value['is_blod'])[exc]}font-weight:bold;{end:if/}">{echo:$value['tag_name'];/}</a>
+        	{end:foreach/} </div>
+			  </div>
+			  <div class="hotgoods bg_gary mg12b">
+				<h3 class="ttlm_hotgoods">{echo:lp{i_hot};/}</h3>
+				<ul>
+					{sta: foreach($goods_hot as $k=> $value)[loop]}
+						<li {sta:if($k%2!=0)[exc]}class="doublenum"{end:if/}>
+						<p class="photo"><a href="{echo: goods_url($value['goods_id']);/}" target="_blank"><img src="{echo: $value['is_set_image'] ? $value['goods_thumb'] : 'skin/default/images/nopic.gif';/}" alt="{echo: $value['goods_name'];/}" width="58" height="58" onerror="this.src='skin/default/images/nopic.gif'"/></a></p>
+						<h4><a href="{echo: goods_url($value['goods_id']);/}" target="_blank">{echo: sub_str($value['goods_name'],14,false);/}</a></h4>
+						<p class="price">{echo:lp{i_money_sign};/}{echo:$value['goods_price'];/}</p>
+				    </li>
+				  	{end:foreach/}
+				</ul>
+			  </div>
+			  <div class="viewrecord bg_gary mg12b">
+				<h3 class="ttlm_viewrecord">{echo:lp{i_new};/}</h3>
+				<ul class="clearfix">
+				  {sta: foreach($goodshistory as $k => $value)[loop]}
+	              	  	<li {sta:if($k%2!=0)[exc]}class="lst"{end:if/}>
+	              	  	<p class="photo">
+		              	  	<a href="{echo: goods_url($value['goods_id']);/}">
+		              	  		<img src="{echo: $value['is_set_image'] ? $value['goods_thumb'] : 'skin/default/images/nopic.gif';/}" width="58" height="58" onerror="this.src='skin/default/images/nopic.gif'"/>
+		              	  	</a>
+	              	  	</p>
+						<p class="price">{echo:lp{i_money_sign};/}{echo:$value['goods_price'];/}</p>
+	              	  </li>
+				  {end:foreach/}
+				</ul>
+			</div>
+      <!-- /rightColumn -->
+    	</div>
+     </div>
+<!--main right end-->
+{inc: require("shop/index_footer.php");/}
+<!--footer end-->
+</div>
+</body>
+<div id="contrastbox" style="z-index:999;position:absolute;right:0; border:1px solid #f1f1f1; background:#f8f8f8; display:none; width:188px;margin-right:10px;padding:10px 0 12px 13px; ">
+	<form action="modules.php?app=contrast" method="post" target="_blank" id="contrastform">
+		<input type="hidden" name="contrast_goods_num" id="contrast_goods_num" value="0" />
+		<input type="hidden" name="contrast_goods_id" id="contrast_goods_id" value="" />
+		<input type="hidden" name="contrast_cid" id="contrast_cid" value="" />
+		<input type="hidden" name="contrast_goods_name" id="contrast_goods_name" value="" />
+		<div id="contrast_goods_name_show"></div>
+		<!--<input type="submit" name="sub" value="对比" /> -->
+        <a class="control" onclick="document.getElementById('contrastform').submit();return false;" href="javascript:;" class="button_4">{echo:lp{i_start_compare};/}</a>
+	</form>
+</div>
+
+<script language="JavaScript">
+<!--
+function showbox(id) {
+	document.getElementById("showbox_"+id).style.display = '';
+}
+function hidebox(id) {
+	document.getElementById("showbox_"+id).style.display = 'none';
+}
+</script>
+</html>
+																																																																																																				

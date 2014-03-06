@@ -1,0 +1,90 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>{echo: lp{m_u_center};/}</title>
+<link rel="stylesheet" type="text/css" href="skin/{echo: $SYSINFO['templates'];/}/css/style.css">
+<script type="text/javascript" src="skin/{echo: $SYSINFO['templates'];/}/js/userchangeStyle.js"></script>
+<script type="text/javascript" src="skin/{echo: $SYSINFO['templates'];/}/js/changeStyle.js"></script>
+<script type='text/javascript' src='servtools/date/WdatePicker.js'></script>
+<style type="text/css">
+.edit span{background:#FFF2E6;}
+.search {margin:5px; height:30px;*height:80px; background:#fff; width:90%; padding-left:0px; text-align:left;}
+.search input {color:#444;}
+td{text-align:left;}
+td div.goodsname{line-height:18px;  font-weight:bold;}
+td span.category{color:#FF6600;}
+.txt{
+	height:20px;
+	border:1px solid #999;
+	line-height:20px}
+p{
+	margin-bottom:10px;}
+</style>
+</head>
+<body onload="menu_style_change('shop_shipping_list');changeMenu();">
+{inc: require("shop/index_header.php");/}
+	<div class="site_map">
+	  {echo:lp{m_current_position};/}<A href="index.php">{echo:$SYSINFO['sys_name'];/}</A>/<a href="modules.php">{echo:lp{m_u_center};/}</a>/&nbsp;&nbsp;发货单
+	</div>
+    <div class="clear"></div>
+    {inc: require("modules/left_menu.php");/}
+    <div class="main_right">
+    	<div class="right_top"></div>
+        <div class="cont">
+            <div class="cont_title">
+            	<span class="tr_op">
+            	<a href="modules.php?app=shop_shipping_export">发货单导出</a>
+				</span>发货单
+			</div>
+            <hr />
+			<div class="search">
+				<form action="modules.php" method="get" name="search_form" style="float:left;">
+					<p>快递单号：<input class="txt" type="text" name="shipping_no" value="{echo:$shipping_no;/}" />
+					收货人：<input class="txt" type="text" name="consignee" value="{echo:$consignee;/}" /></p>
+					<p>发货时间：<input class="Wdate" type="text" name="start_time" id="start_time" onFocus="WdatePicker({isShowClear:false,readOnly:true})" value="{echo:$start_time;/}" />~
+					<input class="Wdate" type="text" name="end_time" id="end_time" onFocus="WdatePicker({isShowClear:false,readOnly:true})" value="{echo:$end_time;/}" />
+					<input type="hidden" value="shop_shipping_list" name="app" />
+					<input type="submit" name="submit" value="搜索" /></p>
+				</form>
+			</div>
+			<hr />
+				<table width="100%" class="">
+					<tr class="">
+						<th width="40">订单号</th>
+						<th width="100">支付单号</th>
+						<th width="100">快递单号</th>
+						<th width="80">收货人</th>
+						<th width="80">收货人电话</th>
+						<th width="60">发货时间</th>
+						<th width="60" align="center">{echo: lp{m_manage};/}</th>
+				   </tr>
+					{sta:
+					if(!empty($result['result'])) {
+						foreach($result['result'] as $v) [loop]}
+					<tr class="trcolor">
+						<td class="center">{echo: $v['order_id'];/}</td>
+						<td class="center">{echo: $v['pay_sn'];/}</td>
+						<td class="center">{echo: $v['shipping_no'];/}</td>
+						<td class="center">{echo: $v['consignee'];/}</td>
+						<td class="center">{echo: $v['consignee_tel'];/}</td>
+						<td class="center">{echo: $v['add_date'];/}</td>
+						<td class="center">
+							<a href="modules.php?app=shop_shipping_view&shipping_id={echo: $v['shipping_id'];/}">查看</a><br />
+							<a href="modules.php?app=shop_shipping_print&shipping_id={echo: $v['shipping_id'];/}">打印</a>
+						</td>
+					</tr>
+					{end:foreach/}
+					<tr><td colspan="7" class="page">{inc: require("modules/page.php");/}</td></tr>
+					{sta: } else [exc]}
+					<tr><td colspan="7" class="center">没有收货单！</td></tr>
+					{end:if/}
+				</table>
+		</div>
+		<div class="clear"></div>
+		<div class="right_bottom"></div>
+		<div class="back_top"><a href="#"></a></div>
+    </div>
+{inc: require("shop/index_footer.php");/}
+</body>
+</html>

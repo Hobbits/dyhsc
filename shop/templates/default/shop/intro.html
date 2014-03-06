@@ -1,0 +1,49 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>{echo: $header['title'];/}</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="keywords" content="{echo: $header['keywords'];/}" />
+<meta name="description" content="{echo: $header['description'];/}" />
+<base href="{echo: $baseUrl;/}" />
+<link href="skin/{echo: $SYSINFO['templates'];/}/css/import.css" type="text/css" rel="stylesheet" />
+<link href="skin/{echo: $SYSINFO['templates'];/}/css/shop.css" rel="stylesheet" type="text/css" />
+<link href="skin/{echo: $SYSINFO['templates'];/}/css/shop_{echo: $SHOP['shop_template'];/}.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="skin/{echo: $SYSINFO['templates'];/}/js/changeStyle.js"></script>
+</head>
+<body>
+<!-- wrapper -->
+<div id="wrapper"> {inc: require("shop/index_header.php");/}
+  <!-- contents -->
+  <div id="contents" class="clearfix" >
+    <div id="pkz">
+<!--    	{echo:lp{s_this_location};/}<a href="index.php">{echo: $SYSINFO['sys_name'];/}</a> &gt; <a href="shop_list.php">{echo:lp{s_shop_category};/}</a> &gt;-->
+<!--    	{sta:foreach($shop_rank_arr as $k=>$value)[loop]}-->
+<!--    		{sta: if($num == $k)[exc]}-->
+<!--    			<a href="" >{echo:$value['cat_name'];/}</a>-->
+<!--    		{sta: } else[exc]}-->
+<!--    			<a href="" >{echo:$value['cat_name'];/}</a> &gt;-->
+<!--    		{end:if/}-->
+<!--    	{end:foreach/}-->
+    </div>
+    <div id="shopHeader" class=" mg12b clearfix">
+	<!-- ���̶���ͼƬ-->
+      <p><img src="{echo: $SHOP['shop_template_img'];/}" alt="" width="960" height="150" onerror="this.src='skin/default/images/nopic.gif'"/></p>
+      <p class="shopName">{echo: $SHOP['shop_name'];/}</p>
+      <div class="shop_nav"> {inc: require("shop/menu.php");/} </div>
+    </div>
+    {inc: require("shop/left.php");/}
+    <div id="rightCloumn">
+     <div class="wrp_b">
+      <h3 class="ttlm_font">{echo:lp{s_shop_intro};/}</h3>
+      <div class="shopIdc">
+      {echo:$SHOP['shop_intro'];/}
+      </div>
+     </div>
+    </div>
+  </div>
+</div>
+{inc:  require("shop/index_footer.php");/}
+</div>
+</body>
+</html>

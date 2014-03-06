@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>一级类别筛选</title>
+</head>
+<body>
+
+<div data-role="page" ng-controller="filterCtrl" data-dom-cache="true"
+     data-id="filterHeader" ngm-pageshow="setShow()">
+    <header data-role="header" data-position="fixed">
+        <a href="#!/" class="ui-btn-left" data-direction="reverse" data-icon="home" data-iconpos="notext" data-role="button">后退</a>
+        <h1>浏览商品</h1>
+    </header>
+
+    <section data-role="content">
+        <ul data-role="listview">
+            <li data-ng-repeat="lvitem in lvList">
+                <a data-ngm-vclick="go(lvitem.cat_id,lvitem.cat_name)">{{lvitem.cat_name}}</a>
+                <span class="ui-li-count">{{lvitem.goods_num}}</span>
+            </li>
+        </ul>
+    </section>
+    <appfooter></appfooter>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,60 @@
+﻿/*	2010-06-01  */
+/*注意：此皮肤凡是在ie6文件夹的图片路径都是相对于网页，而非本CSS文档*/
+
+.ui_title_wrap, .ui_bottom button { font-size:12px 'Microsoft Yahei', Arial; }
+.ui_content_wrap { min-width:9em; }/*设置对话框最小尺寸*/
+.ui_overlay div { background:#000; filter:alpha(opacity=70); opacity:0.7; }/*设置遮罩颜色与透明度*/
+.ui_dialog_main { background:#FFF; }
+.ui_title { width:100%; height:30px; position:absolute; top:3px; left:0; _left:auto; }
+.ui_title_text { height:29px; line-height:29px; padding:0 30px 0 25px; _padding:0 0 0 15px;  color:#FFF; font-weight:700; text-shadow:0 0px 3px rgba(0, 0, 0, 0.7); }
+.ui_loading_tip { width:16px; height:16px; margin:-8px 0 0 -8px; text-indent:-9999em; background:url(loading.gif) no-repeat center center; }/*iframe加载的loading动画*/
+.ui_td_00, .ui_td_02, .ui_td_20, .ui_td_22, .ui_td_01, .ui_td_21, .ui_title_icon, .ui_close, .ui_resize { background-image:url(aero_s.png); background-repeat:no-repeat; _background:none; }
+.ui_td_00 { width:14px; height:34px; background-position: 0 0; _filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled=true,sizingMethod=crop ,src='skin/aero/ie6/ui_td_00.png'); }/*左上角*/
+.ui_td_02 { width:14px; height:34px; background-position: -14px 0; _filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled=true,sizingMethod=crop ,src='skin/aero/ie6/ui_td_02.png'); }/*右上角*/
+.ui_td_20 { width:14px; height:14px; background-position: 0 -34px; _filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled=true,sizingMethod=crop ,src='skin/aero/ie6/ui_td_20.png'); }/*左下角*/
+.ui_td_22 { width:14px; height:14px; background-position: -14px -34px; _filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled=true,sizingMethod=crop ,src='skin/aero/ie6/ui_td_22.png'); }/*右下角*/
+.ui_title_icon { width:11px; height:11px; position:absolute; left:10px; _left:0px; top:9px; background-position:0 -109px; _filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled=true,sizingMethod=crop ,src='skin/aero/ie6/ui_title_icon.png'); }/*标题图标*/
+.ui_close { top:7px; right:12px; _right:0; _z-index:1; width:13px; height:13px; background-position:left -96px; _font-size:0; _line-height:0; text-indent:-9999em; _filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled=true,sizingMethod=crop ,src='skin/aero/ie6/ui_close.png'); }/*关闭按钮*/
+.ui_close:hover { background-position:right -96px; _filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled=true,sizingMethod=crop ,src='skin/aero/ie6/ui_close.hover.png'); }
+.ui_resize { width:10px; height:10px; _z-index:1; background-position:right bottom; _filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled=true,sizingMethod=crop ,src='skin/aero/ie6/ui_resize.png'); }/*窗口调节把柄*/
+.ui_td_01, .ui_td_21 { background-repeat:repeat-x; }
+.ui_td_01 { background-position: 0 -48px; _filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled=true,sizingMethod=crop ,src='skin/aero/ie6/ui_td_01.png'); }/*上边框*/
+.ui_td_21 { background-position: 0 -82px; _filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled=true,sizingMethod=crop ,src='skin/aero/ie6/ui_td_21.png'); }/*下边框*/
+.ui_td_10, .ui_td_12 { background-image:url(aero_s2.png); background-repeat:repeat-y; _background:none; }
+.ui_td_10 { background-position:left top; _filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled=true,sizingMethod=crop ,src='skin/aero/ie6/ui_td_10.png'); }/*左边框*/
+.ui_td_12 { background-position: right bottom;  _filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled=true,sizingMethod=crop ,src='skin/aero/ie6/ui_td_12.png'); }/*右边框*/
+.ui_btns { background-color:#F6F6F6; -moz-border-radius:4px; -webkit-border-radius: 4px; border-radius:4px; }
+.ui_btns span, .ui_btns button { background-color:transparent; background-image:url(btns.png); background-repeat:no-repeat; }
+.ui_btns span { padding:0 0 0 6px; overflow:hidden; }
+.ui_btns button { height:31px; line-height:31px; padding:0 12px 0 6px; max-width:200px; border:none 0; }
+.ui_yes { background-position:left -124px; }
+.ui_yes:hover { background-position:left -155px; }
+.ui_yes button { color:#f0f0f0; background-position:right 0; }
+.ui_yes:hover button { background-position:right -31px; }
+.ui_no { background-position:left -186px; }
+.ui_no:hover { background-position:left -217px; }
+.ui_no button { color:#666; background-position:right -62px; }
+.ui_no:hover button { background-position:right -93px; }
+html:hover .ui_btns button:focus { outline:none 0; }
+.ui_move_temp div { background-color:#214FA3; filter:alpha(opacity=40); opacity:0.4; }/*拖动用的替身对话框*/
+
+/*
+皮肤拓展参数[可添加组合在'style'参数中]
+可用来支持消息类型图标等
+*/
+.ui_dialog_icon { display:inline-block; *zoom:1; *display:inline; background-image:url(icons.png); background-repeat:no-repeat; }
+/*警告消息*/
+.alert .ui_dialog_icon { margin-right:10px; width:48px; height:48px; background-position:0 -96px; }
+/*询问消息*/
+.confirm .ui_dialog_icon { margin-right:10px; width:48px; height:48px; background-position:0 -144px; }
+/*错误消息*/
+.error .ui_dialog_icon { margin-right:10px; width:48px; height:48px; background-position:0 -48px; }
+/*成功消息*/
+.succeed .ui_dialog_icon { margin-right:10px; width:48px; height:48px; background-position:0 0; }
+
+/*去除所有背景*/
+.noSkin .ui_border, .noSkin .ui_title_wrap, .noSkin .ui_dialog_icon { display:none; }
+.noSkin .ui_bottom_wrap { display:none; *display:block; *height:0; overflow:hidden; }
+* html .noSkin .ui_btns { height:0; overflow:hidden; position:absolute; left:-99999em; }
+.noSkin .ui_content { margin:0; }
+.noSkin .ui_dialog_main { background:transparent; }

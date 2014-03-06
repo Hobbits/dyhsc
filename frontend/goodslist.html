@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>商品列表</title>
+</head>
+<body>
+<!--TODO 商品列表-->
+<div ng-controller="goodslistCtrl" id="pagegoodlist" data-role="page" ngm-pageshow="preget()">
+
+    <!--<div data-role="panel" class="myPanel" data-position="left"  data-display="overlay">-->
+        <!--<h1><img src="images/logo.png"/></h1>-->
+        <!--<ul class="panelul" data-role="listview" data-inset="false" data-split-theme="h">-->
+            <!--<li>-->
+                <!--<a href="#!/">首页</a>-->
+            <!--</li>-->
+            <!--<li>-->
+                <!--<a href="#!/account">管理中心</a>-->
+            <!--</li>-->
+            <!--<li>-->
+                <!--<a href="#!/chatlist">新消息</a>-->
+                <!--<span class="ui-li-count">55</span>-->
+            <!--</li>-->
+        <!--</ul>-->
+
+    <!--</div>-->
+
+
+    <header data-role="header" data-position="fixed">
+        <a data-rel="back" class="ui-btn-left" data-direction="reverse" data-icon="arrow-l" data-role="button">后退</a>
+        <h1>我的货架</h1>
+        <a href="#!/addgood" class="ui-btn-right" data-icon="plus" data-role="button">添加商品</a>
+    </header>
+
+    <section data-role="content">
+
+        <ul data-role="listview"  data-filter="true" data-filter-reveal="false" data-filter-placeholder="快速查找本页..." data-inset="true">
+            <li ng-repeat="goodItem in goodList">
+                <a ng-href="#!/gooddetail/{{goodItem.goods_id}}/detail">
+                <img ng-src="{{logobaseURL+(goodItem.goods_thumb || default_thumb)}}">
+                <h2>{{goodItem.goods_name}}</h2>
+                <p>{{goodItem.goods_intro | htmlToPlaintext}}</p></a>
+            </li>
+        </ul>
+
+
+    </section>
+
+
+</div>
+<!--商品列表结束-->
+</body>
+</html>

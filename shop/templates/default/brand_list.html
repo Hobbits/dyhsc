@@ -1,0 +1,58 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="skin/{echo: $SYSINFO['templates'];/}/css/import.css" type="text/css" rel="stylesheet" />
+<link href="skin/{echo: $SYSINFO['templates'];/}/css/parts.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="skin/{echo: $SYSINFO['templates'];/}/js/changeStyle.js"></script>
+<title>iWebMall</title>
+</head>
+<body>
+<!-- wrapper -->
+<div id="wrapper">
+{inc: include("shop/index_header.php");/}
+  <!-- contents -->
+	<div id="contents" class="clearfix" >
+		<div id="sub_channel">
+	      <ul class="clearfix">
+	      	<li>
+	          <h3><img src=" " alt="{echo:lp{i_index};/}"  onerror="this.src='skin/default/images/nopic.gif'"/></h3>
+        </li>
+        <li><a href="">{echo:lp{i_brand_list};/}</a></li>
+      </ul>
+    </div>
+    <div class="all_brand blank">
+    {sta: foreach($result['result'] as $value)[loop]}
+      <div class="goodsbox clearfix">
+        <h4><span><a href="{echo:$value['site_url'];/}">{echo:$value['brand_name'];/}</a></span>&nbsp;</h4>
+        <div class="imgbox"><a href="brand_info.php?brand_id={echo:$value['brand_id'];/}"><img alt=" " src="{echo:$value['brand_logo'];/}" width="110" height="42"  onerror="this.src='skin/default/images/nopic.gif'"/></a> </div>
+      <!--  <p class="phone"></p>-->
+        <p class="internet"><a href="{echo:$value['site_url'];/}">{echo:$value['site_url'];/}</a> </p>
+      </div>
+     {end:foreach/}
+     </div>
+    <!-- /contents -->
+  </div>
+
+
+  <div class="pagenav clearfix">
+	{sta:if($result['countpage']>0)[exc]}
+	{inc: include("modules/page.php");/}
+    {sta: } else [exc]}
+    {echo:lp{i_no_product};/}！
+    {end:if/}
+  </div>
+{inc: require("shop/index_footer.php");/}
+  <!-- /wrapper -->
+</div>
+</body>
+<script language="JavaScript">
+<!--
+function showbox(id) {
+	document.getElementById("showbox_"+id).style.display = '';
+}
+function hidebox(id) {
+	document.getElementById("showbox_"+id).style.display = 'none';
+}
+</script>
+</html>

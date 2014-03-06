@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>新闻分类</title>
+</head>
+<body>
+
+<div ng-controller="newsCategoryCtrl" data-role="page" data-dom-cache="true" data-id="newsCategoryHeader" ngm-pageshow="showNewsCategory()">
+    <header data-role="header" data-position="fixed">
+        <a href="#!/" class="ui-btn-left" data-direction="reverse" data-icon="home" data-iconpos="notext" data-role="button">后退</a>
+        <h1>新闻分类</h1>
+    </header>
+
+    <section data-role="content">
+        <ul data-role="listview">
+            <li data-ng-repeat="n in newsCategory">
+                <a ng-href="#!/news/{{n.cat_id}}">{{n.cat_name}}</a>
+                <span class="ui-li-count">{{n.art_num}}</span>
+            </li>
+        </ul>
+    </section>
+
+
+
+</div>
+
+</body>
+</html>

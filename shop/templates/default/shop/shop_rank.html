@@ -1,0 +1,88 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>{echo: $header['title'];/}</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="keywords" content="{echo: $header['keywords'];/}" />
+<meta name="description" content="{echo: $header['description'];/}" />
+<base href="{echo: $baseUrl;/}" />
+<link href="skin/{echo: $SYSINFO['templates'];/}/css/import.css" type="text/css" rel="stylesheet" />
+<link href="skin/{echo: $SYSINFO['templates'];/}/css/article.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="skin/{echo: $SYSINFO['templates'];/}/js/changeStyle.js"></script>
+<style type="text/css">
+.knowledge_content p{
+	margin:10px 0;}
+.knowledge_content table{
+	width:70%;
+	border:1px solid #ccc;
+	}	
+.knowledge_content  th,
+.knowledge_content  td{
+	padding:8px;}
+.knowledge_content th{
+	background-color:#F1F1F1}	
+.knowledge_content td{
+	border-bottom:1px dashed #ddd;}	
+</style>
+</head>
+<body>
+<div id="wrapper">
+	{inc: require("shop/index_header.php");/}
+<!--search end -->
+  <!-- contents -->
+  <div id="contents" class="clearfix" >
+<div id="pkz"> {echo:lp{i_location};/}：<a href="index.php">{echo:lp{i_index};/}</a> > <a href="{echo:article_list_url(2);/}">{echo:$cat_name;/}</a> > 商铺信用等级</div>
+    <div id="mall_banner"  class="mg12b"><script language="JavaScript" src="uploadfiles/asd/5.js"></script></div>
+    <!--  contents  -->
+    <h3 class="ttlm_infoContents">{echo:lp{s_message_center};/}</h3>
+    <div id="artContents" class=" clearfix">
+        <ul class="artlist_ttlm">
+        {sta:foreach($article_cat as $val)[loop]}
+            <li {sta:if($val['cat_id']==2)[exc]}class="now"{end:if/}><a href="{echo:article_list_url($val['cat_id']);/}">{echo:$val['cat_name'];/}</a></li>
+        {end:foreach/}
+        </ul>
+      <div class="artpan">
+    <h4 class="artTitle">
+		商铺信用等级说明
+	</h4>
+	 <div class="artInfo">
+
+      </div>
+      <div class="knowledge_content">
+	  <p>成功交易一次，就可以对交易对象作一次信用评价。评价分为“好评”、“中评”、“差评”三类，每种评价对应一个信用积分，具体为：“好评”加一分，“中评”不加分，“差评”扣一分。</p>
+
+      	<table >
+		 <colgroup>
+		 	<col width="17%" />
+		 	<col width="27%" />
+		 	<col width="47%" />
+		 </colgroup>
+          <tr>
+            <th width="30">级别</th>
+            <th width="100">最小信用度</th>
+            <th width="110">最大信用度</th>
+            <th width="120">级别图显</th>
+          </tr>
+
+		{sta:foreach($integral as $val)[loop]}
+             <tr>
+            <td>{echo:$val['int_grade'];/}</td>
+            <td>{echo:$val['int_min'];/}</td>
+            <td>{echo:$val['int_max'];/}</td>
+            <td><img src="{echo:$val['int_img'];/}" /></td>
+          </tr>
+        {end:foreach/}
+        </table>
+      </div>
+      </div>
+      <!--  contents  -->
+    </div>
+    <!-- /contents -->
+  </div>
+
+<!-- main end -->
+{inc: require("shop/index_footer.php");/}
+<!--footer end-->
+</div>
+</body>
+</html>

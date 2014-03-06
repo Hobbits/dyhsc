@@ -1,0 +1,128 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>{echo:lp{i_member_login};/}</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="keywords" content="" />
+<meta name="description" content="" />
+<base href="{echo: $baseUrl;/}" />
+<link href="skin/{echo: $SYSINFO['templates'];/}/css/index.css" rel="stylesheet" type="text/css" />
+<link href="skin/{echo: $SYSINFO['templates'];/}/css/import.css" rel="stylesheet" type="text/css" />
+
+<script type="text/javascript" src="skin/{echo: $SYSINFO['templates'];/}/js/changeStyle.js"></script>
+<script type="text/javascript" src="skin/{echo: $SYSINFO['templates'];/}/js/area.js"></script>
+
+</head>
+<body>
+<div id="wrapper">
+{inc: include("shop/index_header.php");/}
+
+  <div id="contents" class="clearfix" >
+    <h3 class="ttlm_login">{echo: lp{i_u_login};/}</h3>
+	 <form action="do.php?act=login" method="post" name="reg_form">
+		<input type="hidden" name="url" value="{echo:isset($_SERVER['HTTP_REFERER'])?$_SERVER['HTTP_REFERER']:'index.php';/}">
+		<input type="hidden" name="outuserid" value="{echo:$outuserid;/}">
+	     <div id="login_leftColumn" class="w_480">
+	     	<p class="mg12b">{echo: lp{i_login_email};/}：</p>
+	      	<p class="mg12b"><input name="user_email" class="txt_230" type="text" value="{echo:$iweb_shop;/}" maxlength="200" /></p>
+	      	<p class="tip mg12b">{echo: lp{i_enter_username_email};/}</p>
+	      	<p class="mg12b">{echo: lp{i_login_password};/}：</p>
+	      	<p class="mg12b"><input name="user_passwd" class="txt_230" type="password" value="" maxlength="50" /></p>
+	      	<p class="tip mg12b">{echo: lp{i_reg_unameinfo};/}</p>
+		{sta:if($verifycode['1']==1)[exc]}
+          <p class="mg12b">{echo: lp{i_verifycode};/}：</p>
+          <p class="vali mg12b">
+          	<input type="text" class="txt_230" name="veriCode" id="veriCode" style="width:100px" maxlength="4" /> 
+          	<img border="0" src="servtools/veriCodes.php" align="absmiddle" id="verCodePic"><a href="javascript:;" onclick="return getVerCode();">{echo:lp{i_change_img};/}</a>
+          	<SPAN id="veriCode_message"></SPAN>
+          </p>
+		   <p class="tip mg12b">{echo: lp{i_reg_inputvf};/}</p>
+		{end:if/}
+	      	<div class="login_submit">
+		        <INPUT class="btn_02" type="button" value="{echo:lp{i_login};/}" name={echo:lp{i_login};/} onclick='checkcode()'>				
+		      	<span class="go_register" ><a href="modules.php?app=forgot">{echo: lp{i_getback_pw};/}？</a></span>
+		    </div>
+	     </div>
+
+     </form>
+     <div id="login_rightColumn" class="w_475">
+      	<div class="right_inner">
+     		<p class="ttlms_tip"><img src="skin/{echo: $SYSINFO['templates'];/}/images/login_tip.gif" alt="{echo:lp{i_login_info};/}" /></p>
+      		<p>1.{echo:lp{i_login_info_first};/}</p>
+		    <p>2.{echo:lp{i_login_info_sec};/}</p>
+		    <p>3.{echo:lp{i_login_info_the};/}</p>
+		    <!--<p>4.{echo:lp{i_login_info_foru};/}</p>-->
+		    <div class="login_submit">
+		        <INPUT class="btn_02" type="button" value="{echo: lp{i_register_now};/}" name={echo:lp{i_login};/} onclick="javascript:window.location.href='modules.php?app=reg'"/>				
+		    </div>
+      	</div>
+     </div>
+    <!-- /contents -->
+  </div>
+  <script language="JavaScript" src="servtools/ajax_client/ajax.js"></script>
+<script language="JavaScript">
+<!--
+function reg(){
+	
+}
+function getVerCode() {
+	document.getElementById("verCodePic").src="servtools/veriCodes.php?vc="+Math.random();
+}
+
+function checkcode(){
+	{sta:if($verifycode['1']==1) [exc]}
+	var cvalue=document.getElementById("veriCode").value;
+	var veriCode = document.getElementsByName('veriCode')[0];
+	var veriCode_message = document.getElementById('veriCode_message');
+	if(cvalue==''){
+		veriCode_message.style.color = 'red';
+		veriCode.className = 'txt_230 ipt_focus'; 
+		veriCode_message.innerHTML = '{echo: lp{i_rmsgvf_input};/}';
+		return false;
+	}
+	ajax('do.php?act=checkcode','POST','checkcode='+cvalue,function(data){
+		if(data==1){
+			veriCode_message.innerHTML = '';
+			if(checkForm()){
+            	document.reg_form.submit();
+			}
+		}else{
+			veriCode_message.style.color = 'red';
+			veriCode.className = 'txt_230 ipt_focus'; 
+			veriCode_message.innerHTML = '{echo: lp{i_checkcode_error};/}';
+            return false;
+		}
+		
+	});
+	{sta: } else [exc]}
+		if(checkForm()){
+            document.reg_form.submit();
+		}
+	{end:if/}
+}
+
+function checkForm() {
+	var user_email = document.getElementsByName("user_email")[0];
+	if(user_email.value=='') {
+		alert('{echo: lp{i_email_notnone};/}');
+		user_email.focus();
+		return false;
+	}
+	//var user_passwd = document.getElementsByName("user_passwd")[0];
+	//if(user_passwd.value=='') {
+		//alert('{echo: lp{i_password_notnone};/}');
+		//user_passwd.focus();
+		//return false;
+	//} 
+	
+	return true;
+}
+//-->
+</script>
+<!-- main end -->
+<!--main right end-->
+{inc: require("shop/index_footer.php");/}
+<!--footer end-->
+</div>
+</body>
+</html>

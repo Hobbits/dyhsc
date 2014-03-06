@@ -1,0 +1,169 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>{echo: $header['title'];/}</title>
+<link rel="stylesheet" type="text/css" href="skin/{echo: $SYSINFO['templates'];/}/css/import.css">
+<link rel="stylesheet" type="text/css" href="skin/{echo: $SYSINFO['templates'];/}/css/parts.css">
+<script language="JavaScript" src="servtools/ajax_client/ajax.js"></script>
+<script type="text/javascript" src="skin/{echo: $SYSINFO['templates'];/}/js/changeStyle.js"></script>
+
+</head>
+<body>
+<div id="wrapper">
+  {inc: include("shop/index_header.php");/}
+  <div id="contents" class="clearfix" >
+    <div id="sub_channel">
+      <ul class="clearfix">
+        <li>
+          <h3><img src="skin/default/images/part/ttl_channel_all.gif" alt="{echo:lp{m_all_category};/}" /></h3>
+        </li>
+			{sta:foreach($sub_category as $value)[loop]}
+		        {sta: if($value['cat_id'] != $goods_list[0]['cat_id']) [exc]}
+			        <li>
+			        	<a href="{echo:$value['url'];/}">{echo:$value['cat_name'];/}</a>
+			        </li>
+			    {end:if/}
+	        {end:foreach/}
+      </ul>
+    </div>
+  <table cellspacing="0" cellpadding="0" id="CompareTable">
+     <tbody>
+     <tr class="toolbar">
+          <th scope="col"><a href="search.php">{echo:lp{m_all_remove};/}</a></th>
+          {sta:foreach($goods_list as $k=>$value) [loop]}
+          <th scope="col"><a onclick="move_pk({echo: $value['goods_id'];/});" href="javascript:;" >{echo:lp{m_remove};/}</a> / <a onclick="add_shopFavorite({echo: $value['goods_id'];/},{echo: $value['shop_id'];/},{echo:$k;/})" href="javascript:;" >{echo:lp{m_collect};/}</a></th>
+          {end:foreach/}
+    </tr>
+
+    <tr>
+      <th scope="row">{echo:lp{m_pic};/}</th>
+      {sta:if(is_array($goods_list))[exc]}
+      {sta:foreach($goods_list as $value) [loop]}
+      <td class="picName"><a href="goods.php?id={echo:$value['goods_id'];/}" ><img height="80" width="80" alt="" src="{echo:$value['goods_thumb'];/}" onerror="this.src='skin/default/images/nopic.gif'"></a></td> {end:foreach/}
+    {end:if/}
+    </tr>
+    <tr>
+      <th scope="row">{echo:lp{m_goods_name};/}</th>
+       {sta:if(is_array($goods_list))[exc]}
+      {sta:foreach($goods_list as $value) [loop]}
+      <td class="picName"><a target="_blank" href="goods.php?id={echo:$value['goods_id'];/}">{echo:$value['goods_name'];/}</a></td> {end:foreach/}
+    {end:if/}
+    </tr>
+    <tr>
+    <th scope="row">{echo:lp{m_move_cart};/}</th>
+     {sta:if(is_array($goods_list))[exc]}
+      {sta:foreach($goods_list as $value) [loop]}
+      <td class="picName"><a onclick ="addCart({echo: $value['goods_id'];/},{echo: $value['shop_id'];/});" href="javascript:;"><img height="33" width="109" alt="放入购物车" src="skin/default/images/shop/btn_addgoods.gif"></a></td> {end:foreach/}
+    {end:if/}
+    </tr>
+    <tr>
+    <th scope="row">{echo:lp{m_order_shops};/}</th>
+    {sta:if(is_array($goods_list))[exc]}
+      {sta:foreach($goods_list as $value) [loop]}
+      <td><a target="_blank" href="shop.php?shopid={echo:$value['shop_id'];/}&app=index">{echo:$value['shop_name'];/}</a></td>{end:foreach/}
+    {end:if/}
+    </tr>
+    <tr>
+     <th scope="row">{echo:lp{m_goods_price};/}</th>
+    {sta:if(is_array($goods_list))[exc]}
+      {sta:foreach($goods_list as $value) [loop]}
+      <td  class="picPrice">{echo:lp{m_money_sign};/}{echo:$value['goods_price'];/}</td>{end:foreach/}
+    {end:if/}
+    </tr>
+    <tr>
+      <th scope="row">{echo:lp{m_expense_country};/}</th>
+      {sta:if(is_array($goods_list))[exc]}
+      {sta:foreach($goods_list as $value) [loop]}
+      <td>
+      	{echo:lp{m_money_sign};/}{echo:$value['transport_template_price'];/}
+      </td>
+      {end:foreach/}
+      {end:if/}
+    </tr>
+    <tr>
+    	<th scope="row">{echo:lp{m_collect_num};/}</th>
+      {sta:if(is_array($goods_list))[exc]}
+      {sta:foreach($goods_list as $k=>$value) [loop]}
+      	<td><span id="fid_{echo: $k;/}">{echo:$value['favpv'];/}</span></td>
+      {end:foreach/}
+      {end:if/}
+    </tr>
+     <tr class="toolbar">
+          <th scope="col"><a href="search.php">{echo:lp{m_all_remove};/}</a></th>
+          {sta:foreach($goods_list as $k=>$value) [loop]}
+          	<th scope="col">
+          		<a onclick="move_pk({echo: $value['goods_id'];/});" href="javascript:;">{echo:lp{m_remove};/}</a> / <a onclick="add_shopFavorite({echo: $value['goods_id'];/},{echo: $value['shop_id'];/},{echo:$k;/})" href="javascript:;" >{echo:lp{m_collect};/}</a>
+          	</th>
+          {end:foreach/}
+    </tr>
+  </table>
+  <form name="form1" action="" method="get" >
+  	<input type="hidden" id="goods_ids" value="{echo: $goods_ids;/}"/>
+  	<input type="hidden" id="shop_user" value="{echo: $USER['user_id'];/}" />
+  </form>
+</div>
+{inc: include("shop/index_footer.php");/}
+<script language="JavaScript" src="servtools/ajax_client/ajax.js"></script>
+<script language="JavaScript" type="text/javascript">
+	function addCart(id,shop_id) {
+		var user_id = document.getElementById('shop_user').value;
+		if (shop_id == user_id){
+			alert('{echo: lp{m_mygoods_error};/}');
+		}else {
+			var num = 1;
+			ajax("do.php?act=goods_add_cart","POST","id="+id+"&num="+num,function(data){
+				if(data == 1) {
+					alert("{echo: lp{s_g_addedcart};/}");
+				} else if(data == -1) {
+					alert("{echo: lp{s_staycart};/}");
+				} else if(data == -2) {
+					alert("{echo: lp{s_nomachgoods};/}");
+				} else {
+					alert("{echo: lp{s_g_addfailed};/}");
+				}
+			});
+		}
+	}
+
+	function add_shopFavorite(id,shop_id,k) {
+		var user_id = document.getElementById('shop_user').value;
+		var fid = "fid_"+k;
+		var favpv = document.getElementById(fid).innerHTML;
+		var favpv_num = Number(favpv) + Number(1);
+		if (shop_id == user_id){
+			alert('{echo: lp{m_store_mygoods_error};/}');
+		}else {
+			ajax("do.php?act=goods_add_favorite","POST","id="+id,function(data){
+				if(data == 1) {
+					document.getElementById(fid).innerHTML = favpv_num;
+					alert("{echo: lp{s_g_addedfavorite};/}");
+				} else if(data == -1) {
+					alert("{echo:lp{m_store_info};/}");
+				} else if(data == -2){
+					alert("{echo:lp{m_shop_error_login};/}");
+				}else {
+					alert("{echo: lp{s_g_addfailed};/}");
+				}
+			});
+		}
+	}
+
+	function move_pk(id){
+		var arr = document.getElementById('goods_ids').value;
+		if (id == arr){
+			location.href = "{echo: $baseUrl;/}search.php";
+		}else {
+			ajax("do.php?act=goods_movepk","POST","id="+id+"&goods_ids="+arr,function(data){
+				if(data) {
+					location.href = "{echo: $baseUrl;/}modules.php?app=contrast&id="+data;
+				} else {
+					alert("{echo:lp{m_sys_error};/}");
+				}
+			});
+		}
+	}
+
+</script>
+</body>
+</html>

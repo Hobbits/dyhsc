@@ -1,0 +1,250 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>{echo:lp{m_u_center};/}</title>
+<link rel="stylesheet" type="text/css" href="skin/{echo: $SYSINFO['templates'];/}/css/modules.css">
+<link rel="stylesheet" type="text/css" href="skin/{echo: $SYSINFO['templates'];/}/css/layout.css">
+<script type="text/javascript" src="skin/{echo: $SYSINFO['templates'];/}/js/changeStyle.js"></script>
+<link rel="stylesheet" type="text/css" href="skin/{echo: $SYSINFO['templates'];/}/css/style.css">
+<script type="text/javascript" src="skin/{echo: $SYSINFO['templates'];/}/js/userchangeStyle.js"></script>
+<style type="text/css">
+td span { color:red; }
+#reg_step { width:770px; height:29px; margin: 12px auto 20px; line-height: 29px; }
+#reg_step ol li { width: 154px; float: left; padding:0 0 3px; font-size: 14px; font-weight: bold; background-color:#ececec; color:#333; text-align:center; }
+#reg_step ol li span, #reg_step ol li strong { display: block; text-align:center; }
+#reg_step ol li.current { background:url(skin/default/images/steps_bg.gif) left top no-repeat; padding-top:4px; margin-top:-4px; color:#FFF; }
+#reg_step ol li.last_current { background-color: #F6A248; color: #fff; background-position: right -145px; }
+td { text-align:left; }
+</style>
+</head>
+<body onload="menu_style_change('user_my_order');changeMenu();">
+{inc: require("shop/index_header.php");/}
+<div class="site_map"> {echo:lp{m_current_position};/}<A href="index.php">{echo:$SYSINFO['sys_name'];/}</A>/<a href="modules.php">{echo:lp{m_u_center};/}</a>/&nbsp;&nbsp;{echo: lp{m_view_orderinfo2};/} </div>
+<div class="clear"></div>
+{inc: require("modules/left_menu.php");/}
+<div class="main_right">
+	<div class="right_top"></div>
+	<div class="cont">
+		<div class="cont_title">{echo: lp{m_view_orderinfo2};/}</div>
+		<hr />
+		<div id="reg_step">
+			<ol>
+				{sta: if($info['order_status']==0) [exc]}
+				<li class=""><span>1、{echo:lp{m_view_card};/}</span></li>
+				<li class=""><span>2、{echo:lp{m_check_order_info};/}</span></li>
+				<li class=""><span>3、{echo:lp{m_pay_to_alipay};/}</span></li>
+				<li class=""><span>4、{echo:lp{m_check_get_goods};/}</span></li>
+				<li class=""><span>5、{echo:lp{m_thisorder_cancel};/}</span></li>
+				{sta: } elseif($info['order_status']==3) [exc]}
+				<li class=""><strong class="first">1、{echo:lp{m_view_card};/}</strong></li>
+				<li class=""><span>2、{echo:lp{m_check_order_info};/}</span></li>
+				<li class=""><span>3、{echo:lp{m_pay_to_alipay};/}</span></li>
+				<li class=""><span>4、{echo:lp{m_check_get_goods};/}</span></li>
+				<li class="current"><span>5、{echo:lp{m_com_deal};/}</span></li>
+				{sta: } elseif($info['transport_status']==1)[exc]}
+				<li class=""><strong class="first">1、{echo:lp{m_view_card};/}</strong></li>
+				<li class=""><span>2、{echo:lp{m_check_order_info};/}</span></li>
+				<li class="current"><span>3、{echo:lp{m_pay_to_alipay};/}</span></li>
+				<li class=""><span>4、{echo:lp{m_check_get_goods};/}</span></li>
+				<li class=""><span>5、{echo:lp{m_com_deal};/}</span></li>
+				{sta: } elseif($info['pay_status']==1) [exc]}
+				<li class=""><strong class="first">1、{echo:lp{m_view_card};/}</strong></li>
+				<li class=""><span>2、{echo:lp{m_check_order_info};/}</span></li>
+				<li class="current"><span>3、{echo:lp{m_pay_to_alipay};/}</span></li>
+				<li class=""><span>4、{echo:lp{m_check_get_goods};/}</span></li>
+				<li ><span>5、{echo:lp{m_com_deal};/}</span></li>
+				{sta: }elseif($info['order_status']==2) [exc]}
+				<li class=""><strong class="first">1、{echo:lp{m_view_card};/}</strong></li>
+				<li class="current"><span>2、{echo:lp{m_check_order_info};/}</span></li>
+				<li class=""><span>3、{echo:lp{m_pay_to_alipay};/}</span></li>
+				<li class=""><span>4、{echo:lp{m_check_get_goods};/}</span></li>
+				<li class=""><span>5、{echo:lp{m_com_deal};/}</span></li>
+				{sta: } else [exc]}
+				<li class="current"><strong class="first">1、{echo:lp{m_view_card};/}</strong></li>
+				<li class=""><span>2、{echo:lp{m_check_order_info};/}</span></li>
+				<li class=""><span>3、{echo:lp{m_pay_to_alipay};/}</span></li>
+				<li class=""><span>4、{echo:lp{m_check_get_goods};/}</span></li>
+				<li class=""><span>5、{echo:lp{m_com_deal};/}</span></li>
+				{end:if/}
+			</ol>
+		</div>
+		<table width="100%" border="0" cellspacing="0">
+			<!--<tr>
+				<th style="background:#FFF2E6;" colspan="3" class="">&nbsp;&nbsp;{echo: lp{m_goods_info};/}</th>
+			</tr>-->
+			<tr>
+				<th>{echo: lp{m_goods_name};/}</th>
+				<th>{echo: lp{m_goods_price};/}</th>
+				<th>{echo: lp{m_buy_num};/}</th>
+				<!--<th>{echo: lp{m_transport_price};/}</th>-->
+			</tr>
+			{sta:foreach($info['order_goods'] as $v)[loop]}
+			<tr>
+				<td><a href="goods.php?id={echo: $v['goods_id'];/}" target="_blank" >{echo: $v['goods_name'];/}</a></td>
+				<td style="text-align:center">{echo: $v['goods_price'];/}{echo: lp{m_yuan};/}</td>
+				<td style="text-align:center">{echo: $v['order_num'];/}</td>
+			</tr>
+			{end:foreach/}
+			<tr>
+				<td colspan="3">{echo: lp{m_order_thisbuyprice};/}：<span>{echo: $info['order_amount'];/}+{echo:lp{m_transport_price};/}：{echo:$info['transport_price'];/}={echo:$info['order_value'];/}</span>{echo: lp{m_yuan};/}</td>
+			</tr>
+		</table>
+		<h3 class="ttlm_02">{echo: lp{m_order_getsting};/}</h3>
+		<table class="form_table_02" width="100%" border="0" cellspacing="0">
+			<!--<tr>
+				<th style="background:#FFF2E6;" colspan="2" class="">&nbsp;&nbsp;{echo: lp{m_order_getsting};/}</th>
+			</tr>-->
+			<tr>
+				<th width="100px">{echo: lp{m_contact};/}：</th>
+				<td>{echo: $info['consignee'];/}</td>
+			</tr>
+			<tr>
+				<th>{echo: lp{m_address};/}：</th>
+				<td>{echo: $areas[$info['province']];/} {echo: $areas[$info['city']];/} {echo: $areas[$info['district']];/} {echo: $info['address'];/} , {echo: $info['zipcode'];/}</td>
+			</tr>
+			<tr>
+				<th>联系方式：</th>
+				<td>{echo: lp{m_mobile};/}：{echo: $info['mobile'];/} , {echo: lp{m_telphone};/}：{echo: $info['telphone'];/}</td>
+			</tr>
+			<!--<tr>
+				<th >{echo: lp{m_mobile};/}：</th>
+				<td>{echo: $info['mobile'];/}</td>
+			</tr>
+			<tr>
+				<th >{echo: lp{m_telphone};/}：</th>
+				<td>{echo: $info['telphone'];/}</td>
+			</tr>
+			<tr>
+				<th >{echo: lp{m_email};/}：</th>
+				<td>{echo: $info['email'];/}</td>
+			</tr>
+			<tr>
+				<th >{echo: lp{m_stayarea};/}：</th>
+				<td>{echo: $areas[$info['province']];/} {echo: $areas[$info['city']];/} {echo: $areas[$info['district']];/}</td>
+			</tr>
+			<tr>
+				<th >{echo: lp{m_address};/}：</th>
+				<td>{echo: $info['address'];/}</td>
+			</tr>
+			<tr>
+				<th >{echo: lp{m_zipcode};/}：</th>
+				<td>{echo: $info['zipcode'];/}</td>
+			</tr>-->
+		</table>
+		<h3 class="ttlm_02">{echo: lp{m_order_poststing};/}</h3>
+		<table class="form_table_02" width="100%" border="0" cellspacing="0">
+		<!--	<tr>
+				<th style="background:#FFF2E6;" colspan="2" class="">&nbsp;&nbsp;{echo: lp{m_order_poststing};/}</th>
+			</tr>-->
+			<tr>
+				<th width="100">{echo: lp{m_shipping_name};/}：</th>
+				<td>{echo: $info['shipping_name'];/}</td>
+			</tr>
+			<tr>
+				<th>{echo: lp{m_shipping_no};/}：</th>
+				<td>{echo: $info['shipping_no'];/}</td>
+			</tr>
+			<tr>
+				<th>{echo: lp{m_shipping_type};/}：</th>
+				{sta: if($info['transport_type']==1) [exc]}
+				<td>EMS</td>
+				{sta: } elseif($info['transport_type']==2) [exc]}
+				<td>{echo: lp{m_surface};/}</td>
+				{sta: } else [exc]}
+				<td>{echo: lp{m_express_delivery};/}</td>
+				{end:if/}
+			</tr>
+			<tr>
+				<th>{echo: lp{m_shipping_time};/}：</th>
+				<td>{echo: $info['shipping_time'];/}</td>
+			</tr>
+		</table>
+	<h3 class="ttlm_02">{echo: lp{m_order_info};/}</h3>
+		<table class="form_table_02" width="100%" border="0" cellspacing="0">
+		<!--	<tr>
+				<th style="background:#FFF2E6;" colspan="2" class="">&nbsp;&nbsp;{echo: lp{m_order_info};/}</th>
+			</tr>-->
+			<tr>
+				<th width="100px">{echo: lp{m_order_message};/}：</th>
+				<td>{echo: $info['message'];/}</td>
+			</tr>
+			<tr>
+				<th>{echo: lp{m_payment_message};/}:</th>
+				<td>{echo: $info['pay_message'];/}</td>
+			</tr>
+			<tr>
+				<th>{echo: lp{m_alipay_tradeno};/}：</th>
+				<td>{echo: $info['trade_no'];/}</td>
+			</tr>
+			<tr>
+				<th>{echo: lp{m_order_time};/}：</th>
+				<td>{echo: $info['order_time'];/}</td>
+			</tr>
+			<tr>
+				<th>{echo: lp{m_pay_time};/}：</th>
+				<td>{echo: $info['pay_time'];/}</td>
+			</tr>
+			<tr>
+				<th>{echo: lp{m_receive_time};/}：</th>
+				<td>{echo: $info['receive_time'];/}</td>
+			</tr>
+			<tr>
+				<th>操作：</th>
+				<td><span class="tr_op">
+				{sta:if($info['order_status']==1  && $info['pay_status']==0) [exc]}
+					<a href="do.php?act=user_order_del&id={echo: $info['order_id'];/}" onclick="return confirm('{echo: lp{m_sure_cancelthisorder};/}');">{echo: lp{m_cancelorder};/}</a>
+					<a href="modules.php?app=user_payment_message&id={echo: $info['order_id'];/}">{echo: lp{m_pay};/}</a>
+				{end:if/}
+				{sta:if($info['order_status']==1 && $info['pay_status']==1 &&$info['transport_status']==0) [exc]}
+					<a href="do.php?act=ask_back_money&id={echo: $info['order_id'];/}">申请退款</a>
+				{end:if/}
+				{sta:if($info['order_status']==1  && $info['pay_status']==3) [exc]}
+					<a href="do.php?act=sure_back_money&id={echo: $info['order_id'];/}">确认退款</a>
+				{end:if/}
+				
+				{sta:if($info['transport_status']==1 && $info['order_status']==3 && $info['protect_status']==0) [exc]}
+					<a href="modules.php?app=user_protect_rights&id={echo: $info['order_id'];/}">申请维权</a>
+				{end:if/}
+				
+				{sta:if($info['protect_status']!=0 && $info['protect_status']!=3) [exc]}
+					<a href="do.php?act=user_cancel_protect&id={echo: $info['order_id'];/}"><font color="red">结束维权</font></a>
+				{end:if/}
+				
+				{sta:if($info['protect_status']==1 || $info['protect_status']==2) [exc]}
+					<a href="modules.php?app=user_protect_rights&id={echo: $info['order_id'];/}"><font color="red">查看维权</font></a>
+				{end:if/}
+				
+				{sta:if($info['transport_status']==1 && $info['order_status']==1) [exc]}
+					<a href="do.php?act=user_order_checkget&id={echo: $info['order_id'];/}"  onclick="return confirm('{echo: lp{m_sure_thisgoodsreceive};/}');">{echo: lp{m_sure_receive};/}</a>
+					申请维权<br />
+				{end:if/}
+				<a href="modules.php?app=user_order_view&order_id={echo: $info['order_id'];/}" title="{echo: lp{m_view_orderinfo};/}">{echo: lp{m_view_orderinfo2};/}</a>
+				<!-- 订单投诉 开始 -->
+				{sta:  if($info['pay_status']!=0 && $info['pay_status']!=4 && $info['order_status']!=3) [exc]}
+					{sta:  if($info['complaint']==0) [exc]}
+					<a href="modules.php?app=user_complaint&order_id={echo: $info['order_id'];/}" >{echo: lp{m_complaints};/}</a>
+					{sta:}else[exc]}
+					{echo:lp{m_already_complain} ;/}
+					{end:if/}
+				{end:if/}
+				<!-- 订单投诉 结束 -->
+				<!-- 订单评价 开始 -->
+				{sta:if($info['transport_status']==1 && $info['order_status']==3 && $info['buyer_reply']==0) [exc]}
+					<a href="modules.php?app=shop_credit_add&id={echo: $info['order_id'];/}&t=buyer" >{echo: lp{m_evaluate};/}</a>
+				{sta:}else if($info['transport_status']==1 && $info['order_status']==3 && $info['buyer_reply']==1)[exc]}
+					{echo:lp{m_already_valuation};/}
+				{end:if/}
+				<!-- 订单评价 结束 -->
+					</span>
+				</td>
+			</tr>
+		</table>
+	</div>
+	<div class="clear"></div>
+	<div class="right_bottom"></div>
+	<div class="back_top"><a href="#"></a></div>
+</div>
+{inc: require("shop/index_footer.php");/}
+</body>
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>我的好友</title>
+</head>
+<body>
+
+
+<!--TODO 好友-->
+<div ng-controller="buddyChatCtrl" id="buddyChatPage" data-role="page" ngm-pageshow="getFriends()">
+    <!--<div data-role="panel" class="myPanel" data-position="left"  data-display="overlay">-->
+        <!--<h1><img src="images/logo.png"/></h1>-->
+        <!--<ul class="panelul" data-role="listview" data-inset="false" data-split-theme="h">-->
+            <!--<li>-->
+                <!--<a href="#!/">首页</a>-->
+            <!--</li>-->
+            <!--<li>-->
+                <!--<a href="#!/account">管理中心</a>-->
+            <!--</li>-->
+
+            <!--<li class="activate">-->
+                <!--<a>新消息</a>-->
+            <!--</li>-->
+        <!--</ul>-->
+
+    <!--</div>-->
+
+
+    <header data-role="header" data-position="fixed">
+        <a data-rel="back" class="ui-btn-left" data-direction="reverse" data-icon="arrow-l" data-role="button">后退</a>
+        <h1>我的好友</h1>
+        <a href="#!/searchFriend" class="ui-btn-right" data-icon="search" data-role="button" >找人</a>
+
+    </header>
+
+    <section data-role="content">
+    
+        <ul data-role="listview" data-inset="true" data-split-icon="gear" data-split-theme="c" class="ui-icon-alt">
+            <li data-ng-repeat="friend in friendList | orderBy: 'addtime':false">
+                <a href="#!/dialogue/{{friend.user_id}}">
+                    <img data-ng-src="{{logoURL + friend.logo_thumb}}" />
+                    <h2>{{friend.user_name}}</h2>
+                    <span class="ui-li-count" data-ng-show="hasNewsInformation(friend.records_num)">{{friend.records_num}}</span>
+                </a>
+                <a data-theme="e" data-ngm-vclick="openMenu(friend.user_id)">更多操作</a>
+            </li>
+        </ul>
+    </section>
+
+   <div id="moreActions" data-role="popup" data-theme="d" data-overlay-theme="a">
+        <ul data-role="listview" data-inset="true">
+            <li><a data-ngm-vclick="deleteFriend()">删除好友</a></li>
+            <li><a data-ngm-vclick="watchFriendShop()">好友店铺</a></li>
+            <li><a data-ngm-vclick="getDialogue()">聊天记录</a></li>
+        </ul>
+    </div>
+
+    <appfooter></appfooter>
+</div>
+<!--好友结束-->
+
+
+</body>
+</html>

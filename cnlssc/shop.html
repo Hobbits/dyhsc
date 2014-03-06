@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+<head>
+     <meta charset="utf-8">
+         <title>店铺</title>
+</head>
+<body>
+
+
+
+
+<!--TODO 创建/修改店铺-->
+
+<div ng-controller="shopCtrl" id="pageshop" data-role="page" ngm-pageshow="preGet()">
+
+    <!--字体样式-->
+    <link rel="stylesheet" href="css/font/css/fontello.css"/>
+
+
+
+    <!--<div data-role="panel" class="myPanel" data-position="left"  data-display="overlay">-->
+        <!--<h1><img src="images/logo.png"/></h1>-->
+        <!--<ul class="panelul" data-role="listview" data-inset="false" data-split-theme="h">-->
+            <!--<li>-->
+                <!--<a href="#!/">首页</a>-->
+            <!--</li>-->
+            <!--<li>-->
+                <!--<a href="#!/account">管理中心</a>-->
+            <!--</li>-->
+            <!--<li>-->
+                <!--<a href="#!/chatlist">新消息</a>-->
+                <!--<span class="ui-li-count">55</span>-->
+            <!--</li>-->
+        <!--</ul>-->
+
+    <!--</div>-->
+
+
+    <header data-role="header" data-position="fixed">
+        <!--<a ngm-vclick="openPanel()" class="ui-btn-left" data-icon="bars" data-role="button">快速链接</a>-->
+        <a data-rel="back" class="ui-btn-left" data-direction="reverse" data-icon="arrow-l" data-role="button">后退</a>
+        <h1>店铺管理</h1>
+        <div data-role="controlgroup" data-type="horizontal" class="ui-btn-right">
+            <button class="fakeSubmit" data-theme="c" data-role="button">提交</button>
+            <a templarlink="#!/account" data-theme="e" data-role="button">取消</a>
+        </div>
+    </header>
+
+    <section data-role="content" class="scrollable">
+
+        <div ng-class="failedInfo.textboxClass">
+            {{failedInfo.text}}
+        </div>
+
+        <form ng-submit="shopSubmit()" data-ajax="false" src="">
+            <div data-role="none" class="noShow">
+                <input class="trueSubmit" data-role="none" data-theme="b" data-inline="true" id="shopSub" ng-init="subBtn={isOff:false,submitText:'提交'}" type="submit" ng-disabled="subBtn.isOff" value="{{subBtn.submitText}}" />
+                <a data-role="none" data-inline="true" data-role="button" href="#!/account">取消</a>
+
+            </div>
+
+
+            <div data-role="fieldcontain" class="shoppic">
+                <label class="ui-input-text">商店标识(建议正方形):</label>
+                <a id="s_shoppic">
+                   <img src="images/add_photo.png"/>
+                </a>
+                <i></i>
+                <input class="noShow" data-role="none" id="s_shoppic_false" type="file" ng-change="changeShoplogo()" ng-model="file" accept='image/*'/>
+            </div>
+            
+            <div data-role="fieldcontain">
+                <label for="s_shopname">*店铺名:</label>
+                <input type="text" name="name" ng-model="shopPrams.shopname" required id="s_shopname" value=""  placeholder="请填写一个名字"/>
+            </div>
+            <div data-role="fieldcontain">
+                <fieldset id="area" data-role="controlgroup" data-type="horizontal">
+                    <legend>地区:</legend>
+                    <label for="s_sheng">省</label>
+                    <select ng-model="shopPrams.prov" ng-change="getCityList()" ng-options="p.provName for p in provList" id="s_sheng">
+                        <option ng-value="" selected="selected">请选择省</option>
+                    </select>
+                    <label ng-show="cityList" for="s_shi">市</label>
+                    <select ng-model="shopPrams.city" ng-show="cityList" id="s_shi" ng-options="c.cityName for c in cityList" >
+                        <option selected="selected">请选择市</option>
+                    </select>
+                </fieldset>
+            </div>
+            <div data-role="fieldcontain" >
+                <fieldset id="ind" data-role="controlgroup" data-type="horizontal">
+                    <legend>所属行业:</legend>
+                    <label for="s_hy">大行业</label>
+                    <select id="s_hy" required ng-model="shopPrams.ind1" ng-change="getin2List()" ng-options="il1.ind1Name for il1 in ind1List" >
+
+                    </select>
+                    <label for="s_xhy">小行业:</label>
+                    <select id="s_xhy" required ng-model="shopPrams.ind2" ng-show="ind2List" ng-options="il2.ind2Name for il2 in ind2List">
+
+                    </select>
+                </fieldset>
+            </div>
+
+            <div data-role="fieldcontain" >
+                <label for="s_jj">简介:</label>
+                <textarea id="s_jj" ng-model="introduction"></textarea>
+            </div>
+            <div data-role="fieldcontain" >
+                <label for="s_yy">经营范围:</label>
+                <textarea id="s_yy" ng-model="shopPrams.management" ></textarea>
+            </div>
+            <div data-role="fieldcontain" id="shopLocation">
+                <label for="s_dz">公司地址:</label>
+                    <input id="s_dz" ng-model="shopPrams.address" type="text" />
+                    <a data-ngm-vclick="getGeo($event)" class="locationBtn {{geovalid}}" data-inline="true" data-role="none">
+                        <i class="icon-location"></i>
+                    </a>
+
+            </div>
+
+            <div data-role="fieldcontain" >
+                <label for="s_contact">*联系人:</label>
+                <input id="s_contact" required ng-model="shopPrams.contact" type="text" />
+            </div>
+            <div data-role="fieldcontain" >
+                <label for="s_mail">*电子邮箱:</label>
+                <input id="s_mail" required ng-model="shopPrams.email" type="email" />
+            </div>
+
+            <div data-role="fieldcontain">
+                <label for="s_phone">电话:</label>
+                <input id="s_phone" ng-model="shopPrams.tel" type="tel" />
+            </div>
+
+
+
+            <!--<ul data-role="listview" data-inset="true">-->
+
+                <!--<li data-role="fieldcontain" style="color:#333">-->
+                    <!--<legend>交易支付方式设定:</legend>-->
+                    <!--<input data-ng-model="bindalipay.alipayOn" type="checkbox" id="checkbox-bindalipay" />-->
+                    <!--<label for="checkbox-bindalipay">启用支付宝担保</label>-->
+                <!--</li>-->
+
+                <!--<li ngm-if="bindalipay.alipayOn" data-role="fieldcontain">-->
+                    <!--<label for="alipay-intro">简介:</label>-->
+                    <!--<textarea id="alipay-intro" data-ng-model="bindalipay.intro" required placeholder="该信息会在买家付款时看到，建议填写"></textarea>-->
+                <!--</li>-->
+                <!--<li ngm-if="bindalipay.alipayOn" data-role="fieldcontain">-->
+                    <!--<label for="alipay-partner">合作伙伴:</label>-->
+                    <!--<input type="text" id="alipay-partner" data-ng-model="bindalipay.partner" />-->
+                <!--</li>-->
+                <!--<li ngm-if="bindalipay.alipayOn" data-role="fieldcontain">-->
+                    <!--<label for="alipay-certCode">*安全检验码:</label>-->
+                    <!--<input type="text" id="alipay-certCode" data-ng-model="bindalipay.certCode" required/>-->
+                <!--</li>-->
+                <!--<li ngm-if="bindalipay.alipayOn" data-role="fieldcontain">-->
+                    <!--<label for="alipay-account">*卖家支付宝账户:</label>-->
+                    <!--<input type="text" id="alipay-account" data-ng-model="bindalipay.account" required/>-->
+                <!--</li>-->
+
+            <!--</ul>-->
+
+        </form>
+
+    </section>
+
+
+</div>
+<!--创建/修改店铺结束-->
+
+
+</body>
+</html>

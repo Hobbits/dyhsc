@@ -1,0 +1,483 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>{echo: $header['title'];/}</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+<meta name="keywords" content="{echo: $header['keywords'];/}" />
+<meta name="description" content="{echo: $header['description'];/}" />
+<base href="{echo: $baseUrl;/}" />
+<link href="skin/{echo: $SYSINFO['templates'];/}/css/index.css" rel="stylesheet" type="text/css" />
+<link href="skin/{echo: $SYSINFO['templates'];/}/css/import.css" type="text/css" rel="stylesheet" />
+<link href="skin/{echo: $SYSINFO['templates'];/}/css/shop.css" type="text/css" rel="stylesheet" />
+<script language="JavaScript" src="servtools/ajax_client/ajax.js"></script>
+<script type="text/javascript" src="skin/{echo: $SYSINFO['templates'];/}/js/changeStyle.js"></script>
+<script type="text/javascript" src="skin/{echo: $SYSINFO['templates'];/}/js/izoom.js"></script>
+<script type="text/javascript">
+window.onload = function(){
+    magnifier.init({
+                   cont : document.getElementById('magnifier'),
+                   img : document.getElementById('magnifierImg'),
+                   mag : document.getElementById('mag'),
+                   scale : 3
+                   });
+}
+function changeImage(obj){
+	var ia=obj.parentNode;
+	var rev=ia.rev;//中图
+	//var ref=ia.rel;//大图
+	//magnifier = null;
+	document.getElementById("img").src=rev;
+	magnifier.init({
+                   cont : document.getElementById('magnifier'),
+                   img : document.getElementById('magnifierImg'),
+                   mag : document.getElementById('mag'),
+                   scale : 3
+                   });
+	
+}
+</script>
+<style type="text/css">
+#magnifier { width:300px; height:300px; position:relative; font-size:0; border:1px solid #DDD; }
+#img { width:300px; height:300px; }
+#Browser { border:1px solid #000; z-index:100; position:absolute; background:#555; }
+#mag { border:1px solid #DDD; overflow:hidden; z-index:100; }
+</style>
+</head>
+<body>
+<div id="wrapper" style=""> {inc: include("shop/index_header.php");/}
+	<div id="contents" class="clearfix" >
+		<div id="sub_channel">
+			<ul class="clearfix">
+				<li>
+					<h3><img onmouseover="show_obj('category_box')" onmouseout="hidden_obj('category_box')" alt="{echo:lp{s_all_category};/}" src="skin/{echo: $SYSINFO['templates'];/}/images/part/ttl_channel_all.gif"  /></h3>
+				</li>
+				{sta:foreach($sub_category as $value)[loop]}
+				<li><a href="{echo:$value['url'];/}">{echo:$value['cat_name'];/}</a></li>
+				{end:foreach/}
+			</ul>
+		</div>
+		<div id="category_box" class="allMerchan" style=" display:none" onmouseover="show_obj(this)"  onmouseout="hidden_obj(this)">
+			<ul  >
+				{sta: foreach(array_slice ($CATEGORY[0], 0) as $key=>$cat)[loop]}
+				<li class="clearfix">
+					<h3><a href="{echo: category_url($cat['cat_id']);/}" title="{echo: $cat['cat_name'];/}">{echo: $cat['cat_name'];/}</a></h3>
+					{sta:if(isset($CATEGORY[$cat['cat_id']]) && $CATEGORY[$cat['cat_id']])[exc]}
+					<p> {sta: foreach(array_slice ($CATEGORY[$cat['cat_id']], 0, 8) as $subcat)[loop]} <a href="{echo: category_url($subcat['cat_id']);/}" title="{echo: $cat['cat_name'];/}">{echo: $subcat['cat_name'];/}</a>|
+						{end:foreach/} </p>
+					{end:if/} </li>
+				{end:foreach/}
+			</ul>
+		</div>
+		<div id="itemContents" class="clearfix">
+			<div id="intro" >
+				<h3>{echo: $goodsinfo['goods_name'];/}</h3>
+				<div class="box" >
+					<div id="magnifier"> <img id="img" alt="" src="{echo: isset($gallery[0]['img_original']) ? $gallery[0]['img_original'] : 'skin/default/images/nopic_big.gif';/}">
+						<div id='Browser'></div>
+					</div>
+					<div id="mag"><img id="magnifierImg" /></div>
+					<div class="pic_box clear" > <a class="left_button" href="javascript:void(0);" onclick="img_pre('list1_1');"></a>
+						<div id="thumbbox">
+							<div class="long_box" id="list1_1"> {sta:foreach($gallery as $val)[loop]} <a href="javascript:;" rev="{echo:$val['img_url'];/}" rel="{echo:$val['img_original'];/}" onclick="javascript:return false;"> <img src="{echo:$val['thumb_url'];/}" onclick="changeImage(this)" onerror="this.src='skin/default/images/nopic.gif'"></a> {end:foreach/} </div>
+						</div>
+						<a class="right_button" href="javascript:void(0);" onclick="img_next('list1_1');"></a> </div>
+				</div>
+				<div class="itemProperty">
+					<ul>
+						<li> <span>{echo:lp{s_goods_price};/}：</span> {sta: if($goodsinfo['goods_price']=='0.00') [exc]} <em class="price">{echo: lp{s_no_price};/}</em> {sta: } else[exc]}
+							{echo:lp{s_money_sign};/}<em class="price">{echo: $goodsinfo['goods_price'];/}</em> {echo: lp{s_yuan};/}
+							{end:if/} </li>
+						<li> <span>{echo:lp{s_goods_transport};/}：</span>
+							{sta: if($goodsinfo['is_transport_template']=='1') [exc]} 
+							<span style="display:bolck; position:relative" onmouseover="showarealist(1)"><span id="area_name">{echo:lp{s_area};/}</span>
+							<div style="position:absolute;style:top:0px;left:-70px; border:3px #eee solid; padding:10px; padding-left:25px; background:#f8f8f8;display:none; width:300px;" id="areabox"> {sta:foreach($area_list as $value)[loop]}
+								<div style="float:left; width:60px;" ><a href="javascript:;" onclick="gettransport_price({echo:$value['area_id'];/},'{echo:$value['area_name'];/}')">{echo:$value['area_name'];/}</a></div>
+								{end:foreach/} <input class="new_button" type="button" name="btu" value="{echo:lp{s_close};/}" onclick="showarealist(0)" /> </div>
+							</span> <label id="transport_price"></label>
+							{sta: } else[exc]}
+							<span>{echo: $goodsinfo['transport_price'];/}</span>
+							{end:if/}
+							</li>
+						<li> <span>{echo:lp{s_goods_wtbuy};/}：</span> <span> <input type="text" size="4" value="1" maxvalue="1" minvalue="1" id='num' /> <input type="hidden" value="{echo:$goodsinfo['goods_number'];/}" id="goods_number" /> <input type="hidden" value="{echo:$shop_id;/}" id="shop_id" /> <input type="hidden" value="{echo:$USER['user_id'];/}" id="shop_user" /> <input type="hidden" value="{echo: $goodsinfo['favpv'];/}" id="favpv_num"> <label></label> </span> ({echo:lp{s_may_buy};/}{echo:$goodsinfo['goods_number'];/} {echo:lp{s_piece};/}) </li>
+						{sta: if($goodsinfo['goods_price']=='0.00') [exc]}
+						<li class="b_none clearfix"> <a class="btn_inquiry" href="inquiry.php?gid={echo: $goodsinfo['goods_id'];/}" title="{echo: lp{s_g_askprice};/}"></a> {sta: } else [exc]}
+						<li class="b_none clearfix"> {sta: if($goodsinfo['goods_number']=='0') [exc]} <a class="btn_buy" href="javascript:alert('{echo: lp{s_kucun_0};/}');" title="{echo: lp{s_g_buy};/}"></a> {sta: } else [exc]} <a class="btn_buy" href="javascript:gotoOrder({echo: $goodsinfo['goods_id'];/});" title="{echo: lp{s_g_buy};/}"></a> {end:if/} <a class="btn_add" href="javascript:addCart({echo: $goodsinfo['goods_id'];/});" title="{echo: lp{s_g_tocart};/}"></a> {end:if/} <a class="btn_fav" href="javascript:addFavorite({echo: $goodsinfo['goods_id'];/});" title="{echo: lp{s_g_tofavorite};/}"></a> </li>
+						<li><span>{echo: lp{s_company_Support};/}：</span> {sta: if($payment_info) [exc]}
+							{sta:foreach($payment_info as $val)[loop]} <a><img src="plugins/{echo:$val;/}/min_logo.gif" height="25" /></a> {end:foreach/}
+							{sta: } else[exc]} <label class='fc'>{echo: lp{s_no_payment};/}</label> {end:if/} </li>
+						<li><span>{echo:lp{s_goods_number};/}：</span> {echo:str_replace("{num}","<em>".$goodsinfo['goods_number']."</em>",lp{s_goods_mum});/} </li>
+						<li><span>{echo:lp{s_goods_pv};/}：</span> {echo:str_replace("{pv}","<em>".$goodsinfo['pv']."</em>",lp{s_goods_pvnum});/} </li>
+						<li><span>{echo:lp{s_collect_num};/}：</span>{echo:lp{s_have};/}<em><span id="favpv">{echo: $goodsinfo['favpv'];/}</span></em>{echo: lp{s_collect};/} </li>
+						<li><span>{echo:lp{s_send_address};/}：</span> {echo: $areainfo[$SHOP['shop_province']];/}.{echo: $areainfo[$SHOP['shop_city']];/} </li>
+						<li class="b_none"> <span class="colorOr">{echo:lp{s_share};/}</span> <a class="link_renren" href=javascript:window.open('http://share.xiaonei.com/share/buttonshare.do?title='+encodeURIComponent(document.title)+'&link='+encodeURIComponent(document.location.href),'favit','');void(0)>{echo:lp{s_renren};/}</a> <a class="link_kaixin" href=javascript:window.open('http://www.kaixin001.com/repaste/share.php?rtitle='+encodeURIComponent(document.title)+'&rurl='+encodeURIComponent(document.location.href),'favit','');void(0)>{echo:lp{s_kaixin};/}</a> <a class="link_douban" href=javascript:window.open('http://www.douban.com/recommend/?title='+encodeURIComponent(document.title)+'&url='+encodeURIComponent(location.href),'favit','');void(0)>{echo:lp{s_douban};/}</a> </li>
+					</ul>
+				</div>
+			</div>
+			<div class="shopInfo mg12b" >
+				<h2><a href="{echo: shop_url($shop_id,'index');/}" ><img src="{echo: $SHOP['shop_logo'] ? $SHOP['shop_logo'] : 'skin/default/images/shop_nologo.gif';/}" width="198" height="98" onerror="this.src='skin/default/images/no_page.jpg'"/></a></h2>
+				<h2 class="sName"><a href="{echo: shop_url($shop_id,'index');/}">{echo: $SHOP['shop_name'];/}</a></h2>
+				<p> {echo:lp{s_nickname};/}：<span>{echo: $ranks['user_name'];/}</span> </p>
+				{sta:if($im_enable==true)[exc]}
+				<p>{echo: lp{s_contact_seller};/}：
+					<script src="imshow.php?u={echo: $SHOP['user_id'];/}"></script>
+				</p>
+				{end:if/}
+				<p>{echo:lp{s_goods_num};/}：<span>{echo: $SHOP['goods_num'];/}</span></p>
+				<p>{echo: lp{s_seller_c};/}： <a href="{echo: shop_url($shop_id,'credit');/}" hideFocus=true> <img style="margin-left:5px; vertical-align:text-bottom" src="{echo:$credit_row['int_img'];/}" title="{echo:$credit['SUM(seller_credit)'];/}" /> </a> </p>
+				<p>{echo:lp{s_new_login};/}：<span>{echo: $ranks['last_login_time'];/}</span></p>
+				<p>{echo:lp{s_creat_time};/}：<span>{echo: $SHOP['shop_creat_time'];/}</span></p>
+				<p>{echo:lp{s_certification};/}：<span>{echo:$rank_name['rank_name'];/}</span></p>
+				<p><a href="{echo: shop_url($shop_id,'index');/}"><img src="skin/{echo: $SYSINFO['templates'];/}/images/gotoshop.gif" width="183" height="36" alt="{echo:lp{s_seller_shop};/}" /></a></p>
+				<p><a class="favShop" href="javascript:;" onclick="add_shopFavorite({echo: $shop_id;/})">{echo:lp{s_store_shop};/}</a>
+					<!--        <a class="setLatter" href="shop.php?shopid={echo: $shop_id;/}&app=index#message">{echo:lp{s_send_mail};/}</a>-->
+				</p>
+			</div>
+		</div>
+		<div id="itemDetail">
+			<ul class="list_tab clearfix" >
+				<li id="tab_content1" class="now" onclick="show_tabs('1');"><a href="javascript:;" >{echo:lp{s_details};/}</a></li>
+				<li id="tab_content2" onclick="show_tabs('2');"><a href="javascript:;" >{echo:lp{s_wholesale};/}</a></li>
+				<li id="tab_content3" onclick="show_tabs('3');"><a href="javascript:;" >商品评价</a></li>
+				<li id="tab_content4" onclick="show_tabs('4');"><a href="javascript:;" >成交记录</a></li>
+			</ul>
+			<div class="pannel" id="tab1_content1">
+				<table cellspacing="0">
+					<tr> {sta:
+						if($attr_status) {
+						$i = 0;
+						foreach($attr as $key=>$value)[loop]}
+						<td class="text_right">{echo: $attribute[$key];/}:</td>
+						<td class="text_left">{echo: $value;/}</td>
+						{sta:
+						if($i%2) {
+						echo "</tr>
+					<tr>";
+						}
+						$i++;
+						
+						} if/} </tr>
+				</table>
+				<p>{echo: $goodsinfo['goods_intro'];/}</p>
+			</div>
+			<div id="tab1_content2" class="pannel" style="display:none">
+				<p>{echo: $goodsinfo['goods_wholesale'];/} </p>
+			</div>
+			<!-- 商品评价 -->
+			<div id="tab1_content3" class="pannel" style="display:none"> </div>
+			<!-- 商品成交记录 -->
+			<div id="tab1_content4" class="pannel" style="display:none"> </div>
+		</div>
+		<div id="goodTags">
+			<h3>{echo:lp{s_goods_label};/}</h3>
+			<div class="link_tags"> {sta:foreach($tag_list as $value)[loop]}
+				{sta:foreach($value['tag_num'] as $v)[loop]}
+				{sta: if($v['num'] != 1)[exc]} <a href="{echo:$value['url'];/}" style="color:{echo:$value['tag_color'];/};{sta:if($value['is_blod'])[exc]}font-weight:bold;{end:if/}" >{echo:$value['tag_name'];/}({echo: $v['num'];/})</a> {sta:} else [exc]} <a href="{echo:$value['url'];/}" style="color:{echo:$value['tag_color'];/};{sta:if($value['is_blod'])[exc]}font-weight:bold;{end:if/}" >{echo:$value['tag_name'];/}</a> {end:if/}
+				{end:foreach/}
+				{end:foreach/} </div>
+			<div class="addTags">
+				<form action="do.php?act=good_tag_add" method="post" onsubmit="return submitform();">
+					<input class="txt_tag" size="25" type="text" name="tag" id="tag" onblur="inputTxt(this,'set');" onfocus="inputTxt(this,'clean');" value="{echo:lp{s_enter_label};/}" /> {sta:if($verifycode['4']==1)[exc]} <input type="text" class="txt_tag" name="veriCode" id="veriCode" style="width:100px" maxlength="4" /> <img border="0" align="absmiddle" src="servtools/veriCodes.php" id="verCodePic"><a href="javascript:;" onclick="return getVerCode();">{echo:lp{i_change_img};/}</a> {end:if/} <input class="btn_ser" type="submit" value="{echo:lp{s_add};/}" /> <input type="hidden" name="goods_id" value="{echo: $goods_id;/}"  /> <input type="hidden" name="tag_userid" id="tag_userid" value="{echo: $USER['user_id'];/}" />
+				</form>
+			</div>
+		</div>
+		<div id="sellrecom" class="bg_gary">
+			<h3 class="ttlm_sellrecom">{echo:lp{s_seller_commend};/}</h3>
+			<ul class="list_125 clearfix">
+				{sta:if($best_goods) {
+				foreach($best_goods as $value)[loop]}
+				<li>
+					<p class="photo"><a href="{echo: goods_url($value['goods_id']);/}"><img src="{echo: $value['is_set_image'] ? str_replace('thumb_','',$value['goods_thumb']) : 'skin/default/images/nopic.gif';/}"  width="112" height="112" onerror="this.src='skin/default/images/nopic.gif'"/></a></p>
+					<h4 class="summary"><a href="{echo: goods_url($value['goods_id']);/}">{echo: sub_str($value['goods_name'],20);/}</a></h4>
+					<p class="price">{echo:lp{i_money_sign};/}{echo: $value['goods_price'];/}{echo:lp{i_yan};/}</p>
+				</li>
+				{end:foreach/}
+				{end:if/}
+			</ul>
+		</div>
+	</div>
+	{inc:  require("shop/index_footer.php");/} </div>
+<script>
+  function inputTxt(obj,act){
+	var str="{echo:lp{s_enter_label};/}";
+	if(obj.value==''&&act=='set')
+	{
+		obj.value=str;
+		obj.style.color="#cccccc"
+	}
+	if(obj.value==str&&act=='clean')
+	{
+		obj.value='';
+		obj.style.color="#000000"
+	}
+}
+  </script>
+<script language="JavaScript" src="servtools/ajax_client/ajax.js"></script>
+<script language="JavaScript">
+	<!--
+		function addFavorite(id) {
+			var shop_id = document.getElementById('shop_id').value;
+			var user_id = document.getElementById('shop_user').value;
+			var favpv = document.getElementById('favpv_num').value;
+			if (shop_id == user_id){
+				alert('{echo:lp{s_mygoods_error};/}');
+			}else {
+				ajax("do.php?act=goods_add_favorite","POST","id="+id,function(data){
+					if(data == 1) {
+						var favpv_num = Number(favpv) + Number(1);
+						document.getElementById('favpv').innerHTML = "<span id='favpv'>"+favpv_num+"</span>";
+						alert("{echo: lp{s_g_addedfavorite};/}");
+					} else if(data == -1) {
+						alert("{echo: lp{s_g_stayfavorite};/}");
+					} else {
+						alert("{echo: lp{s_g_addfailed};/}");
+					}
+				});
+			}
+		}
+
+		function add_shopFavorite(id) {
+			var user_id = document.getElementById('shop_user').value;
+			if (id == user_id){
+				alert('{echo:lp{s_myshop_error};/}');
+			}else {
+				ajax("do.php?act=shop_add_favorite","POST","id="+id,function(data){
+					if(data == 1) {
+						alert("{echo: lp{s_g_addedfavorite};/}");
+					} else if(data == -1) {
+						alert("{echo:lp{s_store_info};/}");
+					} else if(data == -2){
+						alert("{echo:lp{s_shop_error1};/}");
+					}else {
+						alert("{echo: lp{s_g_addfailed};/}");
+					}
+				});
+			}
+		}
+
+		function addCart(id) {
+			var num = document.getElementById('num');
+
+			var shop_id = document.getElementById('shop_id').value;
+			var user_id = document.getElementById('shop_user').value;
+			
+			var num_reg = /^(\d+)$/;
+			if(!num_reg.test(num.value)){
+				alert('{echo:lp{i_num_format_error};/}');
+				return;
+			}
+			if(num.value=='0'){
+				alert('{echo:lp{s_g_buy_num_not_zero};/}');
+				return;
+			}
+
+			if (shop_id == user_id){
+				alert('{echo:lp{s_store_mygoods_error};/}');
+			}else{
+				ajax("do.php?act=goods_add_cart","POST","id="+id+"&num="+num.value,function(data){
+					if(data == 1) {
+						alert("{echo: lp{s_g_addedcart};/}");
+					} else if(data == -1) {
+						alert("{echo: lp{s_staycart};/}");
+					} else if(data == -2) {
+						alert("{echo: lp{s_nomachgoods};/}");
+					} else {
+						alert("{echo: lp{s_g_addfailed};/}");
+					}
+				});
+			}
+		}
+		function gotoOrder(id) {
+			var goods_number = document.getElementById('goods_number').value;
+			var value = document.getElementById('num').value;
+			
+			var shop_id = document.getElementById('shop_id').value;
+			var user_id = document.getElementById('shop_user').value;
+			
+			var num_reg = /^(\d+)$/;
+			if(!num_reg.test(value)){
+				alert('{echo:lp{i_num_format_error};/}');
+				return;
+			}
+
+			if (shop_id == user_id){
+				alert('{echo:lp{s_buy_mygoods};/}');
+			}else {
+				if(parseInt(value) > parseInt(goods_number)){
+					alert("{echo:lp{s_less_stock};/}");
+				}else {
+					location.href = "{echo: $baseUrl;/}modules.php?app=user_order_adress&gid="+id+"&v="+value;
+				}
+			}
+		}
+		
+	
+
+	//-->
+	</script>
+</body>
+</html>
+<script language="JavaScript" type="text/javascript">
+	function showarealist(n){
+		var obj = document.getElementById("areabox");
+		
+		if(n){
+			obj.style.display="";
+		}else{
+			obj.style.display="none";
+		}
+	}
+	function gettransport_price(n,areaname){
+		var goods_id = {echo:$goodsinfo['goods_id'];/};
+		ajax("do.php?act=get_transport_price","POST","goods_id="+goods_id+"&area_id="+n,function(data){
+			document.getElementById("transport_price").innerHTML=data;
+			document.getElementById("area_name").innerHTML=areaname;
+			showarealist(0);
+		});
+	}
+	function show_tabs(flg){
+		if (flg =='1'){
+			document.getElementById("tab_content1").className ="now";
+			document.getElementById("tab_content2").className ="";
+			document.getElementById("tab_content3").className ="";
+			document.getElementById("tab_content4").className ="";
+			document.getElementById("tab1_content1").style.display ="block";
+			document.getElementById("tab1_content2").style.display ="none";
+			document.getElementById("tab1_content3").style.display ="none";
+			document.getElementById("tab1_content4").style.display ="none";
+		}
+		if (flg == '2'){
+			document.getElementById("tab_content1").className ="";
+			document.getElementById("tab_content2").className ="now";
+			document.getElementById("tab_content3").className ="";
+			document.getElementById("tab_content4").className ="";
+			document.getElementById("tab1_content1").style.display ="none";
+			document.getElementById("tab1_content2").style.display ="block";
+			document.getElementById("tab1_content3").style.display ="none";
+			document.getElementById("tab1_content4").style.display ="none";
+		}
+		if (flg == '3'){
+			document.getElementById("tab_content1").className ="";
+			document.getElementById("tab_content2").className ="";
+			document.getElementById("tab_content3").className ="now";
+			document.getElementById("tab_content4").className ="";
+			document.getElementById("tab1_content1").style.display ="none";
+			document.getElementById("tab1_content2").style.display ="none";
+			document.getElementById("tab1_content3").style.display ="block";
+			document.getElementById("tab1_content4").style.display ="none";
+			get_goods_credit({echo:$goods_id;/},1);
+		}
+		if (flg == '4'){
+			document.getElementById("tab_content1").className ="";
+			document.getElementById("tab_content2").className ="";
+			document.getElementById("tab_content3").className ="";
+			document.getElementById("tab_content4").className ="now";
+			document.getElementById("tab1_content1").style.display ="none";
+			document.getElementById("tab1_content2").style.display ="none";
+			document.getElementById("tab1_content3").style.display ="none";
+			document.getElementById("tab1_content4").style.display ="block";
+			get_order_record({echo:$goods_id;/},1);
+		}
+	}
+	String.prototype.Trim = function()
+	{ return this.replace(/(^\s*)|(\s*$)/g, ""); }
+	function submitform(){
+		var tag_userid = document.getElementById("tag_userid").value;
+		var tag = document.getElementById("tag").value.Trim();
+		var veriCode = document.getElementById("veriCode").value;
+		
+
+		if (tag_userid){
+			if (tag == '{echo:lp{s_enter_label};/}'){
+				alert('{echo:lp{s_enter_goods_label};/}');
+				return false;
+			}else if (!tag){
+				alert('{echo:lp{s_enter_goods_label};/}');
+				return false;
+			}
+			 {sta:if($verifycode['4']==1)[exc]}
+			if(!veriCode){
+				alert('{echo:lp{i_verifycode_notnone};/}');
+				return false;
+			}
+			{end:if/}
+			return true;
+		}else {
+			alert('{echo:lp{s_no_login};/}');
+			return false;
+		}
+	}
+	function getVerCode() {
+		document.getElementById("verCodePic").src="servtools/veriCodes.php?vc="+Math.random();
+		return false;
+	}
+	//获取商品评价
+	function get_goods_credit(goods_id,page){
+	ajax("do.php?act=get_goods_credit&goods_id="+goods_id+"&page="+page,"GET",'',function(data){
+		var obj_credit = document.getElementById("tab1_content3");
+		if(data!='-1'){
+			var obj = document.getElementById("page");
+			var prepage=data.prepage;
+			var nextpage=data.nextpage;
+			var firstpage=data.firstpage;
+			var lastpage=data.lastpage;
+			var page=data.page;
+			var countpage=data.countpage;
+			var buyer_credit='';
+			var pagehtml="<tr><td id='page' colspan='4'><A href=\"javascript:get_goods_credit("+goods_id+","+firstpage+");\">{echo:lp{s_page_first};/}</A> <A href=\"javascript:get_goods_credit("+goods_id+","+prepage+");\">{echo:lp{s_page_pre};/}</A> <A href=\"javascript:get_goods_credit("+goods_id+","+nextpage+");\">{echo:lp{s_page_next};/}</A> <A href=\"javascript:get_goods_credit("+goods_id+","+lastpage+");\">{echo:lp{s_page_last};/}</A> {echo:lp{s_page_num1};/}"+page+"{echo:lp{s_page_num2};/}"+countpage+"{echo:lp{s_page_num3};/}</td></tr>";
+
+			var result = data.result;
+			var credit='';
+			for($i=0;$i<result.length;$i++){
+					scredit=result[$i].buyer_credit;
+					if(scredit=='1'){
+						buyer_credit="{echo:lp{s_credit_good};/}";
+					}else
+					if(scredit=='0'){
+						buyer_credit="{echo:lp{s_credit_middle};/}";
+					}else
+					if(scredit=='-1'){
+						buyer_credit="{echo:lp{s_credit_bad};/}";
+					}
+					
+					credit+='<tr><td align="center">'+buyer_credit+'</td><td style="text-align:left">'+result[$i].buyer_evaluate+'</td><td><span class="c_gray">'+result[$i].buyer_evaltime+'</span></td><td>'+result[$i].user_name+'</td></tr>';
+				}
+			obj_credit.innerHTML = "<table class=\"tab_com\" width=\"100%\"><tr>"+
+					"<th width=\"15%\" >评价等级</th>"+
+					"<th width=\"55%\" style=\"text-align:left\">评价内容</th>"+
+					"<th width=\"15%\">时间</th>"+
+					"<th width=\"15%\">买家</th></tr>"+credit+pagehtml+"</table>";
+		}else{
+			obj_credit.innerHTML = "<table class=\"tab_com\" width=\"100%\"><tr><td>没有商品评价!</td></tr></table>";
+		}
+
+	},'JSON');
+}
+	//获取商品成交记录
+	function get_order_record(goods_id,page){
+	ajax("do.php?act=get_order_record&goods_id="+goods_id+"&page="+page,"GET",'',function(data){
+		var obj_record = document.getElementById("tab1_content4");
+		if(data!='-1'){
+			var obj = document.getElementById("page");
+			var prepage=data.prepage;
+			var nextpage=data.nextpage;
+			var firstpage=data.firstpage;
+			var lastpage=data.lastpage;
+			var page=data.page;
+			var countpage=data.countpage;
+			var pagehtml="<tr><td id='page' colspan='4'><A href=\"javascript:get_order_record("+goods_id+","+firstpage+");\">{echo:lp{s_page_first};/}</A> <A href=\"javascript:get_order_record("+goods_id+","+prepage+");\">{echo:lp{s_page_pre};/}</A> <A href=\"javascript:get_order_record("+goods_id+","+nextpage+");\">{echo:lp{s_page_next};/}</A> <A href=\"javascript:get_order_record("+goods_id+","+lastpage+");\">{echo:lp{s_page_last};/}</A> {echo:lp{s_page_num1};/}"+page+"{echo:lp{s_page_num2};/}"+countpage+"{echo:lp{s_page_num3};/}</td></tr>";
+
+			var result = data.result;
+			var record='';
+			for($i=0;$i<result.length;$i++){
+				record+='<tr><td>'+result[$i].user_name+'</td><td style="text-align:left"><a href="{echo:goods_url($goods_id);/}">'+result[$i].goods_name+'</a></td><td>'+result[$i].goods_price+'</td><td>'+result[$i].order_num+'</td><td>'+result[$i].shipping_time+'</td><td>成交</td></tr>';
+			}
+			obj_record.innerHTML = "<table class=\"tab_record\" width=\"100%\"><tr><th width=\"10%\">买家</th><th width=\"45%\"  style=\"text-align:left\">商品名称</th><th width=\"10%\">出价记录</th><th width=\"10%\">数量</th><th width=\"15%\">成交时间</th><th width=\"10%\">状态</th></tr>"+record+pagehtml+"</table>";
+		}else{
+			obj_record.innerHTML = "<table class=\"tab_record\" width=\"100%\"><tr><td>没有成交记录!</td></tr></table>";
+		}
+
+	},'JSON');
+}
+
+</script>

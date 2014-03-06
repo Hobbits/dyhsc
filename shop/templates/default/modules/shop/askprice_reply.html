@@ -1,0 +1,87 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>{echo: lp{m_u_center};/}</title>
+<link rel="stylesheet" type="text/css" href="skin/{echo: $SYSINFO['templates'];/}/css/modules.css">
+<link rel="stylesheet" type="text/css" href="skin/{echo: $SYSINFO['templates'];/}/css/layout.css">
+<link rel="stylesheet" type="text/css" href="skin/{echo: $SYSINFO['templates'];/}/css/style.css">
+<script type="text/javascript" src="skin/{echo: $SYSINFO['templates'];/}/js/changeStyle.js"></script>
+<script type="text/javascript" src="skin/{echo: $SYSINFO['templates'];/}/js/userchangeStyle.js"></script>
+
+<style type="text/css">
+th{background:#EFEFEF}
+.edit span{background:#efefef;}
+.search {margin:5px;}
+.search input {color:#444;}
+td.img img{cursor:pointer}
+</style>
+
+</head>
+<body onload="menu_style_change('shop_guestbook');changeMenu();">
+{inc: require("shop/index_header.php");/}
+	<div class="site_map">
+	  {echo:lp{m_current_position};/}<A href="index.php">{echo:$SYSINFO['sys_name'];/}</A>/<a href="modules.php">{echo:lp{m_u_center};/}</a>/&nbsp;&nbsp;{echo: lp{m_addseller_write_back};/}
+	</div>
+    <div class="clear"></div>
+	{inc: require("modules/left_menu.php");/}
+    <div class="main_right">
+		<div class="right_top"></div>
+            <div class="cont">
+                <div class="cont_title">{echo: lp{m_addseller_write_back};/}</div>
+                <hr />
+			<form action="do.php?act=shop_reply_add&id={echo:$gid;/}" name="form1" method="post" onsubmit="return check();">
+			<table width="100%" style="border:0" cellspacing="0">
+				<tr class="center">
+					<td class="textright" width="180px;">{echo: lp{m_name};/}:</td>
+					<td class="textleft">{echo: $result['name'];/}</td>
+				</tr>
+				<tr class="center">
+					<td class="textright">{echo: lp{m_email};/}:</td>
+					<td class="textleft">{echo: $result['email'];/}</td>
+				</tr>
+				<tr class="center">
+					<td class="textright">{echo: lp{m_mobile};/}:</td>
+					<td class="textleft">{echo: $result['mobile'];/}</td>
+				</tr>
+				<tr class="center">
+					<td class="textright">{echo: lp{m_telphone};/}:</td>
+					<td class="textleft">{echo: $result['telphone'];/}</td>
+				</tr>
+				<tr class="center">
+					<td class="textright">{echo: lp{m_guestbook_content};/}:</td>
+					<td class="textleft">{echo: $result['content'];/}</td>
+				</tr>
+				<tr class="center">
+					<td class="textright">{echo: lp{m_add_time};/}:</td>
+					<td class="textleft">{echo: substr($result['add_time'],0,16);/}</td>
+				</tr>
+			</table>
+			</form>
+			</div>
+		    <div class="clear"></div>
+			<div class="right_bottom"></div>
+			<div class="back_top"><a href="#"></a></div>
+		</div>
+{inc: require("shop/index_footer.php");/}
+<script language="JavaScript">
+function Trim(center) {
+	return center.replace(/\s+$|^\s+/g,"");
+}
+function check(){
+	var center = Trim(document.form1.reply.value);
+	var textareac = document.getElementById("reply");
+	if(center == ""){
+		alert("{echo: lp{m_post_notnull};/}");
+		document.form1.reply.value = center;
+		return false;
+	}
+	if(textareac.value.length>300){
+		alert("{echo:lp{m_work_count_error};/}");
+		textareac.focus();
+		return false;
+	}
+}
+</script>
+</body>
+</html>

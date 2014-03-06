@@ -1,0 +1,76 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>{echo: $header['title'];/}</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="keywords" content="{echo: $header['keywords'];/}" />
+<meta name="description" content="{echo: $header['description'];/}" />
+<base href="{echo: $baseUrl;/}" />
+<link href="skin/{echo: $SYSINFO['templates'];/}/css/import.css" type="text/css" rel="stylesheet" />
+<link href="skin/{echo: $SYSINFO['templates'];/}/css/shop.css" rel="stylesheet" type="text/css" />
+<link href="skin/{echo: $SYSINFO['templates'];/}/css/shop_{echo: $SHOP['shop_template'];/}.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="skin/{echo: $SYSINFO['templates'];/}/js/changeStyle.js"></script>
+<!--<style>
+.shop_header {background:#4A9DA5;}
+{sta:if($SHOP['shop_template_img'])[exc]}
+.shop_header {background:transparent url({echo: $SHOP['shop_template_img'];/}) no-repeat scroll 0 0;}
+{end:if/}
+</style>-->
+</head>
+<body>
+<div id="wrapper">
+	{inc: require("shop/index_header.php");/}
+  <!-- contents -->
+  <div id="contents" class="clearfix" >
+ <div id="pkz">
+
+<!--    	{echo:lp{s_this_location};/}<a href="index.php">{echo: $SYSINFO['sys_name'];/}</a> &gt; <a href="">{echo:lp{s_shop_category};/}</a> &gt;-->
+<!--    	{sta:foreach($shop_rank_arr as $k=>$value)[loop]}-->
+<!--    		{sta: if($num == $k)[exc]}-->
+<!--    			<a href="" >{echo:$value['cat_name'];/}</a>-->
+<!--    		{sta: } else[exc]}-->
+<!--    			<a href="" >{echo:$value['cat_name'];/}</a> &gt;-->
+<!--    		{end:if/}-->
+<!--    	{end:foreach/}-->
+
+    </div>
+
+<div id="shopHeader" class="mg12b clearfix">
+  <p><img src="{echo: $SHOP['shop_template_img'];/}" alt="" width="960" height="150" onerror="this.src='skin/default/images/nopic.gif'"/></p>
+ <p class="shopName">{echo: $SHOP['shop_name'];/}</p>
+ <div class="shop_nav">{inc: require("shop/menu.php");/}</div>
+</div>
+	{inc: require("shop/left.php");/}
+<div id="rightCloumn">
+ <h3 class="ttlm_font">{echo:lp{s_shop_allgoods};/}</h3>
+	<div id="winItems">
+       <!-- <div class="top"><h2><a class="highlight" href="{echo: shop_url($shop_id,'products');/}">{echo:lp{s_shop_allgoods};/}</a></h2><span class="right"><a id="window" onclick="changeStyle_index('window',this)" href="javascript:void(0);"  class="selected" hidefocus="true">{echo:lp{s_shop_smallimg};/}</a><a id="list" onclick="changeStyle_index('list',this)"  href="javascript:void(0);" hidefocus="true">{echo:lp{s_shop_bigimg};/}</a></span></div>-->
+
+		 <ul class="clearfix">
+		 {sta:if($result['result']) {foreach($result['result'] as $v)[loop]}
+			<li>
+   <div class="photo"><a href="{echo: goods_url($v['goods_id']);/}">
+   <img src="{echo: $v['is_set_image'] ? str_replace('thumb_','',$v['goods_thumb']) : 'skin/default/images/nopic.gif';/}" width="190" height="190" alt="{echo: $v['goods_name'];/}"  onerror="this.src='skin/default/images/nopic.gif'"/></a> </div>
+   <div class="smmery">
+              <h4><a class="pro_name" href="{echo: goods_url($v['goods_id']);/}" title="{echo: $v['goods_name'];/}">{echo: sub_str($v['goods_name'],50,false);/}</a></h4>
+            </div>
+            <div class="price"><span>{echo:lp{s_money_sign};/}{echo: $v['goods_price'];/}{echo: lp{s_yan};/}</span> </div>
+          </li>
+
+		{end:foreach/}
+		 {sta: }else {
+			echo lp{s_no_goods};
+		if/}
+		</ul>
+		{sta: if($result['result'])[exc]}
+	        <div class="pagenav clearfix">
+	        	{inc: include("modules/page.php");/}
+	        </div>
+        {end:if/}
+
+	</div>
+</div></div></div>
+	{inc:  require("shop/index_footer.php");/}
+</div>
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>添加更多图片</title>
+</head>
+<body>
+<div data-role="page" id="moreimg" ng-controller="uploadmoreCtrl">
+    <header data-role="header" data-position="fixed">
+        <a data-rel="back" class="ui-btn-left" data-direction="reverse" data-icon="arrow-l" data-role="button">后退</a>
+        <h1>添加商品图片</h1>
+    </header>
+
+    <section data-role="content">
+        <div data-ng-show="dataUsageWarning" class="textbox-warning" style="margin-bottom: 1em">
+            此图片的大小为：{{dataUsageWarning}}KB，</br>
+            如果您使用的是移动蜂窝数据，建议切换到Wifi链接
+        </div>
+
+        <div class="imgContainer">
+            <img src="images/upload-150x150.png">
+        </div>
+
+        <form data-ajax="false" src="" ng-submit="upload()">
+            <input data-ng-model="moreimgInput" id="moreimgInput" type="file" accept='image/*' data-ng-change="moreimgChange()"/>
+            <input value="Upload" ng-init="subBtn={isOff:false,submitText:'提交'}" type="submit" ng-disabled="subBtn.isOff" value="{{subBtn.submitText}}"/>
+        </form>
+    </section>
+
+
+
+
+</div>
+</body>
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>{echo: lp{m_u_center};/}</title>
+<link rel="stylesheet" type="text/css" href="skin/{echo: $SYSINFO['templates'];/}/css/modules.css">
+<link rel="stylesheet" type="text/css" href="skin/{echo: $SYSINFO['templates'];/}/css/layout.css">
+<link rel="stylesheet" type="text/css" href="skin/{echo: $SYSINFO['templates'];/}/css/style.css">
+<script type="text/javascript" src="skin/{echo: $SYSINFO['templates'];/}/js/changeStyle.js"></script>
+<script type="text/javascript" src="skin/{echo: $SYSINFO['templates'];/}/js/userchangeStyle.js"></script>
+
+<style type="text/css">
+.red {color:red;}
+</style>
+</head>
+<body onload="menu_style_change('user_my_order');changeMenu();">
+{inc: require("shop/index_header.php");/}
+	<div class="site_map">
+	  {echo:lp{m_current_position};/}<A href="index.php">{echo:$SYSINFO['sys_name'];/}</A>/<a href="modules.php">{echo:lp{m_u_center};/}</a>/&nbsp;&nbsp;{echo: lp{m_iwant_pay};/}
+	</div>
+    <div class="clear"></div>
+	{inc: require("modules/left_menu.php");/}
+
+    <div class="main_right">
+		<div class="right_top"></div>
+		 <div class="cont">
+            <div class="cont_title">{echo: lp{m_iwant_pay};/}</div>
+			<hr />
+			<form action="do.php?act=user_order" method="post" name="form_profile">
+				<table width="100%" style="border:0" cellspacing="0">
+					<tr><td class="textright">{echo: lp{m_your_payid};/}：</td><td class="textleft">{echo: $order_info['payid'];/}</td></tr>
+					<tr><td class="textright">{echo: lp{m_order_amount};/}：</td><td class="textleft">{echo:lp{m_money_sign};/}{echo: $order_info['order_value'];/}{echo: lp{m_yuan};/}</td></tr>
+					<tr><td class="textright">{echo: lp{m_payment_cho};/}：</td><td class="textleft">
+					{sta:foreach($payment_shop_info as $value)[loop]}
+						{sta:if(isset($payment_info[$value['pay_id']]))[loop]}
+					<a href="pay.php?order_id={echo: $order_info['order_id'];/}&pay_id={echo:$value['pay_id'];/}&shop_id={echo:$order_info['shop_id'];/}">{echo:$payment_info[$value['pay_id']]['pay_name'];/}
+					<img src="plugins/{echo:$payment_info[$value['pay_id']]['pay_code'];/}/logo.gif" height="30" onerror="this.src='skin/default/images/nopic.gif'"/></a> <br /><br />
+						{end:if/}
+					{end:foreach/}
+					</td></tr>
+				</table>
+			</form>
+        	</div>
+        <div class="clear"></div>
+        <div class="right_bottom"></div>
+        <div class="back_top"><a href="#"></a></div>
+    </div>
+{inc: require("shop/index_footer.php");/}
+</body>
+</html>

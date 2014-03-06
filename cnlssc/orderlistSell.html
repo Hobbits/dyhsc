@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>订单列表</title>
+</head>
+<body>
+
+
+<!--TODO 订单列表-->
+<div ng-controller="orderlistSellCtrl" data-role="page" ngm-pageshow="prefill()">
+
+    <header data-role="header" data-position="fixed" data-id="orderHeader">
+        <a data-rel="back" class="ui-btn-left" data-direction="reverse" data-icon="arrow-l" data-role="button">后退</a>
+        <h1>订单列表</h1>
+        <div data-role="navbar">
+            <ul>    
+                <li><a templarlink="#!/buyRev" >我是买家</a></li>
+                <li><a class="ui-btn-active">我是卖家</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <section data-role="content">
+        <ol data-role="listview" data-filter="true" data-filter-placeholder="快速查找本页订单..." data-inset="true">
+            <li data-ng-repeat="item in orderlist">
+                <a href="#!/orderDetail/{{item.payid}}">
+                    <img data-ng-src="{{picURL + item.img_thumb}}" />
+                    <h2>{{item.goods_name}}</h2>
+                    <p>{{item.username}}</p>
+                    <p class="ui-li-aside" style="margin-top:2.7em;">{{item.order_time}}</p>
+                </a>
+            </li>
+          
+         
+        </ol>
+    </section>
+    <appfooter></appfooter>
+
+
+</div>
+<!--订单列表结束-->
+
+
+</body>
+</html>

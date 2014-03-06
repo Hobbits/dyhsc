@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>自助推广</title>
+</head>
+<body>
+     <div ng-controller="myqrCtrl" id="pageQr" data-role="page" ngm-pageshow="gen()">
+
+         <!--字体样式-->
+         <link rel="stylesheet" href="css/font/css/fontello.css"/>
+         <header data-role="header" data-position="fixed">
+             <a data-rel="back" class="ui-btn-left" data-direction="reverse" data-icon="arrow-l" data-role="button">后退</a>
+             <h1>自助推广</h1>
+             <a ngm-if="downloadsrc"
+                data-ngm-vclick="download()" data-theme="b"
+                data-role="button"
+                class="ui-btn-right"><i class="icon-down"></i>另存为</a>
+         </header>
+
+         <section data-role="content">
+             <div ng-class="qrstatus.textboxClass" ng-bind-html-unsafe="qrstatus.text">
+
+             </div>
+
+             <div class="qr" ng-if="imgsrc">
+                 <img data-ng-src="{{imgsrc}}"/>
+             </div>
+
+             <button data-ngm-vclick="shopqrShare()">分享到微博</button>
+         </section>
+
+         <div data-role="popup" class="sharePop" data-ng-controller="shareCtrl">
+             <link rel="stylesheet" href="css/font/css/social.css"/>
+             <ul data-role="listview" data-inset="true">
+                 <li data-role="list-divider"><i class="icon-share"></i>分享</li>
+                 <li ><a data-ngm-vclick="share('sina',shareObj)"><i class="hs-icon-sina-s"></i>新浪微博</a></li>
+                 <li ><a data-ngm-vclick="share('tx',shareObj)"><i class="hs-icon-twb-s"></i>腾讯微博</a></li>
+             </ul>
+         </div>
+     </div>
+</body>
+</html>

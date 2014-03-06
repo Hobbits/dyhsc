@@ -1,0 +1,61 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>{echo: lp{m_u_center};/}</title>
+<link rel="stylesheet" type="text/css" href="skin/{echo: $SYSINFO['templates'];/}/css/modules.css">
+<link rel="stylesheet" type="text/css" href="skin/{echo: $SYSINFO['templates'];/}/css/layout.css">
+<link rel="stylesheet" type="text/css" href="skin/{echo: $SYSINFO['templates'];/}/css/style.css">
+<script type="text/javascript" src="skin/{echo: $SYSINFO['templates'];/}/js/userchangeStyle.js"></script>
+<script type="text/javascript" src="skin/{echo: $SYSINFO['templates'];/}/js/changeStyle.js"></script>
+
+</head>
+<body>
+{inc: require("shop/index_header.php");/}
+	<div class="site_map">
+	  {echo:lp{m_current_position};/}<A href="index.php">{echo:$SYSINFO['sys_name'];/}</A>/<a href="modules.php">{echo:lp{m_u_center};/}</a>/&nbsp;&nbsp;{echo: lp{m_find_password};/}
+	</div>
+    <div class="clear"></div>
+ 	{inc: require("modules/left_menu.php");/}
+    <div class="main_right">
+    	<div class="right_top"></div>
+        <div class="cont">
+			<div class="title_uc"><h3>{echo: lp{m_find_password};/}</h3><hr /></div>
+				<form action="do.php?act=forgot" method="post" name="form_passwd" onsubmit="return checkForm();">
+					<table width="100%" border="0" cellspacing="0">
+						<tr><th class="textright">{echo: lp{m_new_password};/}：</td>
+							<th class="textleft"><input type="password" name="user_new_passwd" value="" maxlength="20" /></td>
+						</tr>
+						<tr><th class="textright">{echo: lp{m_re_password};/}：</td>
+							<th class="textleft"><input type="password" name="user_verify_passwd" value="" maxlength="20" /></td>
+						</tr>
+						<tr><td colspan="2" align="center"><input type="hidden" name="user_id" value="{echo: $userpwd_id;/}" />
+						<input type="hidden" name="code" value="{echo: $code;/}" /><input type="submit" class="submit " name="submit" value="{echo: lp{m_edit};/}" /></td></tr>
+					</table>
+				</form>
+	        </div>
+    	</div>
+    </div>
+    <div class="clear"></div>
+    {inc: require("shop/index_footer.php");/}
+<script language="JavaScript">
+<!--
+function checkForm() {
+	var user_new_passwd = document.getElementsByName("user_new_passwd")[0];
+	var user_verify_passwd = document.getElementsByName("user_verify_passwd")[0];
+	if(user_new_passwd.value=='') {
+		alert("{echo: lp{m_password_notnone};/}");
+		user_new_passwd.focus();
+		return false;
+	} else if(user_verify_passwd.value!=user_new_passwd.value) {
+		alert("{echo: lp{m_password_notsame};/}");
+		user_verify_passwd.value = '';
+		user_verify_passwd.focus();
+		return false;
+	}
+	return true;
+}
+//-->
+</script>
+</body>
+</html>

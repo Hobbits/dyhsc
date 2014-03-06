@@ -1,0 +1,64 @@
+@font-face {
+    font-family: 'HiccSocial';
+    src: url('../social/HiccSocialIcon.eot') format('eot'),
+    url('../social/HiccSocialIcon.woff') format('woff'),
+    url('../social/HiccSocialIcon.ttf') format('truetype'),
+    url('../social/HiccSocialIcon.svg') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+[class^="hs-icon-"]:before, [class*="hs-icon-"]:before {
+    font-family: "HiccSocial";
+    font-style: normal;
+    font-weight: normal;
+    speak: none;
+
+    display: inline-block;
+    text-decoration: inherit;
+    width: 1em;
+    margin-right: .2em;
+    text-align: center;
+    /* opacity: .8; */
+
+    /* For safety - reset parent styles, that can break glyph codes*/
+    font-variant: normal;
+    text-transform: none;
+
+    /* fix buttons height, for twitter bootstrap */
+    line-height: 1em;
+
+    /* Animation center compensation - margins should be symmetric */
+    /* remove if not needed */
+    margin-left: .2em;
+
+    /* you can be more comfortable with increased icons size */
+     font-size: 120%;
+
+    /* Uncomment for 3D effect */
+    /* text-shadow: 1px 1px 1px rgba(127, 127, 127, 0.3); */
+}
+
+.hs-icon-sina-s:before { content: 'S'; }
+.hs-icon-sina-m:before { content: 'q'; }
+.hs-icon-sina-b:before { content: 'p'; }
+
+.hs-icon-qzone-s:before { content: 'Q'; }
+.hs-icon-qzone-m:before { content: 'r'; }
+.hs-icon-qzone-b:before { content: 'o'; }
+
+.hs-icon-twb-s:before { content: 'T'; }
+.hs-icon-twb-m:before { content: 's'; }
+.hs-icon-twb-b:before { content: 'n'; }
+
+.hs-icon-pen-s:before { content: 'V'; }
+.hs-icon-pen-m:before { content: 't'; }
+.hs-icon-pen-b:before { content: 'm'; }
+
+.hs-icon-ren-s:before { content: 'U'; }
+.hs-icon-ren-m:before { content: 'u'; }
+.hs-icon-ren-b:before { content: 'I'; }
+
+.hs-icon-ren-o:before { content: 'R'; }
+
+.hs-icon-shoping-s:before { content: 'W'; }

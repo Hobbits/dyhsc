@@ -1,0 +1,145 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>{echo: lp{m_u_center};/}</title>
+<link rel="stylesheet" type="text/css" href="skin/{echo: $SYSINFO['templates'];/}/css/modules.css">
+<link rel="stylesheet" type="text/css" href="skin/{echo: $SYSINFO['templates'];/}/css/layout.css">
+<link rel="stylesheet" type="text/css" href="skin/{echo: $SYSINFO['templates'];/}/css/style.css">
+<script type="text/javascript" src="skin/{echo: $SYSINFO['templates'];/}/js/userchangeStyle.js"></script>
+<script type="text/javascript" src="skin/{echo: $SYSINFO['templates'];/}/js/changeStyle.js"></script>
+<style type="text/css">
+th{background:#EFEFEF}
+.edit span{background:#efefef;}
+.search {margin:5px; height:20px; background:#fff; width:90%; padding-left:0px;}
+.search input {color:#444;}
+td.img img{cursor:pointer;}
+td div.goodsname{line-height:18px; height:36px; font-weight:bold;}
+td span.category{color:#FF6600;}
+</style>
+</head>
+<body onload="menu_style_change('groupbuy_list');changeMenu();">
+	{inc: require("shop/index_header.php");/}
+	<div class="site_map">
+	  {echo:lp{m_current_position};/}<A href="index.php">{echo:$SYSINFO['sys_name'];/}</A>/<a href="modules.php">{echo:lp{m_u_center};/}</a>/&nbsp;&nbsp;{echo:lp{m_groupbuy_list};/}
+	</div>
+    <div class="clear"></div>
+    	{inc: require("modules/left_menu.php");/}
+        <div class="main_right">
+        	<div class="right_top"></div>
+            <div class="cont">
+                <div class="cont_title"><span class="tr_op"><a href="modules.php?app=groupbuy_add">{echo:lp{m_group_add};/}</a></span>{echo:lp{m_group_list};/}</div>
+                <hr />
+
+				<form action="do.php?act=goods_list" method="post" onsubmit="return submitform();">
+				<table width="100%" cellspacing="0">
+					<tr class="center">
+						<th width="20"><input type="checkbox" name="c" value="" onclick="checkall(this)" /></th>
+						<th width="82"></th>
+						<th>{echo:lp{m_group_name};/}</th>
+						<th width="80">{echo:lp{m_group_status};/}</th>
+						<th width="100">{echo:lp{m_start_time};/}</th>
+						<th width="100">{echo:lp{m_order_num};/}</th>
+						<th width="80">{echo: lp{m_manage};/}</th>
+				    </tr>
+					{sta:
+					if(!empty($result['result'])) {
+						foreach($result['result'] as $v) [loop]}
+					<tr>
+						<td><input type="checkbox" name="checkbox[]" value="{echo: $v['goods_id'];/}" /></td>
+						<td class="center"><a href="goods.php?app=groupbuyinfo&id={echo: $v['group_id'];/}" target="_blank"><img src="{echo: $v['goods_thumb'];/}" width="80" height="80" onerror="this.src='skin/default/images/nopic.gif'"/></a></td>
+						<td class="center"><a href="goods.php?app=groupbuyinfo&id={echo: $v['group_id'];/}" target="_blank">{echo: $v['group_name'];/}</a></td>
+						<td align="center">
+						{sta:if($v['examine']!=0) [exc]}
+						{sta:if($v['recommended']==0){ if($v['start_time']<= $now_time and $v['end_time'] >= $now_time) { echo $m_langpackage->m_ing; } if($v['start_time']>= $now_time) { echo $m_langpackage->m_no_published; } if($v['end_time']<= $now_time) { echo $m_langpackage->m_end; } } else{ echo $m_langpackage->m_end; if/}
+						{sta: } else [exc]}
+						{echo: lp{i_groupbuy_lock};/}
+						{end:if/}
+						</td>
+						<td class="name">{echo: lp{m_from};/}{echo:$v['start_time'];/}<br />{echo: lp{m_to};/}{echo:$v['end_time'];/}</td>
+						<td align="center">{echo:$v['purchase_num'];/}/{echo:$v['min_quantity'];/}</td>
+						<td align="center">
+						{sta:if($v['examine']!=0&&$v['recommended']==0 and $v['start_time']>= $now_time) [exc]}
+							<a href="do.php?act=groupbuy_release&id={echo: $v['group_id'];/}" onclick="return confirm('{echo: lp{m_confirm};/}');">{echo: lp{m_published};/}</a><br />
+						{end:if/}
+						{sta:if($v['examine']!=0&&$v['recommended']==1 or $v['end_time']<= $now_time) [exc]}
+							<a href="modules.php?app=shop_my_order&id={echo: $v['group_id'];/}">{echo: lp{m_order_group};/}({echo:$v['order_num'];/})</a><br />
+						{end:if/}
+						{sta:if($v['examine']!=0) [exc]}
+							<a href="modules.php?app=groupbuy_login&id={echo: $v['group_id'];/}" target="_blank">{echo: lp{m_order_status};/}</a><br />
+						{end:if/}
+						{sta:if($v['examine']!=0&&$v['recommended']==0 and $v['start_time'] <= $now_time and $v['end_time'] >= $now_time) [exc]}
+							<a href="do.php?act=groupbuy_end&id={echo: $v['group_id'];/}" onclick="return con({echo:$v['purchase_num'];/},{echo:$v['min_quantity'];/});">{echo: lp{m_accomplish};/}</a><br />
+						{end:if/}
+						{sta:if($v['examine']==0) [exc]}
+							<font color=red>{echo: lp{i_groupbuy_lock};/}</font><br />
+						{end:if/}
+							<a href="do.php?act=groupbuy_del&id={echo: $v['group_id'];/}" onclick="return confirm('{echo: lp{m_sure_delgoods};/}');">{echo: lp{m_del};/}</a>
+						</td>
+					</tr>
+					{end:foreach/}
+					<tr><td colspan="7" class="center"><div class="page">{inc: require("modules/page.php");/}</div></td></tr>
+					{sta: } else [exc]}
+					<tr><td colspan="7" class="center">{echo: lp{m_nogoods_list};/}</td></tr>
+					{end:if/}
+				</table>
+				</form>
+		</div>
+		<div class="clear"></div>
+		<div class="right_bottom"></div>
+		<div class="back_top"><a href="#"></a></div>
+	</div>
+{inc: require("shop/index_footer.php");/}
+<script language="JavaScript" src="servtools/ajax_client/ajax.js"></script>
+<script language="JavaScript">
+<!--
+var inputs = document.getElementsByTagName("input");
+function submitform() {
+	var status = document.getElementsByName("checkbox");
+	var checknum = 0;
+	for(var i=0; i<inputs.length; i++) {
+		if(inputs[i].type=='checkbox') {
+			if(inputs[i].checked) {
+				checknum++;
+			}
+		}
+	}
+	if(checknum==0) {
+		alert("{echo: lp{m_selceted_one};/}");
+		return false;
+	}
+	return true;
+}
+
+function checkall(obj) {
+	if(obj.checked) {
+		for(var i=0; i<inputs.length; i++) {
+			if(inputs[i].type=='checkbox') {
+				inputs[i].checked = true;
+			}
+		}
+	} else {
+		for(var i=0; i<inputs.length; i++) {
+			if(inputs[i].type=='checkbox') {
+				inputs[i].checked = false;
+			}
+		}
+	}
+}
+function con(aa,bb){
+	if(aa<bb){
+		if(confirm('{echo: lp{m_confirm_no};/}')){
+			return true;
+			}else{
+				return false;
+			}
+		
+		}else{
+			return confirm('{echo: lp{m_confirm};/}')
+			}
+}
+
+//-->
+</script>
+</body>
+</html>

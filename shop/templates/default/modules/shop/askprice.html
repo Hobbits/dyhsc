@@ -1,0 +1,122 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>{echo: lp{m_u_center};/}</title>
+<link rel="stylesheet" type="text/css" href="skin/{echo: $SYSINFO['templates'];/}/css/modules.css">
+<link rel="stylesheet" type="text/css" href="skin/{echo: $SYSINFO['templates'];/}/css/layout.css">
+<link rel="stylesheet" type="text/css" href="skin/{echo: $SYSINFO['templates'];/}/css/style.css">
+<script type="text/javascript" src="skin/{echo: $SYSINFO['templates'];/}/js/changeStyle.js"></script>
+<script type="text/javascript" src="skin/{echo: $SYSINFO['templates'];/}/js/userchangeStyle.js"></script>
+
+<style type="text/css">
+th{background:#EFEFEF}
+.edit span{background:#efefef;}
+.search {margin:5px;}
+.search input {color:#444;}
+td.img img{cursor:pointer}
+</style>
+<script>
+var inputs = document.getElementsByTagName("input");
+function submitform() {
+	var checked = false;
+	for(var i=0; i<inputs.length; i++) {
+		if (inputs[i].checked == true) 
+        {
+            checked = true;
+            if(confirm('{echo:lp{m_manage_sure_del};/}')){
+            	break; 
+                }else{
+                	return false;
+                	break; 
+                    }
+        }
+	}
+	if (!checked){ 
+		alert("{echo:lp{m_selceted_one};/}");
+		return false;
+	}
+	return true;
+}
+function checkall(obj) {
+	if(obj.checked) {
+		for(var i=0; i<inputs.length; i++) {
+			if(inputs[i].type=='checkbox') {
+				inputs[i].checked = true;
+			}
+		}
+	} else {
+		for(var i=0; i<inputs.length; i++) {
+			if(inputs[i].type=='checkbox') {
+				inputs[i].checked = false;
+			}
+		}
+	}
+}
+</script>
+</head>
+<body onload="menu_style_change('shop_askprice');changeMenu();">
+
+	{inc: require("shop/index_header.php");/}
+	<div class="site_map">
+	  {echo:lp{m_current_position};/}<A href="index.php">{echo:$SYSINFO['sys_name'];/}</A>/<a href="modules.php">{echo:lp{m_u_center};/}</a>/&nbsp;&nbsp;{echo: lp{m_rc_askprice};/}
+	</div>
+    <div class="clear"></div>
+	{inc: require("modules/left_menu.php");/}
+    <div class="main_right">
+		<div class="cont">
+            <div class="cont_title">
+            	{echo: lp{m_askprice_list};/}
+			</div>
+            <hr />
+<form action="do.php?act=shop_askprice_del" name="form" method="post" onsubmit="return submitform();">            
+				<table class="form_table">
+					<tr class="center"><th width="40"><input type="checkbox" onclick="checkall(this);" /></th>
+						<th>{echo: lp{m_name};/}</th>
+						<th>{echo: lp{m_askprice_content};/}</th><th width="80">{echo: lp{m_add_time};/}</th>
+						<th>{echo: lp{m_status};/}</th>
+						<th>{echo: lp{m_manage};/}</th>
+					</tr>
+					{sta:
+					if(!empty($result['result'])) {
+						foreach($result['result'] as $v) [loop]}
+					<tr class="trcolor">
+						<td><input type="checkbox" name="iid[]" value="{echo: $v['iid'];/}" /></td>
+						<td class="center">{echo: $v['name'];/}</td>
+						<td class="center">{echo: sub_str($v['content'],15);/}</td>
+						<td class="center">{echo: substr($v['add_time'],0,16);/}</td>
+						<td class="center">
+							{sta:if($v['read_status']) [exc]}
+								{echo: lp{m_read};/}
+							{sta: } else [exc]}
+								{echo: lp{m_unread};/}
+							{end:if/}
+
+						</td>
+						<td align="center">
+							<a href="do.php?act=shop_askprice_del&id=
+								{echo: $v['iid'];/}" onclick="return confirm('{echo: lp{m_suredel_askprice};/}');">
+								{echo: lp{m_del};/}
+							</a><br />
+							<a href="modules.php?app=shop_askprice_r&id={echo: $v['iid'];/}">{echo: lp{m_view};/}</a>
+						</td>
+					</tr>
+					{end:foreach/}
+					<tr><td colspan="6" class="page">{inc: require("modules/page.php");/}</td></tr>
+					<tr><td colspan="6"><INPUT class="submit" type="submit" value="{echo:lp{m_pl_del};/}" name="deletesubmit" /> </td></tr>
+					{sta: } else [exc]}
+					<tr><td colspan="6" class="center">{echo: lp{m_nolist_record};/}</td></tr>
+					{end:if/}
+				</table>
+</form>				
+	        </div>
+	        <div class="clear"></div>
+			<div class="right_bottom"></div>
+			<div class="back_top"><a href="#"></a></div>
+    	</div>
+    </div>
+<div class="clear"></div>
+{inc: require("shop/index_footer.php");/}
+
+</body>
+</html>

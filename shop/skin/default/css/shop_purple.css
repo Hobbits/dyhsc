@@ -1,0 +1,22 @@
+@charset "utf-8";
+/*#AE037B #AE037B*/
+#shopHeader .shop_nav { border-bottom:1px solid #AE037B; }
+#shopHeader .shop_nav li.on { background-color:#AE037B; }
+.shopInfo { background:url(../images/shop_purple/detail_bg.gif) no-repeat scroll right bottom #F5F9EB; color:#4E4E4E; }
+#shopContents #leftCloumn .itemsCate .items h4 a { color:#AE037B; }
+.guestbook li .shoper a, .guestbook li .shoper p { color:#AE037B; }
+#rightCloumn .list_tab_02 { border-bottom:2px solid #AE037B; }
+#rightCloumn .list_tab_02 li.selected, #itemDetail .list_tab li.now { background-color:#AE037B; }
+#rightCloumn .list_tab_02 li.selected a { color:#FFF }
+.tab_credit_des th { background-color:#AE037B; border-bottom:1px solid #AE037B }
+.tab_group th { background-color:#fde8f7; border-color:#AE037B; }
+.bg_gary h3 a { color:#AE037B; }
+#pkz { border-top:2px solid #AE037B; }
+#shopContents #leftCloumn .itemsCate .ttlm_itemsCate, #shopContents #leftCloumn .shopSearch .ttlm_shopsec { border-bottom:2px solid #AE037B; }
+.bg_gradual { background:url(../images/shop_purple/ttlm_01_bg.gif) repeat-x scroll left top transparent; }
+.btn_ser, #shopContents .guestbook .guestInput input.btnSetmess { background:none repeat scroll 0 0 #AE037B; border:0 none; color:#FFFFFF; font-weight:bold; padding:4px 10px; text-indent:0 }
+.btn_ser { padding-top:2px }
+#shopContents .ttlm_recom, #shopContents .newgoods .ttlm_newgoods, .guestbook .ttl_guestbook { color:#AE037B; background:url(../images/shop_purple/ttlm_bg.gif) no-repeat 3px top; }
+#rightCloumn h3.ttlm_font { color:#AE037B; background:url(../images/shop_purple/ttlm_01_bg.gif) repeat-x scroll left top transparent; }
+#itemDetail .list_tab { border-bottom:2px solid #AE037B }
+.guestbook .guestInput .line { padding-top:20px; margin-right:10px; border-top:1px dashed #AE037B; }

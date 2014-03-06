@@ -1,0 +1,84 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>{echo: lp{m_change_mail};/}</title>
+<link rel="stylesheet" type="text/css" href="skin/{echo: $SYSINFO['templates'];/}/css/modules.css">
+<link rel="stylesheet" type="text/css" href="skin/{echo: $SYSINFO['templates'];/}/css/layout.css">
+<link href="skin/{echo: $SYSINFO['templates'];/}/css/index.css" rel="stylesheet" type="text/css" />
+<link href="skin/{echo: $SYSINFO['templates'];/}/css/import.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="skin/{echo: $SYSINFO['templates'];/}/js/changeStyle.js"></script>
+
+</head>
+<body>
+<div id="wrapper">
+{inc: require("shop/index_header.php");/}
+    <div class="clear"></div>
+    <div id="contents" class="clearfix"  >
+		<h3 class="ttlm_login">{echo:lp{m_change_email};/}</h3>
+		<div class="findpsw">
+			<form action="" method="post" name="form1" >
+				<table class="tab_findpsw" >
+					<tr align="center"><td width="100px;">{echo:lp{m_register_username};/}：</td><td><input type="text" name="user_name" value="" /></td></tr>
+					<tr><td>{echo:lp{m_register_password};/}：</td><td><input type="password" name="user_password" value="" /></td></tr>
+					<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;{echo:lp{m_new_email};/}：</td><td><input type="text" name="user_email" value="" /></td></tr>
+					<tr><td>&nbsp;&nbsp;{echo:lp{m_fill_code};/}：</td><td><input type="text" name="veriCode" id="veriCode" style="width:100px" maxlength="4" /> 
+          	<img border="0" hight="10px" align="absmiddle" src="servtools/veriCodes.php" id="verCodePic"><a href="javascript:;" onclick="return getVerCode();">{echo:lp{i_change_img};/}</a><SPAN id="veriCode_message"></SPAN></td>
+              </tr>
+					<input type="hidden" name="user_id" value="{echo:$user_id;/}" />
+					<tr><td></td><td align="center"><input type="button" name="asd" value="{echo: lp{m_send};/}" class="btn_02" onclick="chanage_mail();"/></td></tr>
+				</table>
+			</form>
+		</div>
+    </div>
+</div>
+<script language="JavaScript" src="servtools/ajax_client/ajax.js"></script>
+<script language="JavaScript">
+<!--
+// 检测邮箱
+function chanage_mail(){
+	var user_email = document.getElementsByName('user_email')[0];
+	var user_email_reg = /^[0-9a-zA-Z_\-\.]+@[0-9a-zA-Z_\-]+(\.[0-9a-zA-Z_\-]+)*$/;
+
+	if(user_email.value=='') {
+		alert('{echo:lp{m_fill_email};/}');
+		return false;
+	} else if(!user_email.value.match(user_email_reg)) {
+		alert('{echo:lp{m_fill_right};/}!');
+		return false;
+	}
+
+	var cvalue=document.getElementById("veriCode").value;
+	var veriCode = document.getElementsByName('veriCode')[0];
+	var veriCode_message = document.getElementById('veriCode_message');
+	if(cvalue==''){
+		veriCode_message.style.color = 'red';
+		veriCode.className = 'txt_230 ipt_focus';
+		veriCode_message.innerHTML = '{echo: lp{i_rmsgvf_input};/}';
+		return false;
+	}else{
+	ajax('do.php?act=checkcode','POST','checkcode='+cvalue,function(data){
+		if(data==1){
+			veriCode_message.innerHTML = '';
+			document.form1.action="do.php?act=chanage_email";
+			document.form1.submit();
+		}else{
+			veriCode_message.style.color = 'red';
+			veriCode.className = 'txt_230 ipt_focus'; 
+			veriCode_message.innerHTML = '{echo: lp{i_checkcode_error};/}';
+            return false;
+		}
+	});
+	}
+}
+function getVerCode() {
+	document.getElementById("verCodePic").src="servtools/veriCodes.php?vc="+Math.random();
+	return false;
+}
+//-->
+</script>
+
+<div class="clear"></div>
+{inc: require("shop/index_footer.php");/}
+</body>
+</html>
